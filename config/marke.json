@@ -1,0 +1,60 @@
+{
+  "_hinweis": "Alles Markenbezogene steht in dieser einen Datei. Name, Farben, Schriften, Logo und Figur hier ändern, dann `node build.mjs` – die ganze Seite zieht nach.",
+
+  "name": "Passtjob",
+  "claim": "Der Job, der passt.",
+  "domain": "passtjob.de",
+  "betreiber": "Ländle Digital",
+  "betreiberUrl": "https://laendle-digital.com",
+  "regionen": "Baden-Württemberg und Hessen",
+  "kontakt": {
+    "email": "[E-Mail-Adresse]",
+    "telefon": "[Telefonnummer]"
+  },
+
+  "logo": null,
+  "figur": null,
+
+  "schriften": {
+    "display": { "familie": "Barlow Condensed", "gewichte": [700, 800], "fallback": "'Arial Narrow', Arial, sans-serif" },
+    "text":    { "familie": "Barlow", "gewichte": [400, 500, 600, 700], "fallback": "Arial, Helvetica, sans-serif" },
+    "mono":    { "familie": "IBM Plex Mono", "gewichte": [500], "fallback": "'Courier New', monospace" }
+  },
+
+  "farben": {
+    "hell": {
+      "bg": "#F3F5F2",
+      "flaeche": "#FFFFFF",
+      "flaeche-2": "#E8EDE7",
+      "text": "#13201A",
+      "text-2": "#4A5851",
+      "linie": "#D3DBD4",
+      "akzent": "#1C7349",
+      "auf-akzent": "#FFFFFF",
+      "akzent-hell": "#DDEFE4",
+      "signal": "#F2B705",
+      "auf-signal": "#13201A",
+      "band": "#13201A",
+      "auf-band": "#EEF3EF",
+      "band-2": "#A9B8AF",
+      "fehler": "#B3261E"
+    },
+    "dunkel": {
+      "bg": "#0D1310",
+      "flaeche": "#141C18",
+      "flaeche-2": "#1B2620",
+      "text": "#E5ECE7",
+      "text-2": "#A3B1A8",
+      "linie": "#2B3931",
+      "akzent": "#4BC487",
+      "auf-akzent": "#0D1310",
+      "akzent-hell": "#173326",
+      "signal": "#F2B705",
+      "auf-signal": "#13201A",
+      "band": "#1B2620",
+      "auf-band": "#E5ECE7",
+      "band-2": "#A3B1A8",
+      "fehler": "#F28B82"
+    }
+  }
+}

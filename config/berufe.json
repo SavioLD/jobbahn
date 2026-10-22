@@ -1,0 +1,86 @@
+[
+  {
+    "key": "zerspanung",
+    "name": "Zerspanung",
+    "kurz": "Dreher, Fräser, Zerspaner",
+    "aliase": ["cnc", "fraeser", "fraesen", "dreher", "drehen", "zerspaner"],
+    "berufe": ["Zerspanungsmechaniker", "CNC-Fräser", "CNC-Dreher", "Einrichter CNC", "Schleifer"],
+    "h1": "Zerspanung: Jobs, die passen.",
+    "hook": "Ob Dreher, Fräser oder Zerspanungsmechaniker: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
+    "fragen": [
+      "An welchen Steuerungen arbeitest du – Heidenhain, Siemens, Fanuc?",
+      "Programmierst du selbst, oder richtest du ein und fährst Serie?",
+      "Einzelteile und Prototypen oder große Serien?"
+    ]
+  },
+  {
+    "key": "metall-montage",
+    "name": "Metall und Montage",
+    "kurz": "Industriemechaniker, Schlosser, Schweißer",
+    "aliase": ["metall", "montage", "schlosser", "schweisser", "industriemechaniker"],
+    "berufe": ["Industriemechaniker", "Konstruktionsmechaniker", "Schlosser", "Schweißer", "Monteur"],
+    "h1": "Metall und Montage: Jobs, die passen.",
+    "hook": "Ob Industriemechaniker, Schlosser oder Schweißer: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
+    "fragen": [
+      "Werkstatt oder Montage beim Kunden?",
+      "Welche Schweißverfahren beherrschst du – MAG, MIG, WIG?",
+      "Instandhaltung oder Fertigung?"
+    ]
+  },
+  {
+    "key": "elektro",
+    "name": "Elektro",
+    "kurz": "Elektroniker, Mechatroniker",
+    "aliase": ["elektriker", "elektroniker", "mechatroniker"],
+    "berufe": ["Elektroniker für Betriebstechnik", "Elektroniker für Energie- und Gebäudetechnik", "Elektroniker für Automatisierungstechnik", "Mechatroniker", "Servicetechniker"],
+    "h1": "Elektro: Jobs, die passen.",
+    "hook": "Ob Elektroniker oder Mechatroniker: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
+    "fragen": [
+      "Industrie oder Gebäude?",
+      "SPS mit Siemens TIA oder eher klassische Installation?",
+      "Mit Rufbereitschaft oder ohne?"
+    ]
+  },
+  {
+    "key": "shk",
+    "name": "SHK",
+    "kurz": "Anlagenmechaniker Sanitär, Heizung, Klima",
+    "aliase": ["sanitaer", "heizung", "klima", "anlagenmechaniker"],
+    "berufe": ["Anlagenmechaniker SHK", "Kundendiensttechniker", "Heizungsbauer", "Installateur"],
+    "h1": "SHK: Jobs, die passen.",
+    "hook": "Ob Anlagenmechaniker oder Kundendiensttechniker: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
+    "fragen": [
+      "Kundendienst oder Neubau und Sanierung?",
+      "Wärmepumpe, Gas, Pellets – wo kennst du dich aus?",
+      "Mit Firmenwagen und Bereitschaftsdienst?"
+    ]
+  },
+  {
+    "key": "technik",
+    "name": "Technik",
+    "kurz": "Techniker, Meister",
+    "aliase": ["techniker", "meister"],
+    "berufe": ["Industriemeister", "Handwerksmeister", "Staatlich geprüfter Techniker", "Arbeitsvorbereitung", "Qualitätssicherung"],
+    "h1": "Technik: Jobs, die passen.",
+    "hook": "Ob Techniker oder Meister: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
+    "fragen": [
+      "Mit Personalverantwortung oder fachlich?",
+      "Wie groß soll dein Team sein?",
+      "Büro, Halle oder beides?"
+    ]
+  },
+  {
+    "key": "produktion-logistik",
+    "name": "Produktion und Logistik",
+    "kurz": "Anlagenführer, Produktion, Lager",
+    "aliase": ["produktion", "logistik", "lager", "stapler"],
+    "berufe": ["Maschinen- und Anlagenführer", "Produktionsmitarbeiter", "Fachkraft für Lagerlogistik", "Staplerfahrer", "Versand"],
+    "h1": "Produktion und Logistik: Jobs, die passen.",
+    "hook": "Ob an der Anlage, in der Produktion oder im Lager: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
+    "fragen": [
+      "Welche Schichten gehen für dich?",
+      "Hast du einen Staplerschein?",
+      "An welchen Anlagen hast du schon gearbeitet?"
+    ]
+  }
+]
