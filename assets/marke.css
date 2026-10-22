@@ -1,0 +1,11 @@
+/* Erzeugt von build.mjs aus config/marke.json – nicht von Hand ändern. */
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/barlow-condensed-700.woff2") format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:800;font-display:swap;src:url("fonts/barlow-condensed-800.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/barlow-400.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/barlow-500.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:600;font-display:swap;src:url("fonts/barlow-600.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/barlow-700.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/ibm-plex-mono-500.woff2") format("woff2")}
+:root{--bg:#F3F5F2;--flaeche:#FFFFFF;--flaeche-2:#E8EDE7;--text:#13201A;--text-2:#4A5851;--linie:#D3DBD4;--akzent:#1C7349;--auf-akzent:#FFFFFF;--akzent-hell:#DDEFE4;--signal:#F2B705;--auf-signal:#13201A;--band:#13201A;--auf-band:#EEF3EF;--band-2:#A9B8AF;--fehler:#B3261E;--f-display:"Barlow Condensed",'Arial Narrow', Arial, sans-serif;--f-text:"Barlow",Arial, Helvetica, sans-serif;--f-mono:"IBM Plex Mono",'Courier New', monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0D1310;--flaeche:#141C18;--flaeche-2:#1B2620;--text:#E5ECE7;--text-2:#A3B1A8;--linie:#2B3931;--akzent:#4BC487;--auf-akzent:#0D1310;--akzent-hell:#173326;--signal:#F2B705;--auf-signal:#13201A;--band:#1B2620;--auf-band:#E5ECE7;--band-2:#A3B1A8;--fehler:#F28B82;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0D1310;--flaeche:#141C18;--flaeche-2:#1B2620;--text:#E5ECE7;--text-2:#A3B1A8;--linie:#2B3931;--akzent:#4BC487;--auf-akzent:#0D1310;--akzent-hell:#173326;--signal:#F2B705;--auf-signal:#13201A;--band:#1B2620;--auf-band:#E5ECE7;--band-2:#A3B1A8;--fehler:#F28B82;color-scheme:dark}

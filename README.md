@@ -33,6 +33,19 @@ python3 -m http.server -d dist    # → http://localhost:8000
 
 `node build.mjs --artifact` baut eine Variante für die Vorschau als Claude-Artifact (`dist-artifact/`, Schriften von Google Fonts statt lokal).
 
+## Vorschau über GitHub Pages
+
+Repo-Settings → **Pages** → Source: **Deploy from a branch**, Branch: `main` / `/root`. Nach ein paar Minuten unter `https://saviold.github.io/jobkollege/` erreichbar.
+
+GitHub Pages zeigt nur fertige Dateien. Deshalb liegen die gebauten Seiten (`index.html`, die Berufsseiten, `profil.html` …, `assets/marke.css`, `assets/config.js`) direkt im Hauptordner. **Nach jeder Änderung an Config, Texten oder Vorlagen:**
+
+```bash
+node build.mjs --pages   # schreibt die Seiten in den Hauptordner
+git add -A && git commit -m "…" && git push
+```
+
+Diese Vorschau ist für Suchmaschinen gesperrt (`noindex`, `robots.txt`), weil Impressum und Datenschutz noch Platzhalter bzw. Entwürfe sind. Das Formular läuft im Vorschau-Modus, solange keine Webhook-URL eingetragen ist – es wird nichts gesendet.
+
 ## Live schalten (Cloudflare Pages)
 
 Build-Befehl `node build.mjs`, Ausgabeverzeichnis `dist`. Die Seite lädt nichts von fremden Servern – Schriften (Barlow, Barlow Condensed, IBM Plex Mono, alle SIL Open Font License) liegen in `assets/fonts/`. `sitemap.xml` und `robots.txt` entstehen aus `domain` in `config/marke.json`.

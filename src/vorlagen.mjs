@@ -55,11 +55,12 @@ export function fuss(m, a) {
 </div></footer>`;
 }
 
-export function head(m, { titel, beschreibung, pfad, artifact, fontsHref }) {
-  const canonical = m.domain ? `https://${m.domain}/${pfad === "index.html" ? "" : pfad.replace(/\.html$/, "")}` : "";
+export function head(m, { titel, beschreibung, pfad, artifact, vorschau, fontsHref }) {
+  const canonical = m.domain && !vorschau ? `https://${m.domain}/${pfad === "index.html" ? "" : pfad.replace(/\.html$/, "")}` : "";
   return [
     `<title>${esc(titel)}</title>`,
     artifact ? `<meta name="claude:viewport-fit-sides" content="cover">` : "",
+    vorschau ? `<meta name="robots" content="noindex, nofollow">` : "",
     `<meta name="description" content="${esc(beschreibung)}">`,
     `<meta name="theme-color" content="${esc(m.farben.hell.akzent)}">`,
     `<meta property="og:type" content="website">`,

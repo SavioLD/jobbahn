@@ -3,6 +3,8 @@
    Build: rendert das Portal aus Config, Schema und Texten.
 
      node build.mjs              → dist/           (Livegang, Schriften selbst gehostet)
+     node build.mjs --pages      → Hauptordner     (Vorschau über GitHub Pages, Branch main / root;
+                                                    nicht von Suchmaschinen indexiert)
      node build.mjs --artifact   → dist-artifact/  (Vorschau als Claude-Artifact)
 
    Erzeugt außerdem CONTENT.md (alle Texte) und SCHEMA.md (Feldschema).
@@ -16,7 +18,8 @@ import * as V from "./src/vorlagen.mjs";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const artifact = process.argv.includes("--artifact");
-const out = join(root, artifact ? "dist-artifact" : "dist");
+const pages = process.argv.includes("--pages");
+const out = pages ? root : join(root, artifact ? "dist-artifact" : "dist");
 
 const json = (p) => JSON.parse(readFileSync(join(root, p), "utf8"));
 const marke = json("config/marke.json");
@@ -51,7 +54,9 @@ const ersetze = (wert, extra = {}) => {
 const T = ersetze({ ...inhalt });
 
 /* ---------- Ausgabe ---------- */
-rmSync(out, { recursive: true, force: true });
+/* Im Pages-Modus ist das Ziel der Hauptordner selbst – dort wird nichts gelöscht,
+   nur die erzeugten Dateien überschrieben. */
+if (!pages) rmSync(out, { recursive: true, force: true });
 mkdirSync(join(out, "assets"), { recursive: true });
 
 /* marke.css: Schriften + Farb-Tokens aus config/marke.json */
@@ -68,11 +73,15 @@ ${fontFaces}
 `;
 writeFileSync(join(out, "assets/marke.css"), markeCss);
 
-/* Alle Dateien direkt in assets/ (CSS, JS, später Logo und Figur) – Schriften separat. */
-for (const f of readdirSync(join(root, "assets"), { withFileTypes: true })) {
-  if (f.isFile()) copyFileSync(join(root, "assets", f.name), join(out, "assets", f.name));
+/* Alle Dateien direkt in assets/ (CSS, JS, später Logo und Figur) – Schriften separat.
+   Im Pages-Modus liegen sie schon an Ort und Stelle. */
+if (!pages) {
+  const erzeugt = ["marke.css", "config.js"];   /* stammen aus dem Build, nicht aus dem Quellordner */
+  for (const f of readdirSync(join(root, "assets"), { withFileTypes: true })) {
+    if (f.isFile() && !erzeugt.includes(f.name)) copyFileSync(join(root, "assets", f.name), join(out, "assets", f.name));
+  }
 }
-if (!artifact) {
+if (!artifact && !pages) {
   mkdirSync(join(out, "assets/fonts"), { recursive: true });
   for (const f of readdirSync(join(root, "assets/fonts"))) copyFileSync(join(root, "assets/fonts", f), join(out, "assets/fonts", f));
 }
@@ -96,7 +105,7 @@ const seiten = [];
 function seite(pfad, meta, body, klasse = "") {
   /* In der Artifact-Vorschau ist der Titel der Startseite der Name in der Galerie. */
   const titel = artifact && pfad === "index.html" ? `${marke.name} Bewerberportal` : meta.titel;
-  const h = V.head(marke, { titel, beschreibung: meta.beschreibung, pfad, artifact, fontsHref });
+  const h = V.head(marke, { titel, beschreibung: meta.beschreibung, pfad, artifact, vorschau: pages, fontsHref });
   const html = artifact && pfad === "index.html"
     ? `${h}\n${body}\n`
     : `<!doctype html>\n<html lang="de">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n${h}\n</head>\n<body${klasse ? ` class="${klasse}"` : ""}>\n${body}\n</body>\n</html>\n`;
@@ -114,7 +123,11 @@ seite("profil.html", T.profil.meta, V.profilseite(marke, T.profil, a), "seite-pr
 seite("datenschutz.html", T.datenschutz.meta, V.datenschutzseite(marke, T.datenschutz, a, T.profil.einwilligung));
 seite("impressum.html", T.impressum.meta, V.impressumseite(marke, T.impressum, a));
 
-if (!artifact && marke.domain) {
+if (pages) {
+  /* Vorschau: nicht indexieren (Rechtstexte sind Entwürfe), kein Jekyll-Umbau durch GitHub. */
+  writeFileSync(join(out, "robots.txt"), "User-agent: *\nDisallow: /\n");
+  writeFileSync(join(out, ".nojekyll"), "");
+} else if (!artifact && marke.domain) {
   const url = (p) => `https://${marke.domain}/${p === "index.html" ? "" : p.replace(/\.html$/, "")}`;
   writeFileSync(join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${seiten.filter(p => !["impressum.html", "datenschutz.html"].includes(p)).map(p => `  <url><loc>${url(p)}</loc></url>`).join("\n")}\n</urlset>\n`);
   writeFileSync(join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: https://${marke.domain}/sitemap.xml\n`);
@@ -175,5 +188,5 @@ sm.push("## Zusatzfelder im Payload", "", "| Feld | Inhalt |", "|---|---|",
   "| `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term` | nur wenn in der URL vorhanden |", "");
 writeFileSync(join(root, "SCHEMA.md"), sm.join("\n"));
 
-console.log(`${artifact ? "dist-artifact" : "dist"}/: ${seiten.length} Seiten → ${seiten.join(", ")}`);
+console.log(`${pages ? "Hauptordner (GitHub Pages)" : artifact ? "dist-artifact/" : "dist/"}: ${seiten.length} Seiten → ${seiten.join(", ")}`);
 console.log("CONTENT.md und SCHEMA.md aktualisiert.");
