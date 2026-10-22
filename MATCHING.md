@@ -1,6 +1,6 @@
 # Matching – Spezifikation
 
-> Gilt für das spätere Matching in der Lead Table. Das Portal liefert dafür die Profile, der Onboarding-Bogen die Stellen – beide mit denselben Feldern aus `schema/felder.json` (Übersicht in `SCHEMA.md`).
+> **Umgesetzt im Vergleicher** (`vergleicher/src/matching.js`, getestet in `vergleicher/test/matching.test.mjs`). Das Portal liefert die Profile, der Stellen-Steckbrief im Vergleicher die Stellen – beide mit denselben Feldern aus `schema/felder.json` (Übersicht in `SCHEMA.md`). Die Treffer gehen in die Lead-Table-Kachel „Matches“.
 
 ## Grundsatz
 
@@ -34,6 +34,8 @@ Das Matching ist bewusst regelbasiert. Keine KI bewertet oder sortiert Bewerber 
 
 ## Offene Fragen
 
-- **PLZ → Entfernung:** Die Lead Table braucht eine Entfernungsberechnung. Möglichkeiten: PLZ-Mittelpunkte (OpenGeoDB, frei) und Luftlinie mal Faktor 1,3 als Fahrweg-Schätzung – oder ein Routing-Dienst. Luftlinie reicht für den Filter, der Talent Scout prüft im Gespräch.
-- **Mehrere Muss bei Mehrfachfeldern:** Fordert ein Betrieb z. B. Führerschein B **und** Staplerschein, müssen beide in der Auswahl stehen.
+- **PLZ → Entfernung (gelöst):** Mittelpunkte aller 8.298 deutschen PLZ (WZB, Apache 2.0), Luftlinie × 1,3 als geschätzte Fahrstrecke. Unbekannte neue PLZ: Mittel der PLZ mit gleichem Anfang. Unklare Entfernung schließt nicht aus, sondern wird als „?“ markiert.
+- **Mehrere Muss bei Mehrfachfeldern (so umgesetzt):** Fordert ein Betrieb z. B. Führerschein B **und** Staplerschein, müssen beide in der Auswahl stehen.
+- **Sperrliste (so umgesetzt):** Steht ein markantes Wort des Firmennamens (ab 4 Zeichen, Rechtsform ignoriert, Umlaute egal) auf der Sperrliste des Bewerbers, wird er für diese Firma ausgeschlossen. Lieber einmal zu viel sperren. Ausgeschlossene sieht man im Vergleicher eingeklappt unter der Stelle.
+- **Unklare Angaben** (eigener Beruf als Freitext, „Gehalt lieber am Telefon“, unbekannte Verfügbarkeit) schließen nie aus – sie stehen als „?“ in der Spalte `pruefen` für das Telefonat.
 - **Pool-Größe sichtbar machen:** Für das Onboarding (Folie „Was wirklich zählt“) wäre eine Zahl hilfreich: Wie viele Profile bleiben bei diesen Muss-Kriterien übrig?

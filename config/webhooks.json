@@ -1,5 +1,7 @@
 {
-  "_hinweis": "Eine Lead-Table-Kachel pro Jobrichtung. Leer = Vorschau-Modus (der Payload wird nur angezeigt, nichts wird gesendet). `fallback` greift, wenn eine Richtung keine eigene URL hat – mit nur einer Kachel reicht es, `fallback` auszufüllen.",
+  "_hinweis": "EMPFOHLEN: `api` = Adresse des Vergleichers (z. B. https://passtjob-vergleicher.<konto>.workers.dev). Dann geht jedes Profil an den Vergleicher, der vergleicht und in die Lead Table kopiert – die Kachel-Adressen werden im Vergleicher unter Einstellungen gepflegt und die Felder unten bleiben leer. OHNE Vergleicher: eine Lead-Table-Kachel pro Jobrichtung direkt eintragen (`fallback` greift, wenn eine Richtung keine eigene URL hat). Alles leer = Vorschau-Modus.",
+  "_hinweis_api": "Nach dem ersten Deploy die Adresse des Vergleichers hier eintragen.",
+  "api": "",
   "fallback": "",
   "metall": "",
   "elektro": "",

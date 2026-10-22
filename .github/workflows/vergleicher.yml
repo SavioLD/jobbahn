@@ -1,0 +1,79 @@
+# Testet den Vergleicher bei jeder Änderung und deployt ihn zu Cloudflare,
+# sobald die Secrets CLOUDFLARE_API_TOKEN und CLOUDFLARE_ACCOUNT_ID hinterlegt sind.
+# Einrichtung Schritt für Schritt: vergleicher/README.md
+name: Vergleicher
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "vergleicher/**"
+      - "config/berufe.json"
+      - "schema/felder.json"
+      - ".github/workflows/vergleicher.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: vergleicher
+  cancel-in-progress: false
+
+jobs:
+  testen-und-deployen:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: vergleicher
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      WRANGLER: npx --yes wrangler@4.151.3
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Tests
+        run: npm test
+
+      - name: Cloudflare-Zugang vorhanden?
+        id: zugang
+        run: |
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Kein Cloudflare-Zugang hinterlegt – Tests sind gelaufen, Deploy übersprungen. Einrichtung: vergleicher/README.md"
+          fi
+
+      - name: Datenbank finden oder anlegen
+        if: steps.zugang.outputs.ok == 'true'
+        run: |
+          finde() {
+            $WRANGLER d1 list --json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const t=s.slice(s.indexOf("["),s.lastIndexOf("]")+1);const d=JSON.parse(t||"[]").find(x=>x.name==="passtjob");process.stdout.write(d?d.uuid:"")})'
+          }
+          ID=$(finde)
+          if [ -z "$ID" ]; then $WRANGLER d1 create passtjob; ID=$(finde); fi
+          if [ -z "$ID" ]; then echo "::error::Die D1-Datenbank „passtjob“ konnte nicht gefunden oder angelegt werden."; exit 1; fi
+          sed -i "s/DATABASE_ID_HIER/$ID/" wrangler.toml
+          echo "Datenbank: $ID"
+
+      - name: Tabellen anlegen oder aktualisieren
+        if: steps.zugang.outputs.ok == 'true'
+        run: $WRANGLER d1 migrations apply passtjob --remote
+
+      - name: Deploy
+        if: steps.zugang.outputs.ok == 'true'
+        run: $WRANGLER deploy
+
+      - name: Passwort für /intern setzen
+        if: steps.zugang.outputs.ok == 'true'
+        env:
+          PASSWORT: ${{ secrets.VERGLEICHER_PASSWORT }}
+        run: |
+          if [ -n "$PASSWORT" ]; then
+            printf '%s' "$PASSWORT" | $WRANGLER secret put ADMIN_TOKEN
+          else
+            echo "::warning::Secret VERGLEICHER_PASSWORT fehlt – der interne Bereich bleibt gesperrt, bis es gesetzt ist."
+          fi

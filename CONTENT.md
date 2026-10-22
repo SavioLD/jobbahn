@@ -388,7 +388,10 @@ Deine Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. [Anwalt: prüfen, ob für di
 [x] Monate nach deinem letzten Kontakt mit uns, danach löschen wir dein Profil automatisch. Du kannst es jederzeit früher löschen lassen.
 
 **Wer die Daten sonst verarbeitet**  
-Hosting: [Anbieter, z. B. Cloudflare]. Bewerberverwaltung: [Anbieter der Lead Table]. Mit beiden besteht ein Vertrag zur Auftragsverarbeitung. [Anwalt: Drittlandübermittlung prüfen.]
+Website und Abgleich mit offenen Stellen: [Anbieter, z. B. Cloudflare]. Bewerberverwaltung: [Anbieter der Lead Table]. Mit beiden besteht ein Vertrag zur Auftragsverarbeitung. [Anwalt: Drittlandübermittlung prüfen.]
+
+**Automatischer Abgleich**  
+Ein Programm vergleicht dein Profil mit den Anforderungen offener Stellen (Beruf, Entfernung, Gehalt, Arbeitszeit und ähnliches) und schlägt passende Stellen vor. Entschieden wird nicht vom Programm: Ein Mensch prüft jeden Vorschlag und spricht mit dir, bevor etwas passiert.
 
 **Deine Rechte**  
 Du kannst Auskunft verlangen, Angaben berichtigen oder löschen lassen und deine Einwilligung jederzeit widerrufen. Eine kurze Mail an [E-Mail-Adresse] genügt. Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel beim Landesbeauftragten für den Datenschutz Baden-Württemberg.

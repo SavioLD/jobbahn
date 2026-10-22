@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Vergleicher</title>
+<style>
+/* Interne Oberfläche im CI von Ländle Digital. Bewusst nur helles Erscheinungsbild. */
+:root {
+  --bg: #FBF7EE; --flaeche: #FFFFFF; --flaeche-2: #F3EDDF; --text: #141414; --text-2: #49443C; --linie: #E3DACA;
+  --akzent: #F4C736; --akzent-text: #7A5C00; --akzent-hell: #FEF3CF; --ok: #1F7A4D; --ok-hell: #E3F3E9; --nein: #B3261E; --nein-hell: #FBE9E6;
+  --f: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--f); font-size: 15px; line-height: 1.5; }
+a { color: inherit; }
+h1, h2, h3 { margin: 0; line-height: 1.2; }
+h1 { font-size: 26px; font-weight: 800; letter-spacing: -.01em; }
+h2 { font-size: 18px; font-weight: 800; }
+h3 { font-size: 16px; font-weight: 800; }
+p { margin: 0; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 3px solid var(--text); outline-offset: 2px; }
+
+.kopf { background: var(--text); color: var(--bg); }
+.kopf-innen, main { max-width: 1120px; margin-inline: auto; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
+.kopf-innen { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; min-height: 60px; }
+.marke { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; text-decoration: none; margin-right: auto; }
+.marke i { width: 22px; height: 22px; border: 2.5px solid var(--bg); border-radius: 6px; display: grid; place-items: center; }
+.marke i::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--akzent); }
+.kopf nav { display: flex; flex-wrap: wrap; gap: 4px; }
+.kopf nav a, .kopf nav button { color: var(--bg); text-decoration: none; font: inherit; font-weight: 700; background: none; border: 0; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+.kopf nav a[aria-current="page"] { background: var(--akzent); color: var(--text); }
+main { padding-block: 28px 64px; display: flex; flex-direction: column; gap: 22px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 10px; border: 2px solid var(--text); background: var(--flaeche); color: var(--text); font: inherit; font-weight: 800; cursor: pointer; text-decoration: none; }
+.btn-gelb { background: var(--akzent); box-shadow: 0 3px 0 var(--text); }
+.btn-klein { min-height: 34px; padding: 0 12px; font-size: 14px; }
+.btn[disabled] { opacity: .55; cursor: not-allowed; }
+.zeile { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.karte { background: var(--flaeche); border: 1px solid var(--linie); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.leise { color: var(--text-2); }
+.klein { font-size: 13px; }
+.hinweis { padding: 12px 16px; border-radius: 10px; background: var(--akzent-hell); border: 1px solid #EFD98A; }
+.hinweis.fehler { background: var(--nein-hell); border-color: #F0B8B0; }
+.meldung { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 12px 18px; border-radius: 10px; font-weight: 700; max-width: calc(100% - 32px); z-index: 10; }
+
+/* Übersicht */
+.pool-zahl { font-size: 34px; font-weight: 800; line-height: 1; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; list-style: none; }
+.chips li { padding: 4px 10px; border-radius: 999px; background: var(--flaeche-2); font-size: 13px; font-weight: 600; }
+.tabelle { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 720px; }
+th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--linie); vertical-align: top; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-2); }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--akzent-hell); }
+td.zahl { font-variant-numeric: tabular-nums; font-weight: 800; }
+.pille { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; background: var(--flaeche-2); white-space: nowrap; }
+.pille.offen, .pille.neu { background: var(--akzent); }
+.pille.besetzt, .pille.uebergeben { background: var(--ok-hell); color: var(--ok); }
+.pille.pausiert, .pille.kein_interesse, .pille.passt_nicht, .pille.gesperrt { background: var(--flaeche-2); color: var(--text-2); }
+.pille.angerufen { background: #E4ECF8; color: #1D4E89; }
+
+/* Formular */
+form.steckbrief { display: flex; flex-direction: column; gap: 18px; }
+fieldset { border: 1px solid var(--linie); border-radius: 14px; background: var(--flaeche); padding: 18px 20px 20px; margin: 0; display: grid; gap: 14px 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); min-width: 0; }
+legend { font-weight: 800; font-size: 17px; padding: 0 6px; }
+.voll { grid-column: 1 / -1; }
+@media (max-width: 720px) { fieldset { grid-template-columns: minmax(0, 1fr); } }
+.feld { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.feld > label, .feld > .label { font-weight: 700; font-size: 14px; }
+.feld small { color: var(--text-2); font-size: 12.5px; }
+input[type=text], input[type=email], input[type=tel], input[type=url], input[type=number], input[type=password], select, textarea {
+  width: 100%; min-width: 0; font: inherit; font-size: 15px; padding: 9px 11px; border: 1.5px solid #D6CCB8; border-radius: 9px; background: var(--flaeche); color: var(--text);
+}
+textarea { min-height: 80px; resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: 2.5px solid var(--akzent); outline-offset: 1px; border-color: var(--text); }
+.haken { display: flex; flex-wrap: wrap; gap: 6px; }
+.haken label { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1.5px solid #D6CCB8; border-radius: 999px; background: var(--flaeche); font-size: 14px; cursor: pointer; }
+.haken input:checked + span { font-weight: 800; }
+.haken label:has(input:checked) { background: var(--akzent); border-color: var(--text); }
+.kriterium { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 14px; align-items: end; padding-top: 12px; border-top: 1px dashed var(--linie); }
+.kriterium:first-of-type { border-top: 0; padding-top: 0; }
+@media (max-width: 720px) { .kriterium { grid-template-columns: minmax(0, 1fr); } }
+.gewicht { display: inline-flex; border: 1.5px solid var(--text); border-radius: 9px; overflow: hidden; }
+.gewicht label { position: relative; }
+.gewicht input { position: absolute; opacity: 0; }
+.gewicht span { display: block; padding: 7px 12px; font-size: 13px; font-weight: 800; cursor: pointer; }
+.gewicht label + label span { border-left: 1.5px solid var(--text); }
+.gewicht input:checked + span { background: var(--text); color: var(--akzent); }
+.gewicht input:focus-visible + span { outline: 3px solid var(--akzent); outline-offset: -3px; }
+.doppelt { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fehlertext { color: var(--nein); font-weight: 700; }
+
+/* Treffer */
+.treffer-liste { display: flex; flex-direction: column; gap: 12px; }
+.treffer { background: var(--flaeche); border: 1px solid var(--linie); border-left: 5px solid var(--akzent); border-radius: 12px; padding: 16px 18px; display: grid; gap: 10px; }
+.treffer.st-uebergeben { border-left-color: var(--ok); }
+.treffer.st-kein_interesse, .treffer.st-passt_nicht { border-left-color: var(--linie); opacity: .75; }
+.treffer.st-angerufen { border-left-color: #1D4E89; }
+.treffer header { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.treffer header h3 { margin-right: auto; }
+.gruende { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font-size: 14px; }
+.gruende li::before { display: inline-block; width: 20px; font-weight: 800; }
+.gruende .ok::before { content: "✓"; color: var(--ok); }
+.gruende .nein::before { content: "✗"; color: var(--nein); }
+.gruende .unklar::before { content: "?"; color: var(--akzent-text); }
+.gruende small { color: var(--text-2); }
+.kontakt { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
+.aktion { display: grid; grid-template-columns: 200px minmax(0, 1fr) auto auto; gap: 8px; align-items: start; }
+.aktion textarea { min-height: 42px; height: 42px; }
+@media (max-width: 760px) { .aktion { grid-template-columns: minmax(0, 1fr); } }
+dl.steck { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 6px 16px; margin: 0; font-size: 14px; }
+dl.steck dt { color: var(--text-2); }
+dl.steck dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+@media (max-width: 600px) { dl.steck { grid-template-columns: minmax(0, 1fr); } dl.steck dd { margin-bottom: 6px; } }
+.login { max-width: 420px; margin: 40px auto; }
+</style>
+</head>
+<body>
+<header class="kopf"><div class="kopf-innen">
+  <a class="marke" href="#stellen"><i aria-hidden="true"></i>Vergleicher</a>
+  <nav id="nav" hidden>
+    <a href="#stellen" data-nav="stellen">Stellen</a>
+    <a href="#neu" data-nav="neu">Neue Stelle</a>
+    <a href="#einstellungen" data-nav="einstellungen">Einstellungen</a>
+    <button type="button" id="abmelden">Abmelden</button>
+  </nav>
+</div></header>
+<main id="app"><p class="leise">Lädt …</p></main>
+<div class="meldung" id="meldung" role="status" hidden></div>
+
+<script>
+"use strict";
+const app = document.getElementById("app");
+const GEWICHT_TEXT = { muss: "Muss", wunsch: "Wunsch", egal: "Egal" };
+const STATUS_TEXT = { offen: "Offen", pausiert: "Pausiert", besetzt: "Besetzt", neu: "Neu", angerufen: "Angerufen", uebergeben: "Übergeben", kein_interesse: "Kein Interesse", passt_nicht: "Passt nicht", gesperrt: "Gesperrt" };
+let konfig = null;
+
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const speicher = {
+  lesen() { try { return sessionStorage.getItem("vergleicher-passwort") || ""; } catch { return ""; } },
+  schreiben(w) { try { w ? sessionStorage.setItem("vergleicher-passwort", w) : sessionStorage.removeItem("vergleicher-passwort"); } catch {} }
+};
+let passwort = speicher.lesen();
+
+function melden(text) {
+  const el = document.getElementById("meldung");
+  el.textContent = text; el.hidden = false;
+  clearTimeout(melden.t); melden.t = setTimeout(() => { el.hidden = true; }, 4200);
+}
+
+async function api(methode, pfad, body) {
+  const res = await fetch(pfad, {
+    method: methode,
+    headers: Object.assign({ "Authorization": "Bearer " + passwort }, body ? { "Content-Type": "application/json" } : {}),
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const daten = await res.json().catch(() => ({}));
+  if (res.status === 401) { abmelden("Das Passwort stimmt nicht."); throw new Error("Nicht angemeldet"); }
+  if (!res.ok) throw new Error(daten.fehler || ("Fehler " + res.status));
+  return daten;
+}
+
+function abmelden(grund) {
+  passwort = ""; speicher.schreiben(""); konfig = null;
+  login(grund || "");
+}
+
+function richtungName(key) {
+  const r = konfig && konfig.richtungen.find(x => x.key === key);
+  return r ? r.name : key;
+}
+
+/* ---------- Anmelden ---------- */
+function login(fehler) {
+  document.getElementById("nav").hidden = true;
+  app.innerHTML = `<form class="karte login" id="login">
+    <h1>Vergleicher</h1>
+    <p class="leise">Interner Bereich: Stellen anlegen, Treffer ansehen, Bewerber an Firmen übergeben.</p>
+    <div class="feld"><label for="pw">Passwort</label><input type="password" id="pw" autocomplete="current-password" required></div>
+    <p class="fehlertext">${esc(fehler)}</p>
+    <button class="btn btn-gelb" type="submit">Anmelden</button>
+  </form>`;
+  document.getElementById("login").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    passwort = document.getElementById("pw").value;
+    try { konfig = await api("GET", "/api/intern/konfig"); speicher.schreiben(passwort); zeigen(); }
+    catch (err) { if (passwort) app.querySelector(".fehlertext").textContent = err.message; }
+  });
+}
+
+/* ---------- Router ---------- */
+async function zeigen() {
+  if (!passwort) return login("");
+  try { if (!konfig) konfig = await api("GET", "/api/intern/konfig"); } catch { return; }
+  document.getElementById("nav").hidden = false;
+  const h = location.hash.slice(1) || "stellen";
+  document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", false));
+  const aktiv = h.startsWith("stelle-") || h.startsWith("bearbeiten-") ? "stellen" : h;
+  const nav = document.querySelector(`[data-nav="${aktiv}"]`);
+  if (nav) nav.setAttribute("aria-current", "page");
+  app.innerHTML = `<p class="leise">Lädt …</p>`;
+  try {
+    if (h === "neu") return formular(null);
+    if (h.startsWith("bearbeiten-")) return formular(h.slice(11));
+    if (h.startsWith("stelle-")) return detail(h.slice(7));
+    if (h === "einstellungen") return einstellungen();
+    return uebersicht();
+  } catch (err) {
+    app.innerHTML = `<div class="hinweis fehler">${esc(err.message)}</div>`;
+  }
+}
+window.addEventListener("hashchange", zeigen);
+document.getElementById("abmelden").addEventListener("click", () => abmelden(""));
+
+/* ---------- Übersicht ---------- */
+async function uebersicht() {
+  const d = await api("GET", "/api/intern/uebersicht");
+  const poolGesamt = Object.values(d.pool).reduce((a, b) => a + b, 0);
+  const h = d.hinweise;
+  app.innerHTML = `
+    <div class="zeile"><h1 style="margin-right:auto">Stellen</h1><a class="btn btn-gelb" href="#neu">Neue Stelle anlegen</a></div>
+    ${h.matchesKachelFehlt ? `<div class="hinweis">Treffer gehen noch nicht in die Lead Table: Unter <a href="#einstellungen">Einstellungen</a> die Kachel „Matches“ eintragen. Hier in der Liste siehst du sie trotzdem.</div>` : ""}
+    ${h.poolKachelFehlt ? `<div class="hinweis">Neue Bewerber werden noch nicht in die Pool-Kacheln der Lead Table kopiert: Unter <a href="#einstellungen">Einstellungen</a> eintragen.</div>` : ""}
+    ${h.letzterFehler ? `<div class="hinweis fehler"><b>Letzter Fehler beim Senden an die Lead Table</b> (${esc(new Date(h.letzterFehler.zeit).toLocaleString("de-DE"))}, ${esc(h.letzterFehler.wofuer)}): ${esc(h.letzterFehler.text)}</div>` : ""}
+    ${d.ausstehend ? `<p class="leise klein">${d.ausstehend} Treffer warten auf den Versand an die Lead Table – sie werden alle 15 Minuten nachgeschickt.</p>` : ""}
+    <section class="karte">
+      <div class="zeile"><h2 style="margin-right:auto">Bewerberpool</h2><span class="pool-zahl">${poolGesamt}</span></div>
+      <ul class="chips">${konfig.richtungen.map(r => `<li>${esc(r.name)}: ${d.pool[r.key] || 0}</li>`).join("")}</ul>
+    </section>
+    ${d.stellen.length ? `<section class="karte"><div class="tabelle"><table>
+      <thead><tr><th>Firma</th><th>Stelle</th><th>Richtung</th><th>Arbeitsort</th><th>Neue Treffer</th><th>Treffer</th><th>Übergeben</th><th>Status</th></tr></thead>
+      <tbody>${d.stellen.map(s => `<tr data-id="${esc(s.id)}" tabindex="0">
+        <td><b>${esc(s.firma)}</b></td><td>${esc(s.titel)}</td><td>${esc(richtungName(s.richtung))}</td><td>${esc(s.ort)}</td>
+        <td class="zahl">${s.neu}</td><td class="zahl">${s.aktiv}</td><td class="zahl">${s.uebergeben}</td><td><span class="pille ${esc(s.status)}">${STATUS_TEXT[s.status] || s.status}</span></td></tr>`).join("")}</tbody>
+    </table></div></section>` : `<section class="karte"><h2>Noch keine Stelle</h2><p class="leise">Leg im Onboarding für jede Stelle einen Steckbrief an. Der Vergleicher sucht dann sofort im ganzen Pool.</p><p><a class="btn btn-gelb" href="#neu">Erste Stelle anlegen</a></p></section>`}
+  `;
+  app.querySelectorAll("tbody tr").forEach(tr => {
+    const los = () => { location.hash = "stelle-" + tr.dataset.id; };
+    tr.addEventListener("click", los);
+    tr.addEventListener("keydown", (e) => { if (e.key === "Enter") los(); });
+  });
+}
+
+/* ---------- Stellen-Steckbrief ---------- */
+function gewichtWahl(name, wert, ohneEgal) {
+  return `<div class="gewicht" role="radiogroup" aria-label="Gewichtung">${["muss", "wunsch"].concat(ohneEgal ? [] : ["egal"]).map(g =>
+    `<label><input type="radio" name="${name}" value="${g}" ${wert === g ? "checked" : ""}><span>${GEWICHT_TEXT[g]}</span></label>`).join("")}</div>`;
+}
+function haken(name, alle, gewaehlt) {
+  return `<div class="haken">${alle.map(x => `<label><input type="checkbox" name="${name}" value="${esc(x)}" ${gewaehlt.includes(x) ? "checked" : ""}><span>${esc(x)}</span></label>`).join("")}</div>`;
+}
+function auswahl(name, werte, wert, texte) {
+  return `<select name="${name}" id="${name}">${werte.map((w, i) => `<option value="${esc(w)}" ${String(w) === String(wert) ? "selected" : ""}>${esc(texte ? texte[i] : w)}</option>`).join("")}</select>`;
+}
+
+async function formular(id) {
+  const s = id ? (await api("GET", "/api/intern/stellen/" + id)).stelle : null;
+  const k = (s && s.kriterien) || {};
+  const v = (pfad, std) => { try { return pfad() ?? std; } catch { return std; } };
+  const richtung = s ? s.richtung : "";
+  app.innerHTML = `
+    <div class="zeile"><h1 style="margin-right:auto">${s ? "Steckbrief bearbeiten" : "Neue Stelle"}</h1>${s ? `<a class="btn" href="#stelle-${esc(s.id)}">Abbrechen</a>` : ""}</div>
+    <p class="leise">Dieselben Punkte, die auch jeder Bewerber beantwortet. <b>Muss</b> filtert, <b>Wunsch</b> gibt Punkte, <b>Egal</b> wird nicht geprüft.</p>
+    <form class="steckbrief" id="steckbrief" novalidate>
+      <fieldset><legend>Firma</legend>
+        <div class="feld"><label for="firma">Firma *</label><input type="text" id="firma" name="firma" required value="${esc(s && s.firma)}"></div>
+        <div class="feld"><label for="ansprechpartner">Ansprechpartner</label><input type="text" id="ansprechpartner" name="ansprechpartner" value="${esc(s && s.ansprechpartner)}"></div>
+        <div class="feld"><label for="telefon">Telefon</label><input type="tel" id="telefon" name="telefon" value="${esc(s && s.telefon)}"></div>
+        <div class="feld"><label for="email">E-Mail</label><input type="email" id="email" name="email" value="${esc(s && s.email)}"></div>
+        <div class="feld voll"><label for="firmen_webhook">Lead-Table-Kachel der Firma (Webhook)</label><input type="url" id="firmen_webhook" name="firmen_webhook" placeholder="https://api-v2.lead-table.com/api/webhook/generic/…" value="${esc(s && s.firmen_webhook)}"><small>Hierhin geht ein Bewerber, sobald du ihn nach dem Telefonat übergibst.</small></div>
+      </fieldset>
+
+      <fieldset><legend>Stelle</legend>
+        <div class="feld"><label for="titel">Stellenbezeichnung *</label><input type="text" id="titel" name="titel" required placeholder="z. B. Elektroniker (m/w/d)" value="${esc(s && s.titel)}"></div>
+        <div class="feld"><label for="richtung">Richtung *</label>${auswahl("richtung", [""].concat(konfig.richtungen.map(r => r.key)), richtung, ["Bitte wählen"].concat(konfig.richtungen.map(r => r.name)))}</div>
+        <div class="feld voll"><span class="label">Welche Berufe kommen in Frage?</span><div id="berufe"></div><small>Nichts angehakt = jeder Beruf dieser Richtung passt.</small></div>
+        <div class="kriterium voll"><div class="feld"><span class="label">Wie streng beim Beruf?</span></div>${gewichtWahl("g_beruf", v(() => k.beruf.gewicht, "muss"), true)}</div>
+        <div class="feld"><label for="plz">PLZ Arbeitsort *</label><input type="text" id="plz" name="plz" inputmode="numeric" maxlength="5" value="${esc(s && s.plz)}"></div>
+        <div class="feld"><label for="ort">Ort</label><input type="text" id="ort" name="ort" value="${esc(s && s.ort)}"></div>
+        <div class="feld"><label for="umkreis">Bewerber höchstens aus …</label>${auswahl("umkreis", ["", 10, 20, 30, 50, 75, 100], s && s.umkreis || "", ["egal – Fahrweg des Bewerbers zählt", "10 km", "20 km", "30 km", "50 km", "75 km", "100 km"])}</div>
+        <div class="feld"><label for="anzahl">Anzahl</label><input type="number" id="anzahl" name="anzahl" min="1" max="99" value="${esc(s && s.anzahl || 1)}"></div>
+        <div class="kriterium voll"><div class="feld"><label for="start">Start</label>${auswahl("start", konfig.start, s && s.start || "Flexibel")}</div>${gewichtWahl("g_start", v(() => k.start.gewicht, "wunsch"))}</div>
+      </fieldset>
+
+      <fieldset><legend>Anforderungen</legend>
+        <div class="kriterium voll"><div class="feld"><label for="abschluss">Abschluss mindestens</label>${auswahl("abschluss", ["egal"].concat(konfig.abschluss), v(() => k.abschluss.wert, "egal"), ["Egal"].concat(konfig.abschluss))}</div>${gewichtWahl("g_abschluss", v(() => k.abschluss.gewicht, "muss"))}</div>
+        <div class="kriterium voll"><div class="feld"><label for="erfahrung">Berufserfahrung mindestens</label>${auswahl("erfahrung", [0, 1, 3, 5, 10], v(() => k.erfahrung.wert, 0), ["Egal", "1 Jahr", "3 Jahre", "5 Jahre", "10 Jahre"])}</div>${gewichtWahl("g_erfahrung", v(() => k.erfahrung.gewicht, "wunsch"))}</div>
+        <div class="kriterium voll"><div class="feld"><span class="label">Gehaltsrahmen (brutto/Monat, Vollzeit)</span><div class="doppelt"><input type="number" name="gehalt_von" aria-label="Gehalt von" placeholder="von €" min="0" step="50" value="${esc(v(() => k.gehalt.von, "") || "")}"><input type="number" name="gehalt_bis" aria-label="Gehalt bis" placeholder="bis €" min="0" step="50" value="${esc(v(() => k.gehalt.bis, "") || "")}"></div><small>Leer lassen = Gehalt wird nicht geprüft. Bei Teilzeit auf Vollzeit hochrechnen.</small></div>${gewichtWahl("g_gehalt", v(() => k.gehalt.gewicht, "muss"))}</div>
+        <div class="kriterium voll"><div class="feld"><span class="label">Arbeitszeit</span>${haken("arbeitszeit", konfig.arbeitszeit, v(() => k.arbeitszeit.werte, []))}</div>${gewichtWahl("g_arbeitszeit", v(() => k.arbeitszeit.gewicht, "muss"))}</div>
+        <div class="kriterium voll"><div class="feld"><span class="label">Führerschein</span>${haken("fuehrerschein", konfig.fuehrerschein, v(() => k.fuehrerschein.werte, []))}</div>${gewichtWahl("g_fuehrerschein", v(() => k.fuehrerschein.gewicht, "muss"))}</div>
+        <div class="kriterium voll"><div class="feld"><label for="deutsch">Deutsch mindestens</label>${auswahl("deutsch", ["egal"].concat(konfig.deutsch), v(() => k.deutsch.wert, "egal"), ["Egal"].concat(konfig.deutsch))}</div>${gewichtWahl("g_deutsch", v(() => k.deutsch.gewicht, "muss"))}</div>
+      </fieldset>
+
+      <fieldset><legend>Fürs Telefonat</legend>
+        <div class="feld voll"><label for="benefits">Die drei stärksten Benefits</label><textarea id="benefits" name="benefits" placeholder="z. B. Freitag um 12 Feierabend · Firmenwagen ab Tag 1 · keine Montage">${esc(s && s.benefits)}</textarea></div>
+        <div class="feld voll"><label><input type="checkbox" name="lebenslauf_noetig" ${s && s.lebenslauf_noetig ? "checked" : ""}> Firma will vor dem Gespräch einen Lebenslauf</label></div>
+        <div class="feld voll"><label for="notizen">Notizen</label><textarea id="notizen" name="notizen">${esc(s && s.notizen)}</textarea></div>
+      </fieldset>
+
+      <p class="fehlertext" id="fehler" role="alert"></p>
+      <div class="zeile"><button class="btn btn-gelb" type="submit">${s ? "Speichern und neu vergleichen" : "Stelle anlegen und vergleichen"}</button></div>
+    </form>`;
+
+  const form = document.getElementById("steckbrief");
+  const berufeZeigen = () => {
+    const r = konfig.richtungen.find(x => x.key === form.richtung.value);
+    document.getElementById("berufe").innerHTML = r ? haken("berufe", r.berufe, s && s.richtung === r.key ? s.berufe || [] : []) : `<span class="leise klein">Erst die Richtung wählen.</span>`;
+  };
+  berufeZeigen();
+  form.richtung.addEventListener("change", berufeZeigen);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = new FormData(form);
+    const gew = (n) => f.get("g_" + n) || "egal";
+    const daten = {
+      firma: f.get("firma"), ansprechpartner: f.get("ansprechpartner"), telefon: f.get("telefon"), email: f.get("email"),
+      firmen_webhook: f.get("firmen_webhook"), titel: f.get("titel"), richtung: f.get("richtung"), berufe: f.getAll("berufe"),
+      plz: f.get("plz"), ort: f.get("ort"), umkreis: f.get("umkreis"), anzahl: f.get("anzahl"), start: f.get("start"),
+      benefits: f.get("benefits"), lebenslauf_noetig: !!f.get("lebenslauf_noetig"), notizen: f.get("notizen"),
+      kriterien: {
+        beruf: { gewicht: gew("beruf") }, start: { gewicht: gew("start") },
+        abschluss: { wert: f.get("abschluss"), gewicht: gew("abschluss") },
+        erfahrung: { wert: f.get("erfahrung"), gewicht: gew("erfahrung") },
+        gehalt: { von: f.get("gehalt_von"), bis: f.get("gehalt_bis"), gewicht: gew("gehalt") },
+        arbeitszeit: { werte: f.getAll("arbeitszeit"), gewicht: gew("arbeitszeit") },
+        fuehrerschein: { werte: f.getAll("fuehrerschein"), gewicht: gew("fuehrerschein") },
+        deutsch: { wert: f.get("deutsch"), gewicht: gew("deutsch") }
+      }
+    };
+    const knopf = form.querySelector("button[type=submit]");
+    knopf.disabled = true;
+    try {
+      const r = await api(s ? "PUT" : "POST", "/api/intern/stellen" + (s ? "/" + s.id : ""), daten);
+      melden(`Gespeichert. ${r.neueTreffer} neue Treffer im Pool.${r.plzBekannt ? "" : " Achtung: PLZ unbekannt, Entfernung kann nicht berechnet werden."}`);
+      location.hash = "stelle-" + r.id;
+    } catch (err) {
+      document.getElementById("fehler").textContent = err.message;
+      knopf.disabled = false;
+    }
+  });
+}
+
+/* ---------- Stelle mit Treffern ---------- */
+function kriterienListe(s) {
+  const k = s.kriterien || {}, z = [];
+  const g = (x) => x && x !== "egal" ? ` <span class="pille">${GEWICHT_TEXT[x]}</span>` : "";
+  z.push(["Berufe", (s.berufe && s.berufe.length ? esc(s.berufe.join(", ")) : "jeder Beruf der Richtung") + (s.berufe && s.berufe.length ? g(k.beruf && k.beruf.gewicht) : "")]);
+  z.push(["Arbeitsort", esc([s.plz, s.ort].filter(Boolean).join(" ")) + (s.umkreis ? ` · Bewerber höchstens aus ${s.umkreis} km` : "")]);
+  z.push(["Start", esc(s.start) + (s.start !== "Flexibel" ? g(k.start && k.start.gewicht) : "")]);
+  if (k.abschluss && k.abschluss.wert !== "egal") z.push(["Abschluss", esc(k.abschluss.wert) + g(k.abschluss.gewicht)]);
+  if (k.erfahrung && Number(k.erfahrung.wert) > 0) z.push(["Erfahrung", `ab ${k.erfahrung.wert} Jahren` + g(k.erfahrung.gewicht)]);
+  if (k.gehalt && Number(k.gehalt.bis) > 0) z.push(["Gehalt", `${k.gehalt.von ? k.gehalt.von + "–" : "bis "}${k.gehalt.bis} €` + g(k.gehalt.gewicht)]);
+  if (k.arbeitszeit && k.arbeitszeit.werte.length) z.push(["Arbeitszeit", esc(k.arbeitszeit.werte.join(", ")) + g(k.arbeitszeit.gewicht)]);
+  if (k.fuehrerschein && k.fuehrerschein.werte.length) z.push(["Führerschein", esc(k.fuehrerschein.werte.join(", ")) + g(k.fuehrerschein.gewicht)]);
+  if (k.deutsch && k.deutsch.wert !== "egal") z.push(["Deutsch", esc(k.deutsch.wert) + g(k.deutsch.gewicht)]);
+  if (s.benefits) z.push(["Benefits", esc(s.benefits)]);
+  z.push(["Lebenslauf vorab", s.lebenslauf_noetig ? "ja" : "nein"]);
+  if (s.ansprechpartner || s.telefon || s.email) z.push(["Ansprechpartner", esc([s.ansprechpartner, s.telefon, s.email].filter(Boolean).join(" · "))]);
+  z.push(["Übergabe an", s.firmen_webhook ? "Lead-Table-Kachel der Firma ✓" : `<span class="fehlertext">keine Kachel hinterlegt – Übergabe nicht möglich</span>`]);
+  if (s.notizen) z.push(["Notizen", esc(s.notizen)]);
+  return `<dl class="steck">${z.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${b}</dd>`).join("")}</dl>`;
+}
+
+function trefferKarte(t) {
+  const b = t.bewerber;
+  const klasse = (g) => g.ok === true ? "ok" : g.ok === false ? "nein" : "unklar";
+  const passung = t.max_punkte ? `${t.punkte} von ${t.max_punkte} Wünschen` : "Muss erfüllt";
+  return `<article class="treffer st-${esc(t.status)}" data-id="${esc(t.id)}">
+    <header><h3>${esc(b.vorname)} ${esc(b.nachname)}</h3><span class="pille">${esc(passung)}</span><span class="pille ${esc(t.status)}">${STATUS_TEXT[t.status] || t.status}</span></header>
+    <p class="leise">${esc(b.beruf || "–")} · ${esc([b.plz, b.ort].filter(Boolean).join(" "))}${t.entfernung_km != null ? ` · ca. ${t.entfernung_km} km` : ""} · ${esc(b.abschluss || "")}, ${esc(b.erfahrung || "")}</p>
+    <ul class="gruende">${t.gruende.map(g => `<li class="${klasse(g)}">${esc(g.text)}${g.gewicht === "wunsch" ? " <small>(Wunsch)</small>" : ""}</li>`).join("")}</ul>
+    <div class="kontakt"><span>Telefon: <b>${esc(b.telefon)}</b></span><span>E-Mail: ${esc(b.email)}</span><span>Erreichbar: ${esc(b.erreichbarkeit || "–")}</span><span>Verfügbar: ${esc(b.verfuegbarkeit || "–")}</span><span>Gehalt: ${esc(b.gehalt || "–")}</span><span>Lebenslauf: ${esc(b.lebenslauf || "–")}</span>${b.sperrliste && b.sperrliste !== "–" ? `<span>Sperrliste: ${esc(b.sperrliste)}</span>` : ""}</div>
+    ${t.status === "gesperrt" ? "" : `<div class="aktion">
+      ${auswahl("status-" + t.id, ["neu", "angerufen", "kein_interesse", "passt_nicht"].concat(t.status === "uebergeben" ? ["uebergeben"] : []), t.status, ["Neu", "Angerufen", "Kein Interesse", "Passt nicht"].concat(t.status === "uebergeben" ? ["Übergeben"] : []))}
+      <textarea name="notiz-${esc(t.id)}" aria-label="Notiz zum Telefonat" placeholder="Notiz zum Telefonat (geht bei der Übergabe mit an die Firma)">${esc(t.notiz || "")}</textarea>
+      <button class="btn btn-klein" type="button" data-speichern>Speichern</button>
+      <button class="btn btn-gelb btn-klein" type="button" data-uebergeben ${t.status === "uebergeben" ? "disabled" : ""}>${t.status === "uebergeben" ? "Übergeben ✓" : "An Firma übergeben"}</button>
+    </div>`}
+  </article>`;
+}
+
+async function detail(id) {
+  const { stelle: s, treffer } = await api("GET", "/api/intern/stellen/" + id);
+  const sichtbar = treffer.filter(t => t.status !== "gesperrt");
+  const gesperrt = treffer.filter(t => t.status === "gesperrt");
+  app.innerHTML = `
+    <p><a href="#stellen">← Alle Stellen</a></p>
+    <div class="zeile"><h1 style="margin-right:auto">${esc(s.firma)} – ${esc(s.titel)}</h1><span class="pille ${esc(s.status)}">${STATUS_TEXT[s.status]}</span></div>
+    <div class="zeile">
+      <a class="btn btn-klein" href="#bearbeiten-${esc(s.id)}">Steckbrief bearbeiten</a>
+      ${s.status !== "offen" ? `<button class="btn btn-klein" data-status="offen">Wieder öffnen</button>` : `<button class="btn btn-klein" data-status="pausiert">Pausieren</button>`}
+      ${s.status !== "besetzt" ? `<button class="btn btn-klein" data-status="besetzt">Als besetzt markieren</button>` : ""}
+    </div>
+    <details class="karte"><summary><b>Steckbrief</b> <span class="leise">· ${esc(richtungName(s.richtung))} · ${esc([s.plz, s.ort].filter(Boolean).join(" "))} · ${s.anzahl} ${s.anzahl > 1 ? "Personen" : "Person"}</span></summary>${kriterienListe(s)}</details>
+    <h2>Treffer (${sichtbar.length})</h2>
+    ${s.status !== "offen" ? `<p class="leise">Die Stelle ist ${STATUS_TEXT[s.status].toLowerCase()} – es kommen keine neuen Treffer dazu.</p>` : ""}
+    <div class="treffer-liste">${sichtbar.length ? sichtbar.map(trefferKarte).join("") : `<div class="karte"><p>Noch kein passender Bewerber im Pool. Sobald sich jemand meldet, der passt, erscheint er hier – und in der Lead-Table-Kachel „Matches“.</p></div>`}</div>
+    ${gesperrt.length ? `<details class="karte"><summary>${gesperrt.length} Bewerber wegen ihrer Sperrliste ausgeschlossen</summary><div class="treffer-liste">${gesperrt.map(trefferKarte).join("")}</div></details>` : ""}
+  `;
+
+  app.querySelectorAll("[data-status]").forEach(btn => btn.addEventListener("click", async () => {
+    try { const r = await api("POST", `/api/intern/stellen/${s.id}/status`, { status: btn.dataset.status }); melden(btn.dataset.status === "offen" ? `Wieder offen. ${r.neueTreffer} neue Treffer.` : "Gespeichert."); detail(id); }
+    catch (err) { melden(err.message); }
+  }));
+
+  app.querySelectorAll(".treffer[data-id]").forEach(karte => {
+    const tid = karte.dataset.id;
+    const speichern = async (status) => {
+      const notiz = karte.querySelector("textarea") ? karte.querySelector("textarea").value : "";
+      try { await api("POST", "/api/intern/treffer/" + tid, { status, notiz }); melden(status === "uebergeben" ? "Übergeben – der Bewerber ist jetzt in der Lead Table der Firma." : "Gespeichert."); detail(id); }
+      catch (err) { melden(err.message); }
+    };
+    const sp = karte.querySelector("[data-speichern]");
+    if (sp) sp.addEventListener("click", () => speichern(karte.querySelector("select").value));
+    const ue = karte.querySelector("[data-uebergeben]");
+    if (ue) ue.addEventListener("click", () => {
+      if (confirm("Hat der Bewerber am Telefon zugestimmt, dass wir ihn bei " + s.firma + " vorstellen? Erst dann übergeben.")) speichern("uebergeben");
+    });
+  });
+}
+
+/* ---------- Einstellungen ---------- */
+async function einstellungen() {
+  const e = await api("GET", "/api/intern/einstellungen");
+  app.innerHTML = `
+    <h1>Einstellungen</h1>
+    <form class="steckbrief" id="einst">
+      <fieldset><legend>Lead Table</legend>
+        <div class="feld voll"><label for="matches_webhook">Kachel „Matches“ (Webhook)</label><input type="url" id="matches_webhook" name="matches_webhook" value="${esc(e.matches_webhook)}" placeholder="https://api-v2.lead-table.com/api/webhook/generic/…"><small>Hier landet jeder neue Treffer: Bewerber, passende Firma, Begründung.</small></div>
+        <div class="feld voll"><label for="pool_fallback">Pool-Kachel für alle Richtungen (falls keine eigene)</label><input type="url" id="pool_fallback" name="pool_fallback" value="${esc(e.pool_webhooks.fallback || "")}"><small>Mit nur einer Pool-Kachel reicht dieses Feld.</small></div>
+        ${e.richtungen.map(r => `<div class="feld"><label for="pool_${esc(r.key)}">Pool · ${esc(r.name)}</label><input type="url" id="pool_${esc(r.key)}" name="pool_${esc(r.key)}" value="${esc(e.pool_webhooks[r.key] || "")}"></div>`).join("")}
+      </fieldset>
+      <fieldset><legend>Datenschutz</legend>
+        <div class="feld"><label for="loeschfrist_monate">Löschfrist in Monaten</label><input type="number" id="loeschfrist_monate" name="loeschfrist_monate" min="1" max="60" value="${esc(e.loeschfrist_monate)}"><small>Profile ohne Aktualisierung werden danach automatisch gelöscht. Muss zum Datenschutztext passen.</small></div>
+      </fieldset>
+      <p class="fehlertext" id="fehler" role="alert"></p>
+      <div class="zeile"><button class="btn btn-gelb" type="submit">Speichern</button></div>
+    </form>
+    <form class="karte" id="loeschen">
+      <h2>Bewerber löschen</h2>
+      <p class="leise">Wenn jemand die Löschung verlangt: E-Mail oder Telefonnummer eingeben. Gelöscht wird hier im Vergleicher. In der Lead Table bitte von Hand löschen.</p>
+      <div class="zeile"><input type="text" name="suche" aria-label="E-Mail oder Telefonnummer" placeholder="E-Mail oder Telefonnummer" style="max-width:360px"><button class="btn" type="submit">Löschen</button></div>
+    </form>`;
+
+  document.getElementById("einst").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const f = new FormData(ev.target);
+    const pool = { fallback: f.get("pool_fallback") };
+    e.richtungen.forEach(r => { pool[r.key] = f.get("pool_" + r.key); });
+    try {
+      const r = await api("PUT", "/api/intern/einstellungen", { matches_webhook: f.get("matches_webhook"), pool_webhooks: pool, loeschfrist_monate: f.get("loeschfrist_monate") });
+      document.getElementById("fehler").textContent = "";
+      melden("Gespeichert." + (r.nachgesendet ? ` ${r.nachgesendet} wartende Treffer an die Lead Table geschickt.` : ""));
+    } catch (err) { document.getElementById("fehler").textContent = err.message; }
+  });
+  document.getElementById("loeschen").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const suche = new FormData(ev.target).get("suche");
+    if (!confirm("Alle Daten zu „" + suche + "“ im Vergleicher endgültig löschen?")) return;
+    try { const r = await api("POST", "/api/intern/bewerber/loeschen", { suche }); melden(r.geloescht ? `${r.geloescht} Profil gelöscht.` : "Kein Profil gefunden."); ev.target.reset(); }
+    catch (err) { melden(err.message); }
+  });
+}
+
+zeigen();
+</script>
+</body>
+</html>

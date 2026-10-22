@@ -23,6 +23,7 @@ Design: CI von Ländle Digital (Gelb `#F4C736`, Schwarz, Creme; Archivo Black un
 | `SCHEMA.md` | Feldschema als Tabelle |
 | `MATCHING.md` | Regeln fürs spätere Matching in der Lead Table |
 | `LEAD-TABLE.md` | Was in der Lead Table eingerichtet werden muss |
+| `vergleicher/` | **Der Vergleicher**: Stellen-Steckbrief, automatischer Abgleich Bewerber ↔ Stellen, Übergabe an die Firmen (eigene Anleitung: `vergleicher/README.md`) |
 | `OFFENE-PUNKTE.md` | Was noch entschieden oder geprüft werden muss |
 
 ## Bauen und ansehen
@@ -136,6 +137,17 @@ node build.mjs && NODE_PATH=$(npm root -g) node test/formular-test.cjs
 ```
 
 Der Test prüft außerdem, dass keine Seite auf 360 px seitlich überläuft, Pflichtfeld-Fehler, die erzwungene Einwilligung, die PLZ-Bereinigung („D-70173“ → „70173“), den „Anderer Beruf“-Weg, UTM-Übernahme und dass jedes Payload-Feld gefüllt ist.
+
+## Vergleicher (Matching)
+
+Das Portal ist die Bewerberseite. Die Firmenseite und das automatische Zuordnen übernimmt der **Vergleicher** in `vergleicher/` – ein kleiner Server bei Cloudflare mit eigener Datenbank:
+
+1. Ländle Digital legt im Onboarding für jede Stelle einen **Stellen-Steckbrief** an (dieselben Fragen wie im Bewerberformular, je Punkt Muss/Wunsch/Egal).
+2. Jeder neue Bewerber wird sofort mit allen offenen Stellen verglichen, jede neue Stelle mit dem ganzen Pool.
+3. Treffer landen in der Lead-Table-Kachel „Matches“ – der Talent Scout ruft an.
+4. Sagt der Bewerber ja: Knopf „An Firma übergeben“ → Kachel der Firma.
+
+Ist `api` in `config/webhooks.json` gesetzt, schickt das Portal an den Vergleicher statt direkt an die Lead Table. Einrichtung: `vergleicher/README.md`.
 
 ## Lead Table
 

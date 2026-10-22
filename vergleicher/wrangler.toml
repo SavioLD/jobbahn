@@ -1,0 +1,25 @@
+# Vergleicher – Cloudflare Worker mit D1-Datenbank.
+# Deploy läuft automatisch über .github/workflows/vergleicher.yml (siehe README.md).
+
+name = "passtjob-vergleicher"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+[vars]
+# Von diesen Seiten aus darf das Bewerberformular senden (kommagetrennt).
+ERLAUBTE_ORIGINS = "https://saviold.github.io,https://passtjob.de,https://www.passtjob.de"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "passtjob"
+# Wird beim automatischen Deploy eingesetzt. Wer von Hand deployt: ID aus `wrangler d1 list` hier eintragen.
+database_id = "DATABASE_ID_HIER"
+migrations_dir = "migrations"
+
+[triggers]
+# Alle 15 Minuten: wartende Treffer an die Lead Table nachschicken, Löschfrist prüfen.
+crons = ["*/15 * * * *"]
+
+# Das Passwort für /intern ist ein Secret, kein Eintrag hier:
+#   wrangler secret put ADMIN_TOKEN

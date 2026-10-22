@@ -1,0 +1,13 @@
+{
+  "name": "passtjob-vergleicher",
+  "private": true,
+  "type": "module",
+  "description": "Vergleicht Bewerber aus dem Portal mit den Stellen der Firmen und schreibt Treffer in die Lead Table.",
+  "scripts": {
+    "seite": "node seite-bauen.mjs",
+    "test": "node seite-bauen.mjs && node --test test/matching.test.mjs test/worker.test.mjs",
+    "lokal": "node seite-bauen.mjs && node lokal.mjs",
+    "deploy": "node seite-bauen.mjs && npx --yes wrangler@4.151.3 deploy"
+  },
+  "engines": { "node": ">=22.5" }
+}

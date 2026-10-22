@@ -578,6 +578,7 @@ window.PASSTJOB = {
       ]
     }
   ],
+  "api": "",
   "webhooks": {
     "fallback": "",
     "metall": "",

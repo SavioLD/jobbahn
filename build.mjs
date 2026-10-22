@@ -96,7 +96,8 @@ const config = {
   texte: T.profil,
   berufe: berufe.map(({ key, name, kurz, aliase, berufe }) => ({ key, name, kurz, aliase, berufe })),
   felder,
-  webhooks: Object.fromEntries(Object.entries(webhooks).filter(([k]) => !k.startsWith("_")))
+  api: webhooks.api || "",
+  webhooks: Object.fromEntries(Object.entries(webhooks).filter(([k]) => !k.startsWith("_") && k !== "api"))
 };
 writeFileSync(join(out, "assets/config.js"), `/* Erzeugt von build.mjs – nicht von Hand ändern. */\nwindow.PASSTJOB = ${JSON.stringify(config, null, 2)};\n`);
 
@@ -187,7 +188,8 @@ felder.forEach((f, i) => {
 });
 sm.push("", "Mehrfachantworten kommen kommagetrennt in einem Feld an. Leere freiwillige Felder werden als `–` gesendet.", "");
 sm.push("## Zusatzfelder im Payload", "", "| Feld | Inhalt |", "|---|---|",
-  "| `berufskategorie` | Name der Kategorie (bestimmt auch die Lead-Table-Kachel) |",
+  "| `richtung` | Key der Jobrichtung, z. B. `buero` (für den Vergleicher) |",
+  "| `berufskategorie` | Name der Jobrichtung (bestimmt auch die Lead-Table-Kachel) |",
   "| `datum` | TT.MM.JJJJ |",
   `| \`quelle\` | „Bewerberportal ${marke.name}“ |`,
   "| `seite` | URL, über die das Profil abgeschickt wurde |",

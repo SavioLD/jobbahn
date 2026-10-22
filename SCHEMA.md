@@ -25,7 +25,8 @@ Mehrfachantworten kommen kommagetrennt in einem Feld an. Leere freiwillige Felde
 
 | Feld | Inhalt |
 |---|---|
-| `berufskategorie` | Name der Kategorie (bestimmt auch die Lead-Table-Kachel) |
+| `richtung` | Key der Jobrichtung, z. B. `buero` (für den Vergleicher) |
+| `berufskategorie` | Name der Jobrichtung (bestimmt auch die Lead-Table-Kachel) |
 | `datum` | TT.MM.JJJJ |
 | `quelle` | „Bewerberportal Passtjob“ |
 | `seite` | URL, über die das Profil abgeschickt wurde |

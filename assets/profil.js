@@ -339,6 +339,7 @@
       nachname: wert("nachname"),
       telefon: wert("telefon"),
       email: wert("email"),
+      richtung: kat ? kat.key : "",
       berufskategorie: kat ? kat.name : "",
       beruf: beruf(),
       abschluss: gewaehlt("abschluss"),
@@ -368,11 +369,22 @@
     if (document.getElementById("firma_website").value) { fertig(sammle(), "honig"); return; }
     var daten = sammle();
     var key = katKey();
-    var url = C.webhooks[key] || C.webhooks.fallback || "";
+    var api = (C.api || "").replace(/\/+$/, "");
+    var url = api ? api + "/api/bewerber" : (C.webhooks[key] || C.webhooks.fallback || "");
     if (!url) { fertig(daten, null); return; }
 
     sendet = true; btnWeiter.disabled = true; weiterBeschriften();
     var body = JSON.stringify(daten);
+    if (api) {
+      /* Über den Vergleicher: er speichert, vergleicht und kopiert in die Lead Table. */
+      fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: body })
+        .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); fertig(daten, url); })
+        .catch(function () {
+          sendet = false; btnWeiter.disabled = false; weiterBeschriften();
+          fehler(schritte[idx], T.fehler.senden);
+        });
+      return;
+    }
     fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: body })
       .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); fertig(daten, url); })
       .catch(function () {
@@ -412,7 +424,7 @@
   }
 
   /* ---------- Start ---------- */
-  var irgendeineUrl = Object.keys(C.webhooks).some(function (k) { return k !== "_hinweis" && C.webhooks[k]; });
+  var irgendeineUrl = !!C.api || Object.keys(C.webhooks).some(function (k) { return C.webhooks[k]; });
   if (!irgendeineUrl) vorschauHinweis.hidden = false;
   letzteBreite = window.innerWidth;
   hoeheFestlegen();

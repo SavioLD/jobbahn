@@ -11,12 +11,16 @@
 
 ## Recht – vor dem Livegang
 
-- [ ] Einwilligungstext und Datenschutz sind **Entwürfe** (Version „ENTWURF 2026-10“). Anwalt: Talentpool-Einwilligung, Löschfrist, gesonderte Einwilligung für die Weitergabe an den Betrieb, Auftragsverarbeitung.
+- [ ] Einwilligungstext und Datenschutz sind **Entwürfe** (Version „ENTWURF 2026-10“). Anwalt: Talentpool-Einwilligung, Löschfrist, gesonderte Einwilligung für die Weitergabe an den Betrieb, Auftragsverarbeitung (Cloudflare für den Vergleicher, Lead Table).
+- [ ] Die Weitergabe-Zustimmung holt der Talent Scout am Telefon ein (der Vergleicher fragt vor jeder Übergabe nach). Mit dem Anwalt klären, wie sie dokumentiert wird – aktuell als Notiz zum Treffer.
 - [ ] Impressum: Anschrift, Rechtsform, Registerdaten fehlen.
 - [ ] Das Wort „Vermittlung“ kommt bewusst nicht vor, bis geklärt ist, wie wir uns rechtlich aufstellen (Gewerbe, SGB III).
 - [ ] Meta-Pixel und Statistik sind **nicht** eingebaut. Vor dem Einbau ein Einwilligungs-Banner einsetzen. Der Aufruf `fbq("track", "Lead")` beim Absenden ist vorbereitet und greift nur, wenn der Pixel geladen ist.
 
 ## Technik
+
+- [ ] **Vergleicher einrichten:** drei Secrets in GitHub eintragen und den Workflow starten – Schritt für Schritt in `vergleicher/README.md`. Danach die Adresse in `config/webhooks.json` unter `api` eintragen.
+- [ ] Der Deploy in ein echtes Cloudflare-Konto ist **ungetestet** (kein Zugang). Beim ersten Lauf ins Log schauen.
 
 - [ ] Lead Table einrichten (siehe `LEAD-TABLE.md`) und die Webhook-URLs in `config/webhooks.json` eintragen (eine pro Richtung oder nur `fallback`). Solange leer: Vorschau-Modus.
 - [ ] Hosting auf Cloudflare Pages einrichten (Build-Befehl `node build.mjs`, Ausgabe `dist`).
@@ -25,4 +29,4 @@
 
 ## Bewusst nicht in Version 1
 
-Finale Marke und Figur · Onboarding-Bogen für Betriebe (nutzt später dieselben Felder) · Matching-Logik (Spezifikation in `MATCHING.md`) · Anzeigen-Creatives · Lebenslauf-Upload · Login oder Bewerberkonto.
+Finale Marke und Figur · Anzeigen-Creatives · Lebenslauf-Upload · Login oder Bewerberkonto für Bewerber · Steckbrief, den die Firma selbst ausfüllt (aktuell füllt ihn Ländle Digital im Onboarding aus).

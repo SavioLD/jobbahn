@@ -2,3 +2,9 @@ dist/
 dist-artifact/
 node_modules/
 .DS_Store
+
+# Vergleicher lokal
+vergleicher/.dev.vars
+vergleicher/.wrangler/
+vergleicher/lokal.sqlite*
+vergleicher/node_modules/
