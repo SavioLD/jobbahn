@@ -27,7 +27,7 @@ export const icon = {
 
 /* Wortmarke-Symbol: Welle in der Bohrung – eine Passung. Platzhalter,
    bis ein Logo in config/marke.json eingetragen ist. */
-const passungSymbol = `<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="16" cy="16" r="8.5" fill="currentColor"/></svg>`;
+const passungSymbol = `<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="3"/><circle class="punkt" cx="16" cy="16" r="8.5"/></svg>`;
 
 export function logo(m, href = "./") {
   const inner = m.logo
@@ -46,7 +46,7 @@ export function kopf(m, a, { minimal = false, rechts = "" } = {}) {
 export function fuss(m, a) {
   const f = a.footer;
   return `<footer class="fuss"><div class="wrap fuss-innen">
-  <div class="fuss-spalte">${logo(m)}<p>${esc(f.regionen)}</p><p>${esc(f.betreiber)}</p></div>
+  <div class="fuss-spalte">${logo(m)}<p>${esc(f.zeile)}</p><p>${esc(f.betreiber)}</p></div>
   <div class="fuss-spalte"><div class="fuss-links">
     <a href="${esc(m.betreiberUrl)}" rel="noopener">${esc(f.fuerBetriebe)}</a>
     <a href="impressum.html">${esc(f.impressum)}</a>
@@ -77,6 +77,8 @@ export function head(m, { titel, beschreibung, pfad, artifact, vorschau, fontsHr
 
 /* ---------- Bausteine ---------- */
 const eyebrow = (t) => `<p class="eyebrow">${esc(t)}</p>`;
+/* ==Wort== → gelb markiert (Ländle-Digital-Markierung) */
+export const markiert = (s) => esc(s).replace(/==(.+?)==/g, '<span class="hl">$1</span>');
 
 function ablaufListe(schritte) {
   return `<ol class="ablauf">${schritte.map((s, i) => `<li><span class="ablauf-nr">${String(i + 1).padStart(2, "0")}</span><h3 class="h3">${esc(s.titel)}</h3><p>${esc(s.text)}</p></li>`).join("")}</ol>`;
@@ -105,7 +107,7 @@ export function startseite(m, t, a, berufe) {
 <section class="hero"><div class="wrap hero-raster">
   <div class="hero-text">
     ${eyebrow(h.eyebrow)}
-    <h1 class="h1">${esc(h.h1)}</h1>
+    <h1 class="h1">${markiert(h.h1)}</h1>
     <p class="masslinie"><span aria-hidden="true"></span>${esc(h.mass)}<span aria-hidden="true"></span></p>
     <p class="lead">${esc(h.lead)}</p>
     <div class="hero-aktionen">
@@ -138,7 +140,7 @@ export function startseite(m, t, a, berufe) {
 </div></section>
 
 <section class="abschnitt" id="berufe"><div class="wrap">
-  <div class="abschnitt-kopf">${eyebrow(t.berufe.eyebrow)}<h2 class="h2">${esc(t.berufe.h2)}</h2><p class="lead">${esc(t.berufe.text)}</p></div>
+  <div class="abschnitt-kopf">${eyebrow(t.berufe.eyebrow)}<h2 class="h2">${markiert(t.berufe.h2)}</h2><p class="lead">${esc(t.berufe.text)}</p></div>
   ${berufeKacheln(berufe)}
 </div></section>
 
@@ -148,7 +150,7 @@ export function startseite(m, t, a, berufe) {
 </div></section>
 
 <section class="cta-band"><div class="wrap cta-innen">
-  <div><h2 class="h2">${esc(t.cta.h2)}</h2><p class="text-2">${esc(t.cta.text)}</p></div>
+  <div><h2 class="h2">${markiert(t.cta.h2)}</h2><p>${esc(t.cta.text)}</p></div>
   <a class="btn btn-primaer" href="profil.html">${esc(t.cta.button)} ${icon.pfeil}</a>
 </div></section>
 </main>
@@ -163,8 +165,8 @@ export function berufsseite(m, t, ablauf, a, b) {
   <div class="hero-text">
     <a class="zurueck-link" href="./#berufe">${icon.pfeil}${esc(t.zurueck)}</a>
     ${eyebrow(t.eyebrow)}
-    <h1 class="h1">${esc(b.h1)}</h1>
-    <p class="lead">${esc(b.hook)}</p>
+    <h1 class="h1 h1-klein">${markiert(t.h1)}</h1>
+    <p class="lead">${esc(t.hook)}</p>
     <div class="hero-aktionen"><a class="btn btn-primaer" href="${profilLink}">${esc(t.cta)} ${icon.pfeil}</a></div>
   </div>
   <div class="karte-berufe">
@@ -190,7 +192,7 @@ export function berufsseite(m, t, ablauf, a, b) {
 </div></section>
 
 <section class="cta-band"><div class="wrap cta-innen">
-  <div><h2 class="h2">${esc(t.ctaH2)}</h2></div>
+  <div><h2 class="h2">${markiert(t.ctaH2)}</h2></div>
   <a class="btn btn-primaer" href="${profilLink}">${esc(t.ctaButton)} ${icon.pfeil}</a>
 </div></section>
 </main>

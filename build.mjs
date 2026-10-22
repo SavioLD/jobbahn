@@ -29,8 +29,8 @@ const webhooks = json("config/webhooks.json");
 
 /* ---------- Prüfungen: lieber laut abbrechen als Lücken ausliefern ---------- */
 const fehler = [];
-for (const k of ["name", "claim", "betreiber", "regionen"]) if (!marke[k]) fehler.push(`config/marke.json: "${k}" fehlt`);
-for (const b of berufe) for (const k of ["key", "name", "kurz", "berufe", "h1", "hook", "fragen"]) if (!b[k] || (Array.isArray(b[k]) && !b[k].length)) fehler.push(`config/berufe.json: "${k}" fehlt bei ${b.key || b.name || "?"}`);
+for (const k of ["name", "claim", "betreiber"]) if (!marke[k]) fehler.push(`config/marke.json: "${k}" fehlt`);
+for (const b of berufe) for (const k of ["key", "name", "kurz", "ob", "berufe", "fragen"]) if (!b[k] || (Array.isArray(b[k]) && !b[k].length)) fehler.push(`config/berufe.json: "${k}" fehlt bei ${b.key || b.name || "?"}`);
 for (const f of felder) {
   if (!f.key || !f.typ || !f.frage) fehler.push(`schema/felder.json: Feld ohne key/typ/frage`);
   if ((f.typ === "einfach" || f.typ === "mehrfach") && !(f.optionen || []).length) fehler.push(`schema/felder.json: "${f.key}" hat keine optionen`);
@@ -41,7 +41,7 @@ if (fehler.length) { console.error("Build abgebrochen:\n- " + fehler.join("\n- "
 
 /* ---------- Platzhalter der Marke ersetzen ---------- */
 const basis = {
-  marke: marke.name, regionen: marke.regionen, betreiber: marke.betreiber,
+  marke: marke.name, betreiber: marke.betreiber, anzahl: berufe.length,
   email: marke.kontakt.email, telefon: marke.kontakt.telefon
 };
 const ersetze = (wert, extra = {}) => {
@@ -61,9 +61,13 @@ mkdirSync(join(out, "assets"), { recursive: true });
 
 /* marke.css: Schriften + Farb-Tokens aus config/marke.json */
 const s = marke.schriften;
-const fontFaces = artifact ? "" : Object.values(s).flatMap(f => f.gewichte.map(w =>
-  `@font-face{font-family:"${f.familie}";font-style:normal;font-weight:${w};font-display:swap;src:url("fonts/${V.slug(f.familie)}-${w}.woff2") format("woff2")}`
-)).join("\n");
+/* Jede Schriftfamilie nur einmal (Text und Mono dürfen dieselbe sein). Variable Schriften
+   liegen als eine Datei <familie>-var.woff2 vor, statische als <familie>-<gewicht>.woff2. */
+const familien = [...new Map(Object.values(s).map(f => [f.familie, f])).values()];
+const fontFaces = artifact ? "" : familien.flatMap(f => f.variabel
+  ? [`@font-face{font-family:"${f.familie}";font-style:normal;font-weight:${Math.min(...f.gewichte)} ${Math.max(...f.gewichte)};font-display:swap;src:url("fonts/${V.slug(f.familie)}-var.woff2") format("woff2")}`]
+  : f.gewichte.map(w => `@font-face{font-family:"${f.familie}";font-style:normal;font-weight:${w};font-display:swap;src:url("fonts/${V.slug(f.familie)}-${w}.woff2") format("woff2")}`)
+).join("\n");
 const tokens = (farben) => Object.entries(farben).map(([k, v]) => `--${k}:${v};`).join("");
 const markeCss = `/* Erzeugt von build.mjs aus config/marke.json – nicht von Hand ändern. */
 ${fontFaces}
@@ -98,7 +102,7 @@ writeFileSync(join(out, "assets/config.js"), `/* Erzeugt von build.mjs – nicht
 
 /* Google-Fonts-Link nur für die Artifact-Vorschau; live laufen die Schriften vom eigenen Server. */
 const fontsHref = artifact
-  ? "https://fonts.googleapis.com/css2?" + Object.values(s).map(f => `family=${f.familie.replace(/ /g, "+")}:wght@${f.gewichte.join(";")}`).join("&") + "&display=swap"
+  ? "https://fonts.googleapis.com/css2?" + familien.map(f => f.gewichte.length > 1 || f.gewichte[0] !== 400 ? `family=${f.familie.replace(/ /g, "+")}:wght@${f.gewichte.join(";")}` : `family=${f.familie.replace(/ /g, "+")}`).join("&") + "&display=swap"
   : "";
 
 const seiten = [];
@@ -116,7 +120,7 @@ function seite(pfad, meta, body, klasse = "") {
 const a = T.allgemein;
 seite("index.html", T.startseite.meta, V.startseite(marke, T.startseite, a, berufe));
 for (const b of berufe) {
-  const tb = ersetze(inhalt.berufsseite, { kategorie: b.name, kurz: b.kurz });
+  const tb = ersetze(inhalt.berufsseite, { kategorie: b.name, kurz: b.kurz, ob: b.ob });
   seite(`${b.key}.html`, tb.meta, V.berufsseite(marke, tb, T.startseite.ablauf.schritte, a, b));
 }
 seite("profil.html", T.profil.meta, V.profilseite(marke, T.profil, a), "seite-profil");
@@ -134,21 +138,23 @@ if (pages) {
 }
 
 /* ---------- CONTENT.md ---------- */
+const ohneMarke = (x) => String(x).replace(/==/g, "");
 const md = [];
 const st = T.startseite;
 md.push(`# Inhalte – ${marke.name}`, "", `> Erzeugt von \`build.mjs\` aus \`src/inhalt.mjs\`, \`config/berufe.json\` und \`schema/felder.json\`. Änderungen bitte dort machen, nicht hier. Platzhalter in [eckigen Klammern] sind offene Fakten.`, "");
 md.push("## Startseite", "", `**Seitentitel:** ${st.meta.titel}  `, `**Beschreibung:** ${st.meta.beschreibung}`, "");
-md.push("### Hero", "", `- Eyebrow: ${st.hero.eyebrow}`, `- H1: **${st.hero.h1}**`, `- Maßlinie: ${st.hero.mass}`, `- Text: ${st.hero.lead}`, `- Buttons: „${st.hero.cta}“ · „${st.hero.cta2}“`, `- Fakten: ${st.hero.fakten.join(" · ")}`, "");
+md.push("### Hero", "", `- Eyebrow: ${st.hero.eyebrow}`, `- H1: **${ohneMarke(st.hero.h1)}**`, `- Maßlinie: ${st.hero.mass}`, `- Text: ${st.hero.lead}`, `- Buttons: „${st.hero.cta}“ · „${st.hero.cta2}“`, `- Fakten: ${st.hero.fakten.join(" · ")}`, "");
 md.push("### Beispiel-Match (als „Beispiel“ gekennzeichnet)", "", `- ${st.matchkarte.status}: ${st.matchkarte.titel} – ${st.matchkarte.ort}`, ...st.matchkarte.zeilen.map(([l, w, n]) => `- ${l}: ${w} (${n})`), `- ${st.matchkarte.fuss}`, "");
 md.push(`### ${st.ablauf.eyebrow}`, "", `**${st.ablauf.h2}**`, "", ...st.ablauf.schritte.map((x, i) => `${i + 1}. **${x.titel}** – ${x.text}`), "");
 md.push(`### ${st.vertraulich.eyebrow}`, "", `**${st.vertraulich.h2}**`, "", st.vertraulich.text, "", ...st.vertraulich.punkte.map(p => `- **${p.titel}** – ${p.text}`), "");
 md.push(`### ${st.vergleich.eyebrow}`, "", `**${st.vergleich.h2}**`, "", `| | ${st.vergleich.spalten[1]} | ${st.vergleich.spalten[2]} |`, "|---|---|---|", ...st.vergleich.zeilen.map(z => `| ${z.join(" | ")} |`), "");
-md.push(`### ${st.berufe.eyebrow}`, "", `**${st.berufe.h2}**`, "", st.berufe.text, "");
+md.push(`### ${st.berufe.eyebrow}`, "", `**${ohneMarke(st.berufe.h2)}**`, "", st.berufe.text, "");
 md.push(`### ${st.faq.eyebrow}`, "", `**${st.faq.h2}**`, "", ...st.faq.eintraege.flatMap(e => [`**${e.frage}**  `, e.antwort, ""]));
-md.push("### Abschluss", "", `**${st.cta.h2}** ${st.cta.text} Button: „${st.cta.button}“`, "");
+md.push("### Abschluss", "", `**${ohneMarke(st.cta.h2)}** ${st.cta.text} Button: „${st.cta.button}“`, "");
 md.push("## Berufsseiten", "", `Gemeinsame Texte: Eyebrow „${inhalt.berufsseite.eyebrow}“, Abschnitte „${inhalt.berufsseite.berufeH2}“, „${inhalt.berufsseite.fragenH2}“, „${inhalt.berufsseite.ablaufH2}“, „${inhalt.berufsseite.vertraulichH2}“. Button: „${inhalt.berufsseite.ctaButton}“.`, "");
 for (const b of berufe) {
-  md.push(`### ${b.name} (\`${b.key}.html\`)`, "", `- H1: **${b.h1}**`, `- Text: ${b.hook}`, `- Berufe: ${b.berufe.join(" · ")}`, `- Am Telefon fragen wir: ${b.fragen.join(" / ")}`, `- Deeplink: \`profil.html?beruf=${b.key}\` · Aliase: ${b.aliase.join(", ")}`, "");
+  const tb = ersetze(inhalt.berufsseite, { kategorie: b.name, kurz: b.kurz, ob: b.ob });
+  md.push(`### ${b.name} (\`${b.key}.html\`)`, "", `- H1: **${ohneMarke(tb.h1)}**`, `- Text: ${tb.hook}`, `- Berufe: ${b.berufe.join(" · ")}`, `- Am Telefon fragen wir: ${b.fragen.join(" / ")}`, `- Deeplink: \`profil.html?beruf=${b.key}\` · Aliase: ${b.aliase.join(", ")}`, "");
 }
 md.push("## Kurzprofil", "", T.profil.vorschau, "");
 for (const f of felder) {

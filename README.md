@@ -1,6 +1,8 @@
 # Passtjob – Bewerberportal
 
-Bewerberseite des neuen Modells von Ländle Digital: Fachkräfte aus Industrie und Handwerk legen in zwei Minuten ein Kurzprofil an, das Profil landet im Bewerberpool (Lead Table), ein Talent Scout ruft bei einem Match an.
+Bewerberseite des neuen Modells von Ländle Digital: Bewerber aus Handwerk, Industrie und Büro legen in zwei Minuten ein Kurzprofil an, das Profil landet im Bewerberpool (Lead Table), ein Talent Scout ruft bei einem Match an. Keine Regionsgrenze – gesucht wird „in deiner Nähe“, abgeglichen über PLZ und Fahrweg.
+
+Design: CI von Ländle Digital (Gelb `#F4C736`, Schwarz, Creme; Archivo Black und Plus Jakarta Sans).
 
 **„Passtjob“ ist ein Arbeitstitel.** Alles Markenbezogene steht in `config/marke.json` und lässt sich dort in einer Zeile tauschen.
 
@@ -8,9 +10,9 @@ Bewerberseite des neuen Modells von Ländle Digital: Fachkräfte aus Industrie u
 
 | Pfad | Was |
 |---|---|
-| `config/marke.json` | Name, Claim, Betreiber, Regionen, Kontakt, Farben (hell + dunkel), Schriften, Logo, Figur |
-| `config/berufe.json` | Berufskategorien mit Unterberufen, Deeplink-Aliasen und Texten der Berufsseiten |
-| `config/webhooks.json` | Eine Lead-Table-Kachel pro Kategorie + Rückfall-URL |
+| `config/marke.json` | Name, Claim, Betreiber, Kontakt, Farben (hell + dunkel), Schriften, Logo, Figur |
+| `config/berufe.json` | 15 Jobrichtungen mit Unterberufen, Deeplink-Aliasen und Texten der Richtungsseiten |
+| `config/webhooks.json` | Eine Lead-Table-Kachel pro Jobrichtung + Rückfall-URL |
 | `schema/felder.json` | **Das Feldschema** – eine Quelle für Formular, Payload und späteren Onboarding-Bogen |
 | `src/inhalt.mjs` | Alle Texte aller Seiten |
 | `src/vorlagen.mjs` | HTML-Vorlagen |
@@ -20,6 +22,7 @@ Bewerberseite des neuen Modells von Ländle Digital: Fachkräfte aus Industrie u
 | `CONTENT.md` | Alle Texte in einer Datei – **zur Freigabe durchs Team** |
 | `SCHEMA.md` | Feldschema als Tabelle |
 | `MATCHING.md` | Regeln fürs spätere Matching in der Lead Table |
+| `LEAD-TABLE.md` | Was in der Lead Table eingerichtet werden muss |
 | `OFFENE-PUNKTE.md` | Was noch entschieden oder geprüft werden muss |
 
 ## Bauen und ansehen
@@ -48,14 +51,14 @@ Diese Vorschau ist für Suchmaschinen gesperrt (`noindex`, `robots.txt`), weil I
 
 ## Live schalten (Cloudflare Pages)
 
-Build-Befehl `node build.mjs`, Ausgabeverzeichnis `dist`. Die Seite lädt nichts von fremden Servern – Schriften (Barlow, Barlow Condensed, IBM Plex Mono, alle SIL Open Font License) liegen in `assets/fonts/`. `sitemap.xml` und `robots.txt` entstehen aus `domain` in `config/marke.json`.
+Build-Befehl `node build.mjs`, Ausgabeverzeichnis `dist`. Die Seite lädt nichts von fremden Servern – Schriften (Archivo Black und Plus Jakarta Sans, beide SIL Open Font License) liegen in `assets/fonts/`. `sitemap.xml` und `robots.txt` entstehen aus `domain` in `config/marke.json`.
 
 ## Seiten
 
 | Datei | Inhalt |
 |---|---|
-| `index.html` | Startseite: Hero mit Beispiel-Match, Ablauf, Vertraulich, Vergleich, Berufe, Fragen |
-| `zerspanung.html` … `produktion-logistik.html` | Eine Seite pro Kategorie, Ziel für die Anzeigen der jeweiligen Berufsgruppe |
+| `index.html` | Startseite: Hero mit Beispiel-Match, Ablauf, Vertraulich, Vergleich, 15 Richtungen, Fragen |
+| `metall.html` … `helfer.html` | Eine Seite pro Jobrichtung, Ziel für die Anzeigen der jeweiligen Richtung |
 | `profil.html` | Kurzprofil (Formular) |
 | `datenschutz.html` | **Entwurf** – Freigabe durch Anwalt |
 | `impressum.html` | Platzhalter |
@@ -68,20 +71,40 @@ Build-Befehl `node build.mjs`, Ausgabeverzeichnis `dist`. Die Seite lädt nichts
 - `figur`: Pfad zum Bild der Figur. Leer = nur die Beispiel-Karte im Hero.
 - Neue Schrift: Familie und Gewichte eintragen und die passenden `.woff2` als `<familie>-<gewicht>.woff2` nach `assets/fonts/` legen.
 
-## Berufe pflegen
+## Jobrichtungen pflegen
 
-Ein Eintrag in `config/berufe.json` = eine Kategorie mit eigener Seite, eigener Kachel im Formular und eigenem Webhook-Eintrag. Der Build bricht mit einer klaren Meldung ab, wenn ein Pflichtfeld fehlt.
+Bewusst Überbegriffe statt Einzelberufe: Viele Betriebe suchen nicht den einen Beruf, sondern jemanden für eine Richtung. Den genauen Beruf fragt das Formular trotzdem ab (mit „Anderer Beruf“ als Freitext).
+
+| Key | Richtung |
+|---|---|
+| `metall` | Metall & Maschinenbau |
+| `elektro` | Elektro & Mechatronik |
+| `shk` | Sanitär, Heizung & Klima |
+| `bau` | Bau & Ausbau |
+| `holz` | Holz & Innenausbau |
+| `kfz` | Kfz & Fahrzeugtechnik |
+| `produktion` | Produktion & Montage |
+| `lager` | Lager & Logistik |
+| `fahrer` | Fahrer & Transport |
+| `technik` | Technik & Meister |
+| `buero` | Büro & Verwaltung |
+| `vertrieb` | Vertrieb & Kundenservice |
+| `it` | IT & Digitales |
+| `gebaeude` | Haustechnik & Gebäudeservice |
+| `helfer` | Helfer & Quereinsteiger |
+
+Ein Eintrag in `config/berufe.json` = eine Richtung mit eigener Seite, eigener Kachel im Formular und eigenem Webhook-Eintrag. Überschrift und Einleitung der Richtungsseite entstehen aus der Vorlage in `src/inhalt.mjs` und dem Feld `ob`. Der Build bricht mit einer klaren Meldung ab, wenn ein Pflichtfeld fehlt.
 
 ## Deeplinks für die Anzeigen
 
 | Link | Wirkung | Schritte |
 |---|---|---|
-| `profil.html` | Start mit Kategorie-Auswahl | 14 |
-| `profil.html?beruf=zerspanung` | Kategorie vorgewählt, Auswahl übersprungen | 13 |
-| `profil.html?beruf=zerspanung&als=cnc-fraeser` | Kategorie **und** Beruf vorgewählt | 12 |
-| `profil.html?beruf=cnc` | Aliase aus `config/berufe.json` funktionieren auch | 13 |
+| `profil.html` | Start mit Auswahl der Richtung | 14 |
+| `profil.html?beruf=metall` | Richtung vorgewählt, Auswahl übersprungen | 13 |
+| `profil.html?beruf=elektro&als=mechatroniker` | Richtung **und** Beruf vorgewählt | 12 |
+| `profil.html?beruf=cnc` | Aliase aus `config/berufe.json` funktionieren auch (auch die alten Links `zerspanung`, `metall-montage`, `produktion-logistik`) | 13 |
 
-UTM-Parameter (`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`) werden übernommen und im Payload mitgeschickt. Statt `?beruf=` geht auch `#zerspanung`.
+UTM-Parameter (`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`) werden übernommen und im Payload mitgeschickt. Statt `?beruf=` geht auch `#metall`.
 
 ## Das Formular
 
@@ -93,18 +116,18 @@ UTM-Parameter (`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_t
 
 ### Mobile Laufruhe
 
-Beim Schrittwechsel wird nur eine Klasse gewechselt – kein `scrollTo`, kein `scrollIntoView`, kein `focus()`, kein Reload. Der Schrittbereich bekommt per JavaScript die Höhe des höchsten Fragenschritts bei der aktuellen Breite (der Berufsschritt wird dafür mit der längsten Berufsliste gemessen). Die Fehlerzeile hat immer ihren Platz. Dadurch steht der Weiter-Button in allen Fragenschritten an derselben Stelle. Nur der letzte Schritt (Kontakt) ist höher.
+Beim Schrittwechsel wird nur eine Klasse gewechselt – kein `scrollTo`, kein `scrollIntoView`, kein `focus()`, kein Reload. Der Schrittbereich bekommt per JavaScript die Höhe des höchsten Fragenschritts bei der aktuellen Breite (der Berufsschritt wird dafür mit der längsten Berufsliste gemessen). Die Fehlerzeile hat immer ihren Platz. Dadurch ist jeder Fragenschritt gleich hoch und die Seite kann beim Wechsel nicht springen. Nur der letzte Schritt (Kontakt) ist höher. Die Navigation mit dem Weiter-Button klebt unten am Bildschirm, wenn ein Schritt länger ist als das Handy hoch – sie ist also immer ohne Scrollen erreichbar.
 
-Nachgemessen mit `test/formular-test.cjs` (Chromium, Touch-Emulation), jeweils alle vier Deeplink-Wege:
+Nachgemessen mit `test/formular-test.cjs` (Chromium, Touch-Emulation), jeweils fünf Wege (ohne Deeplink, Richtung, Richtung + Beruf, Alias, Büro):
 
-| Viewport | Sprünge beim Schrittwechsel | Höhe Fragenschritte | Weiter-Button |
+| Viewport | Sprünge beim Schrittwechsel | Höhe Fragenschritte | Weiter-Button im Bild |
 |---|---|---|---|
-| 360 × 640 | 0 | 562 px (604 ohne Deeplink) | fix (±1 px Rundung) |
-| 375 × 667 | 0 | 562 px (604 ohne Deeplink) | fix |
-| 390 × 844 | 0 | 511–551 px (604 ohne Deeplink) | fix |
-| 414 × 896 | 0 | 511–551 px (604 ohne Deeplink) | fix |
+| 360 × 640 | 0 | 557–575 px (650 ohne Deeplink) | in jedem Schritt |
+| 375 × 667 | 0 | 557–575 px (650 ohne Deeplink) | in jedem Schritt |
+| 390 × 844 | 0 | 557–575 px (650 ohne Deeplink) | in jedem Schritt |
+| 414 × 896 | 0 | 557–575 px (650 ohne Deeplink) | in jedem Schritt |
 
-Auf 360 × 640 passt ein Fragenschritt nicht komplett ins Bild: Der Weiter-Button liegt unter dem sichtbaren Bereich. Bei Fragen mit einer Antwort ist das egal (sie gehen von selbst weiter), bei Mehrfachauswahl muss kurz gescrollt werden. Die Werte sind im Vorschau-Modus gemessen. Der Vorschau-Hinweis oben kostet rund 80 px, die live wegfallen.
+Ohne Deeplink ist der erste Schritt (15 Richtungen) der höchste und bestimmt die Höhe aller Schritte. Auf kleinen Handys reichen die Antworten dann unter die klebende Navigation – man scrollt, der Button bleibt sichtbar. Die Werte sind im Vorschau-Modus gemessen. Der Vorschau-Hinweis oben kostet rund 80 px, die live wegfallen.
 
 Test laufen lassen:
 
@@ -112,13 +135,13 @@ Test laufen lassen:
 node build.mjs && NODE_PATH=$(npm root -g) node test/formular-test.cjs
 ```
 
-Der Test prüft außerdem Pflichtfeld-Fehler, die erzwungene Einwilligung, die PLZ-Bereinigung („D-70173“ → „70173“), den „Anderer Beruf“-Weg, UTM-Übernahme und dass jedes Payload-Feld gefüllt ist.
+Der Test prüft außerdem, dass keine Seite auf 360 px seitlich überläuft, Pflichtfeld-Fehler, die erzwungene Einwilligung, die PLZ-Bereinigung („D-70173“ → „70173“), den „Anderer Beruf“-Weg, UTM-Übernahme und dass jedes Payload-Feld gefüllt ist.
 
 ## Lead Table
 
 Gesendet wird **nur** ein vollständiges Profil, per `POST` als flaches JSON – jedes Feld genau einmal, Vor- und Nachname getrennt, kein kombiniertes `name`. Bei CORS-Problemen fällt der Versand auf `no-cors` mit `text/plain` zurück.
 
-Die URL kommt aus `config/webhooks.json`: zuerst die Kachel der gewählten Kategorie, sonst `fallback`. **Solange keine URL eingetragen ist, läuft der Vorschau-Modus:** Oben im Formular steht ein Hinweis, und nach dem Absenden zeigt die Seite den Payload an, statt ihn zu senden.
+Die URL kommt aus `config/webhooks.json`: zuerst die Kachel der gewählten Richtung, sonst `fallback`. Einrichtung Schritt für Schritt: `LEAD-TABLE.md`. **Solange keine URL eingetragen ist, läuft der Vorschau-Modus:** Oben im Formular steht ein Hinweis, und nach dem Absenden zeigt die Seite den Payload an, statt ihn zu senden.
 
 ```json
 {
@@ -126,8 +149,8 @@ Die URL kommt aus `config/webhooks.json`: zuerst die Kachel der gewählten Kateg
   "nachname": "Mustermann",
   "telefon": "0151 23456789",
   "email": "max@beispiel.de",
-  "berufskategorie": "Zerspanung",
-  "beruf": "CNC-Fräser",
+  "berufskategorie": "Metall & Maschinenbau",
+  "beruf": "Zerspanungsmechaniker / CNC",
   "abschluss": "Abgeschlossene Ausbildung",
   "erfahrung": "3 bis 5 Jahre",
   "plz": "70173",
@@ -135,7 +158,7 @@ Die URL kommt aus `config/webhooks.json`: zuerst die Kachel der gewählten Kateg
   "fahrweg": "Bis 30 km",
   "verfuegbarkeit": "In 2 bis 3 Monaten",
   "gehalt": "3.300 bis 3.800 €",
-  "schicht": "Nur Tagschicht, 2-Schicht",
+  "schicht": "Vollzeit tagsüber, 2-Schicht",
   "fuehrerschein": "Klasse B",
   "deutsch": "Muttersprache",
   "lebenslauf": "Ja",
@@ -144,7 +167,7 @@ Die URL kommt aus `config/webhooks.json`: zuerst die Kachel der gewählten Kateg
   "einwilligung": "Ja (ENTWURF 2026-10, 22.10.2026 14:05)",
   "datum": "22.10.2026",
   "quelle": "Bewerberportal Passtjob",
-  "seite": "https://passtjob.de/profil?beruf=zerspanung&utm_source=meta",
+  "seite": "https://passtjob.de/profil?beruf=metall&utm_source=meta",
   "utm_source": "meta"
 }
 ```

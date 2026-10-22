@@ -3,7 +3,8 @@
      node build.mjs && NODE_PATH=$(npm root -g) node test/formular-test.cjs
    Prüft auf vier Handy-Größen: alle Wege durchs Formular, Deeplinks,
    Pflichtfeld-Fehler, dass die Seite beim Schrittwechsel nicht springt,
-   und den Payload, der an die Lead Table ginge.
+   dass der Weiter-Button immer im Bild ist, und den Payload, der an die
+   Lead Table ginge.
    ===================================================================== */
 const { chromium } = require("playwright");
 const { spawn } = require("child_process");
@@ -13,10 +14,11 @@ const PORT = 4173;
 const BASE = `http://127.0.0.1:${PORT}`;
 const VIEWPORTS = [[360, 640], [375, 667], [390, 844], [414, 896]];
 const FAELLE = [
-  { name: "ohne Deeplink", url: "/profil.html", schritte: 14, kategorie: "Metall und Montage", beruf: "Schweißer" },
-  { name: "?beruf=zerspanung + UTM", url: "/profil.html?beruf=zerspanung&utm_source=meta&utm_campaign=pool-zerspanung", schritte: 13, kategorie: "Zerspanung", utm: true },
-  { name: "?beruf=elektro&als=mechatroniker", url: "/profil.html?beruf=elektro&als=mechatroniker", schritte: 12, kategorie: "Elektro", beruf: "Mechatroniker" },
-  { name: "Alias ?beruf=cnc", url: "/profil.html?beruf=cnc", schritte: 13, kategorie: "Zerspanung" }
+  { name: "ohne Deeplink", url: "/profil.html", schritte: 14, kategorie: "Metall & Maschinenbau", beruf: "Schweißer" },
+  { name: "?beruf=zerspanung + UTM", url: "/profil.html?beruf=zerspanung&utm_source=meta&utm_campaign=pool-zerspanung", schritte: 13, kategorie: "Metall & Maschinenbau", utm: true },
+  { name: "?beruf=elektro&als=mechatroniker", url: "/profil.html?beruf=elektro&als=mechatroniker", schritte: 12, kategorie: "Elektro & Mechatronik", beruf: "Mechatroniker" },
+  { name: "Alias ?beruf=cnc", url: "/profil.html?beruf=cnc", schritte: 13, kategorie: "Metall & Maschinenbau" },
+  { name: "Büro ?beruf=buero", url: "/profil.html?beruf=buero", schritte: 13, kategorie: "Büro & Verwaltung" }
 ];
 
 function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
@@ -64,8 +66,10 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
           const key = await s.getAttribute("data-key");
           const typ = await s.getAttribute("data-typ");
           const box = await page.locator("#schritte").boundingBox();
-          const btnTop = await page.evaluate(() => Math.round(document.getElementById("btn-weiter").getBoundingClientRect().top + window.scrollY));
-          if (typ !== "kontakt") { hoehen.add(Math.round(box.height)); buttonY.add(btnTop); }
+          /* Weiter-Button muss ohne Scrollen sichtbar sein (klebt unten am Bildschirm) */
+          const imBild = await page.evaluate(() => { const r = document.getElementById("btn-weiter").getBoundingClientRect(); return r.top >= 0 && r.bottom <= window.innerHeight + 1; });
+          if (!imBild) buttonY.add(key);
+          if (typ !== "kontakt") hoehen.add(Math.round(box.height));
           else kontaktHoehe = Math.round(box.height);
 
           if (typ === "kategorie") {
@@ -122,14 +126,25 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
         if ("name" in payload || "fullname" in payload) fail("kombiniertes Namensfeld im Payload");
         if (jsFehler.length) fail(`${w}x${h} ${fall.name}: JS-Fehler ${jsFehler.join("; ")}`);
 
-        ergebnisse.push({ viewport: `${w} × ${h}`, fall: fall.name, schritte: gesamt, spruenge: spruenge.length, hoehe: [...hoehen].join("/"), weiterY: [...buttonY].join("/"), kontakt: kontaktHoehe });
+        ergebnisse.push({ viewport: `${w} × ${h}`, fall: fall.name, schritte: gesamt, spruenge: spruenge.length, hoehe: [...hoehen].join("/"), weiterImBild: buttonY.size ? "nein" : "ja", kontakt: kontaktHoehe });
         if (spruenge.length) fail(`${w}x${h} ${fall.name}: Seite springt (${spruenge.join(", ")})`);
         const spanne = (set) => Math.max(...set) - Math.min(...set);   /* 1 px Rundung ist erlaubt */
         if (spanne(hoehen) > 1) fail(`${w}x${h} ${fall.name}: Fragenschritte unterschiedlich hoch (${[...hoehen].join(", ")})`);
-        if (spanne(buttonY) > 1) fail(`${w}x${h} ${fall.name}: Weiter-Button wandert (${[...buttonY].join(", ")})`);
+        if (buttonY.size) fail(`${w}x${h} ${fall.name}: Weiter-Button nicht im Bild bei ${[...buttonY].join(", ")}`);
         await ctx.close();
       }
     }
+    /* Keine Seite darf am kleinen Handy seitlich überlaufen (z. B. durch lange Wörter in Überschriften). */
+    const seiten = require("fs").readdirSync(path.join(__dirname, "..", "dist")).filter(f => f.endsWith(".html"));
+    const ctx = await browser.newContext({ viewport: { width: 360, height: 640 } });
+    const page = await ctx.newPage();
+    for (const s of seiten) {
+      await page.goto(`${BASE}/${s}`);
+      const ueber = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      if (ueber > 0) fail(`${s}: läuft auf 360 px um ${ueber} px seitlich über`);
+    }
+    console.log(`${seiten.length} Seiten auf 360 px ohne seitlichen Überlauf geprüft.`);
+    await ctx.close();
   } finally {
     await browser.close();
     server.kill();

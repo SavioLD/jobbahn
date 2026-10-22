@@ -1,10 +1,19 @@
 {
-  "_hinweis": "Eine Lead-Table-Kachel pro Berufskategorie. Leer = Vorschau-Modus (der Payload wird nur angezeigt, nichts wird gesendet). `fallback` greift, wenn eine Kategorie keine eigene URL hat.",
+  "_hinweis": "Eine Lead-Table-Kachel pro Jobrichtung. Leer = Vorschau-Modus (der Payload wird nur angezeigt, nichts wird gesendet). `fallback` greift, wenn eine Richtung keine eigene URL hat – mit nur einer Kachel reicht es, `fallback` auszufüllen.",
   "fallback": "",
-  "zerspanung": "",
-  "metall-montage": "",
+  "metall": "",
   "elektro": "",
   "shk": "",
+  "bau": "",
+  "holz": "",
+  "kfz": "",
+  "produktion": "",
+  "lager": "",
+  "fahrer": "",
   "technik": "",
-  "produktion-logistik": ""
+  "buero": "",
+  "vertrieb": "",
+  "it": "",
+  "gebaeude": "",
+  "helfer": ""
 }

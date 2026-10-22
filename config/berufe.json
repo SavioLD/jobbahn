@@ -1,54 +1,37 @@
 [
   {
-    "key": "zerspanung",
-    "name": "Zerspanung",
-    "kurz": "Dreher, Fräser, Zerspaner",
-    "aliase": ["cnc", "fraeser", "fraesen", "dreher", "drehen", "zerspaner"],
-    "berufe": ["Zerspanungsmechaniker", "CNC-Fräser", "CNC-Dreher", "Einrichter CNC", "Schleifer"],
-    "h1": "Zerspanung: Jobs, die passen.",
-    "hook": "Ob Dreher, Fräser oder Zerspanungsmechaniker: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
+    "key": "metall",
+    "name": "Metall & Maschinenbau",
+    "kurz": "Zerspaner, Industriemechaniker, Schlosser, Schweißer",
+    "ob": "Zerspaner, Industriemechaniker, Schlosser oder Schweißer",
+    "aliase": ["zerspanung", "metall-montage", "cnc", "fraeser", "dreher", "zerspaner", "schlosser", "schweisser", "industriemechaniker", "maschinenbau"],
+    "berufe": ["Zerspanungsmechaniker / CNC", "Industriemechaniker", "Konstruktionsmechaniker / Schlosser", "Schweißer", "Werkzeugmechaniker"],
     "fragen": [
-      "An welchen Steuerungen arbeitest du – Heidenhain, Siemens, Fanuc?",
-      "Programmierst du selbst, oder richtest du ein und fährst Serie?",
-      "Einzelteile und Prototypen oder große Serien?"
-    ]
-  },
-  {
-    "key": "metall-montage",
-    "name": "Metall und Montage",
-    "kurz": "Industriemechaniker, Schlosser, Schweißer",
-    "aliase": ["metall", "montage", "schlosser", "schweisser", "industriemechaniker"],
-    "berufe": ["Industriemechaniker", "Konstruktionsmechaniker", "Schlosser", "Schweißer", "Monteur"],
-    "h1": "Metall und Montage: Jobs, die passen.",
-    "hook": "Ob Industriemechaniker, Schlosser oder Schweißer: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
-    "fragen": [
-      "Werkstatt oder Montage beim Kunden?",
-      "Welche Schweißverfahren beherrschst du – MAG, MIG, WIG?",
-      "Instandhaltung oder Fertigung?"
+      "Drehen, Fräsen, Schweißen oder Montieren – was machst du am liebsten?",
+      "An welchen Maschinen und Steuerungen arbeitest du – Heidenhain, Siemens, Fanuc?",
+      "Fertigung in der Halle oder Montage beim Kunden?"
     ]
   },
   {
     "key": "elektro",
-    "name": "Elektro",
-    "kurz": "Elektroniker, Mechatroniker",
-    "aliase": ["elektriker", "elektroniker", "mechatroniker"],
-    "berufe": ["Elektroniker für Betriebstechnik", "Elektroniker für Energie- und Gebäudetechnik", "Elektroniker für Automatisierungstechnik", "Mechatroniker", "Servicetechniker"],
-    "h1": "Elektro: Jobs, die passen.",
-    "hook": "Ob Elektroniker oder Mechatroniker: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
+    "name": "Elektro & Mechatronik",
+    "kurz": "Elektroniker, Mechatroniker, Elektriker",
+    "ob": "Elektroniker, Mechatroniker oder Elektriker",
+    "aliase": ["elektriker", "elektroniker", "mechatroniker", "mechatronik"],
+    "berufe": ["Elektroniker Betriebstechnik", "Elektroniker Energie- und Gebäudetechnik", "Mechatroniker", "Elektroniker Automatisierung", "Servicetechniker"],
     "fragen": [
       "Industrie oder Gebäude?",
-      "SPS mit Siemens TIA oder eher klassische Installation?",
+      "SPS und Steuerungsbau oder klassische Installation?",
       "Mit Rufbereitschaft oder ohne?"
     ]
   },
   {
     "key": "shk",
-    "name": "SHK",
-    "kurz": "Anlagenmechaniker Sanitär, Heizung, Klima",
-    "aliase": ["sanitaer", "heizung", "klima", "anlagenmechaniker"],
-    "berufe": ["Anlagenmechaniker SHK", "Kundendiensttechniker", "Heizungsbauer", "Installateur"],
-    "h1": "SHK: Jobs, die passen.",
-    "hook": "Ob Anlagenmechaniker oder Kundendiensttechniker: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
+    "name": "Sanitär, Heizung & Klima",
+    "kurz": "Anlagenmechaniker, Kundendienst, Kältetechnik",
+    "ob": "Anlagenmechaniker, Kundendienst oder Kältetechnik",
+    "aliase": ["sanitaer", "heizung", "klima", "anlagenmechaniker", "installateur"],
+    "berufe": ["Anlagenmechaniker SHK", "Kundendiensttechniker", "Kälte- und Klimatechniker", "Installateur", "Lüftungsbauer"],
     "fragen": [
       "Kundendienst oder Neubau und Sanierung?",
       "Wärmepumpe, Gas, Pellets – wo kennst du dich aus?",
@@ -56,31 +39,159 @@
     ]
   },
   {
-    "key": "technik",
-    "name": "Technik",
-    "kurz": "Techniker, Meister",
-    "aliase": ["techniker", "meister"],
-    "berufe": ["Industriemeister", "Handwerksmeister", "Staatlich geprüfter Techniker", "Arbeitsvorbereitung", "Qualitätssicherung"],
-    "h1": "Technik: Jobs, die passen.",
-    "hook": "Ob Techniker oder Meister: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
+    "key": "bau",
+    "name": "Bau & Ausbau",
+    "kurz": "Maurer, Zimmerer, Dachdecker, Maler, Fliesenleger",
+    "ob": "Maurer, Zimmerer, Dachdecker, Maler oder Fliesenleger",
+    "aliase": ["maurer", "zimmerer", "dachdecker", "maler", "trockenbau", "fliesenleger", "baustelle"],
+    "berufe": ["Maurer / Betonbauer", "Zimmerer / Dachdecker", "Maler und Lackierer", "Fliesenleger / Bodenleger", "Trockenbauer"],
     "fragen": [
-      "Mit Personalverantwortung oder fachlich?",
-      "Wie groß soll dein Team sein?",
-      "Büro, Halle oder beides?"
+      "Neubau, Sanierung oder Innenausbau?",
+      "Baustellen in der Nähe oder auch auswärts?",
+      "Bist du schon Vorarbeiter oder willst du dahin?"
     ]
   },
   {
-    "key": "produktion-logistik",
-    "name": "Produktion und Logistik",
-    "kurz": "Anlagenführer, Produktion, Lager",
-    "aliase": ["produktion", "logistik", "lager", "stapler"],
-    "berufe": ["Maschinen- und Anlagenführer", "Produktionsmitarbeiter", "Fachkraft für Lagerlogistik", "Staplerfahrer", "Versand"],
-    "h1": "Produktion und Logistik: Jobs, die passen.",
-    "hook": "Ob an der Anlage, in der Produktion oder im Lager: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.",
+    "key": "holz",
+    "name": "Holz & Innenausbau",
+    "kurz": "Schreiner, Tischler, Monteure, Raumausstatter",
+    "ob": "Schreiner, Tischler, Monteur oder Raumausstatter",
+    "aliase": ["schreiner", "tischler", "raumausstatter", "parkettleger", "innenausbau"],
+    "berufe": ["Schreiner / Tischler", "Monteur Innenausbau", "Raumausstatter", "Parkettleger", "Holzmechaniker"],
+    "fragen": [
+      "Werkstatt, Montage oder beides?",
+      "CNC-Bearbeitung oder klassische Handarbeit?",
+      "Möbel, Fenster und Türen oder Innenausbau?"
+    ]
+  },
+  {
+    "key": "kfz",
+    "name": "Kfz & Fahrzeugtechnik",
+    "kurz": "Kfz-Mechatroniker, Karosseriebauer, Lackierer",
+    "ob": "Kfz-Mechatroniker, Karosseriebauer oder Lackierer",
+    "aliase": ["auto", "werkstatt", "karosserie", "nutzfahrzeuge", "landmaschinen"],
+    "berufe": ["Kfz-Mechatroniker", "Nutzfahrzeug-Mechatroniker", "Karosseriebauer", "Fahrzeuglackierer", "Land- und Baumaschinenmechatroniker"],
+    "fragen": [
+      "Pkw, Lkw oder Land- und Baumaschinen?",
+      "Werkstatt oder mobiler Service?",
+      "Hast du eine Hochvolt-Schulung oder Erfahrung mit Diagnose?"
+    ]
+  },
+  {
+    "key": "produktion",
+    "name": "Produktion & Montage",
+    "kurz": "Anlagenführer, Produktion, Montage",
+    "ob": "an der Anlage, in der Produktion oder in der Montage",
+    "aliase": ["produktion-logistik", "montage", "anlagenfuehrer", "fertigung"],
+    "berufe": ["Maschinen- und Anlagenführer", "Produktionsmitarbeiter", "Montagemitarbeiter", "Verfahrensmechaniker Kunststoff", "Qualitätsprüfer"],
     "fragen": [
       "Welche Schichten gehen für dich?",
+      "An welchen Anlagen hast du schon gearbeitet?",
+      "Einrichten oder bedienen?"
+    ]
+  },
+  {
+    "key": "lager",
+    "name": "Lager & Logistik",
+    "kurz": "Lagerlogistik, Stapler, Versand",
+    "ob": "Lagerlogistik, Stapler oder Versand",
+    "aliase": ["logistik", "stapler", "staplerfahrer", "kommissionierer", "versand"],
+    "berufe": ["Fachkraft für Lagerlogistik", "Staplerfahrer", "Kommissionierer", "Versand und Wareneingang", "Disponent"],
+    "fragen": [
       "Hast du einen Staplerschein?",
-      "An welchen Anlagen hast du schon gearbeitet?"
+      "Welche Schichten gehen für dich?",
+      "Arbeitest du mit einem Lagerprogramm wie SAP?"
+    ]
+  },
+  {
+    "key": "fahrer",
+    "name": "Fahrer & Transport",
+    "kurz": "Lkw-Fahrer, Auslieferung, Kran und Baumaschinen",
+    "ob": "Lkw, Auslieferung, Kran oder Baumaschine",
+    "aliase": ["lkw", "berufskraftfahrer", "transport", "kurier", "kran"],
+    "berufe": ["Berufskraftfahrer CE", "Fahrer Klasse C / C1", "Auslieferungsfahrer", "Kranführer", "Baumaschinenführer"],
+    "fragen": [
+      "Nahverkehr mit Feierabend zu Hause oder auch Fernverkehr?",
+      "Welche Scheine hast du – Modul 95, ADR, Kran?",
+      "Plane, Kipper, Kühler oder Silo?"
+    ]
+  },
+  {
+    "key": "technik",
+    "name": "Technik & Meister",
+    "kurz": "Techniker, Meister, Konstrukteure",
+    "ob": "Techniker, Meister oder Konstrukteur",
+    "aliase": ["techniker", "meister", "konstrukteur", "arbeitsvorbereitung", "qualitaet"],
+    "berufe": ["Techniker", "Meister", "Konstrukteur / Technischer Zeichner", "Arbeitsvorbereitung", "Qualitätssicherung"],
+    "fragen": [
+      "Mit Personalverantwortung oder fachlich?",
+      "Büro, Halle oder beides?",
+      "Mit welchen Programmen arbeitest du – CAD, ERP?"
+    ]
+  },
+  {
+    "key": "buero",
+    "name": "Büro & Verwaltung",
+    "kurz": "Kaufleute, Sachbearbeitung, Assistenz, Buchhaltung",
+    "ob": "Büromanagement, Sachbearbeitung, Assistenz oder Buchhaltung",
+    "aliase": ["verwaltung", "kaufmann", "kauffrau", "sachbearbeitung", "assistenz", "buchhaltung", "personal"],
+    "berufe": ["Kaufmann/-frau für Büromanagement", "Sachbearbeitung", "Assistenz / Empfang", "Buchhaltung", "Personal / Lohn"],
+    "fragen": [
+      "Vollzeit oder Teilzeit?",
+      "Mit welchen Programmen arbeitest du – DATEV, SAP, Office?",
+      "Wie wichtig ist dir Homeoffice?"
+    ]
+  },
+  {
+    "key": "vertrieb",
+    "name": "Vertrieb & Kundenservice",
+    "kurz": "Innendienst, Außendienst, Einkauf, Kundenservice",
+    "ob": "Innendienst, Außendienst, Einkauf oder Kundenservice",
+    "aliase": ["verkauf", "aussendienst", "innendienst", "einkauf", "kundenservice"],
+    "berufe": ["Vertrieb Innendienst", "Vertrieb Außendienst", "Einkauf", "Kundenservice", "Kalkulation / Projektleitung"],
+    "fragen": [
+      "Innendienst oder Außendienst mit Firmenwagen?",
+      "Was hast du schon verkauft oder eingekauft?",
+      "Fixgehalt oder mit Provision?"
+    ]
+  },
+  {
+    "key": "it",
+    "name": "IT & Digitales",
+    "kurz": "Systemadministration, IT-Support, Fachinformatik",
+    "ob": "Systemadministration, IT-Support oder Entwicklung",
+    "aliase": ["edv", "informatik", "admin", "fachinformatiker", "support"],
+    "berufe": ["Fachinformatiker Systemintegration", "IT-Support", "Systemadministrator", "Fachinformatiker Anwendungsentwicklung", "ERP-Betreuung"],
+    "fragen": [
+      "Support und Netzwerk oder Entwicklung?",
+      "Mit welchen Systemen arbeitest du – Microsoft, Linux, SAP?",
+      "Wie viel Homeoffice soll es sein?"
+    ]
+  },
+  {
+    "key": "gebaeude",
+    "name": "Haustechnik & Gebäudeservice",
+    "kurz": "Hausmeister, Gebäudereinigung, Grünpflege",
+    "ob": "Hausmeister, Gebäudereinigung oder Grünpflege",
+    "aliase": ["hausmeister", "haustechnik", "gebaeudereinigung", "reinigung", "facility", "gaertner"],
+    "berufe": ["Hausmeister / Haustechniker", "Gebäudereiniger", "Instandhaltung Gebäude", "Gärtner / Grünpflege", "Facility Management"],
+    "fragen": [
+      "Ein festes Objekt oder mehrere Standorte?",
+      "Hast du einen handwerklichen Beruf gelernt?",
+      "Früh, tagsüber oder abends?"
+    ]
+  },
+  {
+    "key": "helfer",
+    "name": "Helfer & Quereinsteiger",
+    "kurz": "Ohne Ausbildung – Hauptsache, du packst an",
+    "ob": "Produktion, Lager oder Baustelle",
+    "aliase": ["quereinsteiger", "ungelernt", "aushilfe", "hilfskraft"],
+    "berufe": ["Produktionshelfer", "Lagerhelfer", "Bauhelfer", "Montagehelfer", "Reinigungskraft"],
+    "fragen": [
+      "Was hast du bisher gemacht – egal in welcher Branche?",
+      "Welche Schichten gehen für dich?",
+      "Willst du dich weiterbilden oder einfach sicher verdienen?"
     ]
   }
 ]

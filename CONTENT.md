@@ -4,15 +4,15 @@
 
 ## Startseite
 
-**Seitentitel:** Passtjob – Jobs in Industrie und Handwerk  
-**Beschreibung:** Leg in zwei Minuten ein Kurzprofil an. Passtjob sucht passende Jobs bei Betrieben aus Industrie und Handwerk in Baden-Württemberg und Hessen und ruft dich an, wenn einer passt. Kostenlos und vertraulich.
+**Seitentitel:** Passtjob – Jobs in deiner Nähe  
+**Beschreibung:** Leg in zwei Minuten ein Kurzprofil an. Passtjob sucht passende Jobs in deiner Nähe – im Handwerk, in der Industrie und im Büro – und ruft dich an, wenn einer passt. Kostenlos und vertraulich.
 
 ### Hero
 
-- Eyebrow: Industrie und Handwerk · Baden-Württemberg und Hessen
+- Eyebrow: Handwerk · Industrie · Büro – in deiner Nähe
 - H1: **Der Job, der passt.**
 - Maßlinie: 2 Min · ohne Lebenslauf
-- Text: Sag uns in zwei Minuten, was du kannst und was du willst. Wir gleichen das mit offenen Stellen bei Betrieben in deiner Region ab und rufen dich an, wenn einer passt.
+- Text: Sag uns in zwei Minuten, was du kannst und was du willst. Wir gleichen das mit offenen Stellen bei Betrieben in deiner Nähe ab und rufen dich an, wenn einer passt.
 - Buttons: „Kurzprofil anlegen“ · „So läuft’s“
 - Fakten: 2 Minuten · Kostenlos · Ohne Lebenslauf · Vertraulich
 
@@ -30,7 +30,7 @@
 **Den ersten Schritt machst du. Den Rest wir.**
 
 1. **Kurzprofil anlegen** – Beruf, Erfahrung, Wohnort, Wunschgehalt. Zwei Minuten, kein Anschreiben, kein Lebenslauf.
-2. **Wir gleichen ab** – Wir legen dein Profil neben offene Stellen in deiner Region: Fahrweg, Schicht, Gehalt, Start.
+2. **Wir gleichen ab** – Wir legen dein Profil neben offene Stellen in deiner Nähe: Fahrweg, Schicht, Gehalt, Start.
 3. **Wir rufen dich an** – Passt ein Job, sprechen wir zuerst mit dir. Du erfährst, um welchen Betrieb es geht und was er bietet.
 4. **Du entscheidest** – Willst du, stellen wir dich vor und machen den Termin mit dem Betrieb aus. Willst du nicht, passiert nichts.
 
@@ -58,9 +58,9 @@ Viele, die sich bei uns melden, haben einen Job. Sie wollen nur wissen, ob es wo
 
 ### Berufe
 
-**Hier suchen wir.**
+**15 Richtungen. Eine passt.**
 
-Wir arbeiten für Betriebe aus Industrie und Handwerk. Dein Beruf ist nicht dabei? Leg trotzdem ein Profil an und wähl „Anderer Beruf“.
+Von der Werkstatt über die Baustelle bis ins Büro. Wähl die Richtung, die am besten passt – deinen genauen Beruf fragen wir im Profil. Ist er nicht dabei, schreibst du ihn einfach rein.
 
 ### Fragen
 
@@ -81,8 +81,11 @@ Sobald ein Job dabei ist, der zu deinem Profil passt. Das kann schnell gehen ode
 **Was passiert mit meinen Daten?**  
 Wir speichern dein Profil, um es mit offenen Stellen abzugleichen. An einen Betrieb geht es erst, wenn wir telefoniert haben und du einverstanden bist. Löschen lassen kannst du es jederzeit.
 
+**Ich weiß nicht genau, wo ich reinpasse.**  
+Wähl die Richtung, die am nächsten dran ist. Viele Betriebe suchen nicht den einen Beruf, sondern jemanden, der zu ihnen passt. Den Rest klären wir am Telefon.
+
 **Wer steckt dahinter?**  
-Passtjob ist ein Angebot von Ländle Digital, einer Recruiting-Agentur für Industrie und Handwerk in Baden-Württemberg und Hessen.
+Passtjob ist ein Angebot von Ländle Digital, einer Recruiting-Agentur.
 
 ### Abschluss
 
@@ -92,53 +95,125 @@ Passtjob ist ein Angebot von Ländle Digital, einer Recruiting-Agentur für Indu
 
 Gemeinsame Texte: Eyebrow „Jobs · {kategorie}“, Abschnitte „Diese Berufe suchen wir“, „Darüber sprechen wir am Telefon“, „So läuft’s“, „Vertraulich“. Button: „Profil für {kategorie} anlegen“.
 
-### Zerspanung (`zerspanung.html`)
+### Metall & Maschinenbau (`metall.html`)
 
-- H1: **Zerspanung: Jobs, die passen.**
-- Text: Ob Dreher, Fräser oder Zerspanungsmechaniker: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.
-- Berufe: Zerspanungsmechaniker · CNC-Fräser · CNC-Dreher · Einrichter CNC · Schleifer
-- Am Telefon fragen wir: An welchen Steuerungen arbeitest du – Heidenhain, Siemens, Fanuc? / Programmierst du selbst, oder richtest du ein und fährst Serie? / Einzelteile und Prototypen oder große Serien?
-- Deeplink: `profil.html?beruf=zerspanung` · Aliase: cnc, fraeser, fraesen, dreher, drehen, zerspaner
+- H1: **Metall & Maschinenbau: Jobs, die passen.**
+- Text: Ob Zerspaner, Industriemechaniker, Schlosser oder Schweißer: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Zerspanungsmechaniker / CNC · Industriemechaniker · Konstruktionsmechaniker / Schlosser · Schweißer · Werkzeugmechaniker
+- Am Telefon fragen wir: Drehen, Fräsen, Schweißen oder Montieren – was machst du am liebsten? / An welchen Maschinen und Steuerungen arbeitest du – Heidenhain, Siemens, Fanuc? / Fertigung in der Halle oder Montage beim Kunden?
+- Deeplink: `profil.html?beruf=metall` · Aliase: zerspanung, metall-montage, cnc, fraeser, dreher, zerspaner, schlosser, schweisser, industriemechaniker, maschinenbau
 
-### Metall und Montage (`metall-montage.html`)
+### Elektro & Mechatronik (`elektro.html`)
 
-- H1: **Metall und Montage: Jobs, die passen.**
-- Text: Ob Industriemechaniker, Schlosser oder Schweißer: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.
-- Berufe: Industriemechaniker · Konstruktionsmechaniker · Schlosser · Schweißer · Monteur
-- Am Telefon fragen wir: Werkstatt oder Montage beim Kunden? / Welche Schweißverfahren beherrschst du – MAG, MIG, WIG? / Instandhaltung oder Fertigung?
-- Deeplink: `profil.html?beruf=metall-montage` · Aliase: metall, montage, schlosser, schweisser, industriemechaniker
+- H1: **Elektro & Mechatronik: Jobs, die passen.**
+- Text: Ob Elektroniker, Mechatroniker oder Elektriker: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Elektroniker Betriebstechnik · Elektroniker Energie- und Gebäudetechnik · Mechatroniker · Elektroniker Automatisierung · Servicetechniker
+- Am Telefon fragen wir: Industrie oder Gebäude? / SPS und Steuerungsbau oder klassische Installation? / Mit Rufbereitschaft oder ohne?
+- Deeplink: `profil.html?beruf=elektro` · Aliase: elektriker, elektroniker, mechatroniker, mechatronik
 
-### Elektro (`elektro.html`)
+### Sanitär, Heizung & Klima (`shk.html`)
 
-- H1: **Elektro: Jobs, die passen.**
-- Text: Ob Elektroniker oder Mechatroniker: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.
-- Berufe: Elektroniker für Betriebstechnik · Elektroniker für Energie- und Gebäudetechnik · Elektroniker für Automatisierungstechnik · Mechatroniker · Servicetechniker
-- Am Telefon fragen wir: Industrie oder Gebäude? / SPS mit Siemens TIA oder eher klassische Installation? / Mit Rufbereitschaft oder ohne?
-- Deeplink: `profil.html?beruf=elektro` · Aliase: elektriker, elektroniker, mechatroniker
-
-### SHK (`shk.html`)
-
-- H1: **SHK: Jobs, die passen.**
-- Text: Ob Anlagenmechaniker oder Kundendiensttechniker: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.
-- Berufe: Anlagenmechaniker SHK · Kundendiensttechniker · Heizungsbauer · Installateur
+- H1: **Sanitär, Heizung & Klima: Jobs, die passen.**
+- Text: Ob Anlagenmechaniker, Kundendienst oder Kältetechnik: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Anlagenmechaniker SHK · Kundendiensttechniker · Kälte- und Klimatechniker · Installateur · Lüftungsbauer
 - Am Telefon fragen wir: Kundendienst oder Neubau und Sanierung? / Wärmepumpe, Gas, Pellets – wo kennst du dich aus? / Mit Firmenwagen und Bereitschaftsdienst?
-- Deeplink: `profil.html?beruf=shk` · Aliase: sanitaer, heizung, klima, anlagenmechaniker
+- Deeplink: `profil.html?beruf=shk` · Aliase: sanitaer, heizung, klima, anlagenmechaniker, installateur
 
-### Technik (`technik.html`)
+### Bau & Ausbau (`bau.html`)
 
-- H1: **Technik: Jobs, die passen.**
-- Text: Ob Techniker oder Meister: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.
-- Berufe: Industriemeister · Handwerksmeister · Staatlich geprüfter Techniker · Arbeitsvorbereitung · Qualitätssicherung
-- Am Telefon fragen wir: Mit Personalverantwortung oder fachlich? / Wie groß soll dein Team sein? / Büro, Halle oder beides?
-- Deeplink: `profil.html?beruf=technik` · Aliase: techniker, meister
+- H1: **Bau & Ausbau: Jobs, die passen.**
+- Text: Ob Maurer, Zimmerer, Dachdecker, Maler oder Fliesenleger: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Maurer / Betonbauer · Zimmerer / Dachdecker · Maler und Lackierer · Fliesenleger / Bodenleger · Trockenbauer
+- Am Telefon fragen wir: Neubau, Sanierung oder Innenausbau? / Baustellen in der Nähe oder auch auswärts? / Bist du schon Vorarbeiter oder willst du dahin?
+- Deeplink: `profil.html?beruf=bau` · Aliase: maurer, zimmerer, dachdecker, maler, trockenbau, fliesenleger, baustelle
 
-### Produktion und Logistik (`produktion-logistik.html`)
+### Holz & Innenausbau (`holz.html`)
 
-- H1: **Produktion und Logistik: Jobs, die passen.**
-- Text: Ob an der Anlage, in der Produktion oder im Lager: Sag uns, was du kannst und was du willst. Wir gleichen das mit offenen Stellen in deiner Region ab.
-- Berufe: Maschinen- und Anlagenführer · Produktionsmitarbeiter · Fachkraft für Lagerlogistik · Staplerfahrer · Versand
-- Am Telefon fragen wir: Welche Schichten gehen für dich? / Hast du einen Staplerschein? / An welchen Anlagen hast du schon gearbeitet?
-- Deeplink: `profil.html?beruf=produktion-logistik` · Aliase: produktion, logistik, lager, stapler
+- H1: **Holz & Innenausbau: Jobs, die passen.**
+- Text: Ob Schreiner, Tischler, Monteur oder Raumausstatter: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Schreiner / Tischler · Monteur Innenausbau · Raumausstatter · Parkettleger · Holzmechaniker
+- Am Telefon fragen wir: Werkstatt, Montage oder beides? / CNC-Bearbeitung oder klassische Handarbeit? / Möbel, Fenster und Türen oder Innenausbau?
+- Deeplink: `profil.html?beruf=holz` · Aliase: schreiner, tischler, raumausstatter, parkettleger, innenausbau
+
+### Kfz & Fahrzeugtechnik (`kfz.html`)
+
+- H1: **Kfz & Fahrzeugtechnik: Jobs, die passen.**
+- Text: Ob Kfz-Mechatroniker, Karosseriebauer oder Lackierer: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Kfz-Mechatroniker · Nutzfahrzeug-Mechatroniker · Karosseriebauer · Fahrzeuglackierer · Land- und Baumaschinenmechatroniker
+- Am Telefon fragen wir: Pkw, Lkw oder Land- und Baumaschinen? / Werkstatt oder mobiler Service? / Hast du eine Hochvolt-Schulung oder Erfahrung mit Diagnose?
+- Deeplink: `profil.html?beruf=kfz` · Aliase: auto, werkstatt, karosserie, nutzfahrzeuge, landmaschinen
+
+### Produktion & Montage (`produktion.html`)
+
+- H1: **Produktion & Montage: Jobs, die passen.**
+- Text: Ob an der Anlage, in der Produktion oder in der Montage: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Maschinen- und Anlagenführer · Produktionsmitarbeiter · Montagemitarbeiter · Verfahrensmechaniker Kunststoff · Qualitätsprüfer
+- Am Telefon fragen wir: Welche Schichten gehen für dich? / An welchen Anlagen hast du schon gearbeitet? / Einrichten oder bedienen?
+- Deeplink: `profil.html?beruf=produktion` · Aliase: produktion-logistik, montage, anlagenfuehrer, fertigung
+
+### Lager & Logistik (`lager.html`)
+
+- H1: **Lager & Logistik: Jobs, die passen.**
+- Text: Ob Lagerlogistik, Stapler oder Versand: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Fachkraft für Lagerlogistik · Staplerfahrer · Kommissionierer · Versand und Wareneingang · Disponent
+- Am Telefon fragen wir: Hast du einen Staplerschein? / Welche Schichten gehen für dich? / Arbeitest du mit einem Lagerprogramm wie SAP?
+- Deeplink: `profil.html?beruf=lager` · Aliase: logistik, stapler, staplerfahrer, kommissionierer, versand
+
+### Fahrer & Transport (`fahrer.html`)
+
+- H1: **Fahrer & Transport: Jobs, die passen.**
+- Text: Ob Lkw, Auslieferung, Kran oder Baumaschine: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Berufskraftfahrer CE · Fahrer Klasse C / C1 · Auslieferungsfahrer · Kranführer · Baumaschinenführer
+- Am Telefon fragen wir: Nahverkehr mit Feierabend zu Hause oder auch Fernverkehr? / Welche Scheine hast du – Modul 95, ADR, Kran? / Plane, Kipper, Kühler oder Silo?
+- Deeplink: `profil.html?beruf=fahrer` · Aliase: lkw, berufskraftfahrer, transport, kurier, kran
+
+### Technik & Meister (`technik.html`)
+
+- H1: **Technik & Meister: Jobs, die passen.**
+- Text: Ob Techniker, Meister oder Konstrukteur: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Techniker · Meister · Konstrukteur / Technischer Zeichner · Arbeitsvorbereitung · Qualitätssicherung
+- Am Telefon fragen wir: Mit Personalverantwortung oder fachlich? / Büro, Halle oder beides? / Mit welchen Programmen arbeitest du – CAD, ERP?
+- Deeplink: `profil.html?beruf=technik` · Aliase: techniker, meister, konstrukteur, arbeitsvorbereitung, qualitaet
+
+### Büro & Verwaltung (`buero.html`)
+
+- H1: **Büro & Verwaltung: Jobs, die passen.**
+- Text: Ob Büromanagement, Sachbearbeitung, Assistenz oder Buchhaltung: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Kaufmann/-frau für Büromanagement · Sachbearbeitung · Assistenz / Empfang · Buchhaltung · Personal / Lohn
+- Am Telefon fragen wir: Vollzeit oder Teilzeit? / Mit welchen Programmen arbeitest du – DATEV, SAP, Office? / Wie wichtig ist dir Homeoffice?
+- Deeplink: `profil.html?beruf=buero` · Aliase: verwaltung, kaufmann, kauffrau, sachbearbeitung, assistenz, buchhaltung, personal
+
+### Vertrieb & Kundenservice (`vertrieb.html`)
+
+- H1: **Vertrieb & Kundenservice: Jobs, die passen.**
+- Text: Ob Innendienst, Außendienst, Einkauf oder Kundenservice: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Vertrieb Innendienst · Vertrieb Außendienst · Einkauf · Kundenservice · Kalkulation / Projektleitung
+- Am Telefon fragen wir: Innendienst oder Außendienst mit Firmenwagen? / Was hast du schon verkauft oder eingekauft? / Fixgehalt oder mit Provision?
+- Deeplink: `profil.html?beruf=vertrieb` · Aliase: verkauf, aussendienst, innendienst, einkauf, kundenservice
+
+### IT & Digitales (`it.html`)
+
+- H1: **IT & Digitales: Jobs, die passen.**
+- Text: Ob Systemadministration, IT-Support oder Entwicklung: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Fachinformatiker Systemintegration · IT-Support · Systemadministrator · Fachinformatiker Anwendungsentwicklung · ERP-Betreuung
+- Am Telefon fragen wir: Support und Netzwerk oder Entwicklung? / Mit welchen Systemen arbeitest du – Microsoft, Linux, SAP? / Wie viel Homeoffice soll es sein?
+- Deeplink: `profil.html?beruf=it` · Aliase: edv, informatik, admin, fachinformatiker, support
+
+### Haustechnik & Gebäudeservice (`gebaeude.html`)
+
+- H1: **Haustechnik & Gebäudeservice: Jobs, die passen.**
+- Text: Ob Hausmeister, Gebäudereinigung oder Grünpflege: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Hausmeister / Haustechniker · Gebäudereiniger · Instandhaltung Gebäude · Gärtner / Grünpflege · Facility Management
+- Am Telefon fragen wir: Ein festes Objekt oder mehrere Standorte? / Hast du einen handwerklichen Beruf gelernt? / Früh, tagsüber oder abends?
+- Deeplink: `profil.html?beruf=gebaeude` · Aliase: hausmeister, haustechnik, gebaeudereinigung, reinigung, facility, gaertner
+
+### Helfer & Quereinsteiger (`helfer.html`)
+
+- H1: **Helfer & Quereinsteiger: Jobs, die passen.**
+- Text: Ob Produktion, Lager oder Baustelle: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
+- Berufe: Produktionshelfer · Lagerhelfer · Bauhelfer · Montagehelfer · Reinigungskraft
+- Am Telefon fragen wir: Was hast du bisher gemacht – egal in welcher Branche? / Welche Schichten gehen für dich? / Willst du dich weiterbilden oder einfach sicher verdienen?
+- Deeplink: `profil.html?beruf=helfer` · Aliase: quereinsteiger, ungelernt, aushilfe, hilfskraft
 
 ## Kurzprofil
 
@@ -146,12 +221,21 @@ Vorschau-Modus: Das Formular ist noch nicht mit der Lead Table verbunden. Nach d
 
 ### In welchem Bereich arbeitest du?
 
-- Zerspanung (Dreher, Fräser, Zerspaner)
-- Metall und Montage (Industriemechaniker, Schlosser, Schweißer)
-- Elektro (Elektroniker, Mechatroniker)
-- SHK (Anlagenmechaniker Sanitär, Heizung, Klima)
-- Technik (Techniker, Meister)
-- Produktion und Logistik (Anlagenführer, Produktion, Lager)
+- Metall & Maschinenbau (Zerspaner, Industriemechaniker, Schlosser, Schweißer)
+- Elektro & Mechatronik (Elektroniker, Mechatroniker, Elektriker)
+- Sanitär, Heizung & Klima (Anlagenmechaniker, Kundendienst, Kältetechnik)
+- Bau & Ausbau (Maurer, Zimmerer, Dachdecker, Maler, Fliesenleger)
+- Holz & Innenausbau (Schreiner, Tischler, Monteure, Raumausstatter)
+- Kfz & Fahrzeugtechnik (Kfz-Mechatroniker, Karosseriebauer, Lackierer)
+- Produktion & Montage (Anlagenführer, Produktion, Montage)
+- Lager & Logistik (Lagerlogistik, Stapler, Versand)
+- Fahrer & Transport (Lkw-Fahrer, Auslieferung, Kran und Baumaschinen)
+- Technik & Meister (Techniker, Meister, Konstrukteure)
+- Büro & Verwaltung (Kaufleute, Sachbearbeitung, Assistenz, Buchhaltung)
+- Vertrieb & Kundenservice (Innendienst, Außendienst, Einkauf, Kundenservice)
+- IT & Digitales (Systemadministration, IT-Support, Fachinformatik)
+- Haustechnik & Gebäudeservice (Hausmeister, Gebäudereinigung, Grünpflege)
+- Helfer & Quereinsteiger (Ohne Ausbildung – Hauptsache, du packst an)
 
 ### Was ist dein Beruf?
 
@@ -211,7 +295,8 @@ _Brutto pro Monat in Vollzeit. Gib ehrlich an, was du willst – dann kommen nur
 
 _Mehrere Antworten möglich._
 
-- Nur Tagschicht
+- Vollzeit tagsüber
+- Teilzeit
 - 2-Schicht
 - 3-Schicht
 - Wochenende okay
@@ -276,7 +361,7 @@ _Wir rufen nur an, wenn ein Job passt._
 
 **Danke, {vorname}. Dein Profil ist angelegt.**
 
-1. Wir gleichen dein Profil mit offenen Stellen in deiner Region ab.
+1. Wir gleichen dein Profil mit offenen Stellen in deiner Nähe ab.
 2. Passt ein Job, rufen wir dich an{erreichbarkeit}.
 3. Erst wenn du einverstanden bist, erfährt ein Betrieb von dir.
 

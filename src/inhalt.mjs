@@ -1,20 +1,21 @@
 /* =====================================================================
    ALLE TEXTE DES PORTALS
    Platzhalter in geschweiften Klammern ersetzt der Build aus
-   config/marke.json: {marke} {regionen} {betreiber} {email} {telefon}.
+   config/marke.json: {marke} {betreiber} {email} {telefon} {anzahl}.
+   ==Wort== markiert ein Wort in Überschriften gelb (wie bei Ländle Digital).
    Fehlende Fakten stehen in [eckigen Klammern] und bleiben sichtbar.
    CONTENT.md wird aus dieser Datei erzeugt – hier ändern, nicht dort.
    ===================================================================== */
 
 export const startseite = {
   meta: {
-    titel: "{marke} – Jobs in Industrie und Handwerk",
-    beschreibung: "Leg in zwei Minuten ein Kurzprofil an. {marke} sucht passende Jobs bei Betrieben aus Industrie und Handwerk in {regionen} und ruft dich an, wenn einer passt. Kostenlos und vertraulich."
+    titel: "{marke} – Jobs in deiner Nähe",
+    beschreibung: "Leg in zwei Minuten ein Kurzprofil an. {marke} sucht passende Jobs in deiner Nähe – im Handwerk, in der Industrie und im Büro – und ruft dich an, wenn einer passt. Kostenlos und vertraulich."
   },
   hero: {
-    eyebrow: "Industrie und Handwerk · {regionen}",
-    h1: "Der Job, der passt.",
-    lead: "Sag uns in zwei Minuten, was du kannst und was du willst. Wir gleichen das mit offenen Stellen bei Betrieben in deiner Region ab und rufen dich an, wenn einer passt.",
+    eyebrow: "Handwerk · Industrie · Büro – in deiner Nähe",
+    h1: "Der Job, der ==passt.==",
+    lead: "Sag uns in zwei Minuten, was du kannst und was du willst. Wir gleichen das mit offenen Stellen bei Betrieben in deiner Nähe ab und rufen dich an, wenn einer passt.",
     cta: "Kurzprofil anlegen",
     cta2: "So läuft’s",
     fakten: ["2 Minuten", "Kostenlos", "Ohne Lebenslauf", "Vertraulich"],
@@ -38,7 +39,7 @@ export const startseite = {
     h2: "Den ersten Schritt machst du. Den Rest wir.",
     schritte: [
       { titel: "Kurzprofil anlegen", text: "Beruf, Erfahrung, Wohnort, Wunschgehalt. Zwei Minuten, kein Anschreiben, kein Lebenslauf." },
-      { titel: "Wir gleichen ab", text: "Wir legen dein Profil neben offene Stellen in deiner Region: Fahrweg, Schicht, Gehalt, Start." },
+      { titel: "Wir gleichen ab", text: "Wir legen dein Profil neben offene Stellen in deiner Nähe: Fahrweg, Schicht, Gehalt, Start." },
       { titel: "Wir rufen dich an", text: "Passt ein Job, sprechen wir zuerst mit dir. Du erfährst, um welchen Betrieb es geht und was er bietet." },
       { titel: "Du entscheidest", text: "Willst du, stellen wir dich vor und machen den Termin mit dem Betrieb aus. Willst du nicht, passiert nichts." }
     ]
@@ -67,8 +68,8 @@ export const startseite = {
   },
   berufe: {
     eyebrow: "Berufe",
-    h2: "Hier suchen wir.",
-    text: "Wir arbeiten für Betriebe aus Industrie und Handwerk. Dein Beruf ist nicht dabei? Leg trotzdem ein Profil an und wähl „Anderer Beruf“."
+    h2: "{anzahl} Richtungen. Eine ==passt.==",
+    text: "Von der Werkstatt über die Baustelle bis ins Büro. Wähl die Richtung, die am besten passt – deinen genauen Beruf fragen wir im Profil. Ist er nicht dabei, schreibst du ihn einfach rein."
   },
   faq: {
     eyebrow: "Fragen",
@@ -79,11 +80,12 @@ export const startseite = {
       { frage: "Brauche ich einen Lebenslauf?", antwort: "Für das Kurzprofil nicht. Will ein Betrieb vor dem Gespräch einen sehen, sagen wir dir Bescheid." },
       { frage: "Wann meldet ihr euch?", antwort: "Sobald ein Job dabei ist, der zu deinem Profil passt. Das kann schnell gehen oder etwas dauern – je nachdem, was in deinem Beruf und deiner Gegend gerade frei ist. Wir rufen nur an, wenn es passt." },
       { frage: "Was passiert mit meinen Daten?", antwort: "Wir speichern dein Profil, um es mit offenen Stellen abzugleichen. An einen Betrieb geht es erst, wenn wir telefoniert haben und du einverstanden bist. Löschen lassen kannst du es jederzeit." },
-      { frage: "Wer steckt dahinter?", antwort: "{marke} ist ein Angebot von {betreiber}, einer Recruiting-Agentur für Industrie und Handwerk in {regionen}." }
+      { frage: "Ich weiß nicht genau, wo ich reinpasse.", antwort: "Wähl die Richtung, die am nächsten dran ist. Viele Betriebe suchen nicht den einen Beruf, sondern jemanden, der zu ihnen passt. Den Rest klären wir am Telefon." },
+      { frage: "Wer steckt dahinter?", antwort: "{marke} ist ein Angebot von {betreiber}, einer Recruiting-Agentur." }
     ]
   },
   cta: {
-    h2: "Zwei Minuten. Dann suchen wir.",
+    h2: "Zwei Minuten. Dann ==suchen wir.==",
     text: "Kostenlos, vertraulich und ohne Lebenslauf.",
     button: "Kurzprofil anlegen"
   }
@@ -92,9 +94,11 @@ export const startseite = {
 export const berufsseite = {
   meta: {
     titel: "Jobs {kategorie} – {marke}",
-    beschreibung: "Jobs für {kurz} in {regionen}. Leg in zwei Minuten ein Kurzprofil an, wir rufen dich an, wenn ein Job passt. Kostenlos und vertraulich."
+    beschreibung: "Jobs in deiner Nähe: {kurz}. Leg in zwei Minuten ein Kurzprofil an, wir rufen dich an, wenn ein Job passt. Kostenlos und vertraulich."
   },
   eyebrow: "Jobs · {kategorie}",
+  h1: "{kategorie}: Jobs, die ==passen.==",
+  hook: "Ob {ob}: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.",
   cta: "Kurzprofil anlegen",
   berufeH2: "Diese Berufe suchen wir",
   berufeText: "Tipp deinen Beruf an, dann geht’s direkt los. Nicht dabei? Im Profil gibt es „Anderer Beruf“.",
@@ -103,7 +107,7 @@ export const berufsseite = {
   ablaufH2: "So läuft’s",
   vertraulichH2: "Vertraulich",
   vertraulichText: "Dein Profil ist nicht öffentlich. Kein Betrieb erfährt deinen Namen, bevor wir mit dir telefoniert haben und du einverstanden bist.",
-  ctaH2: "Zwei Minuten. Dann suchen wir.",
+  ctaH2: "Zwei Minuten. Dann ==suchen wir.==",
   ctaButton: "Profil für {kategorie} anlegen",
   zurueck: "Alle Berufe"
 };
@@ -146,7 +150,7 @@ export const profil = {
   danke: {
     h1: "Danke, {vorname}. Dein Profil ist angelegt.",
     schritte: [
-      "Wir gleichen dein Profil mit offenen Stellen in deiner Region ab.",
+      "Wir gleichen dein Profil mit offenen Stellen in deiner Nähe ab.",
       "Passt ein Job, rufen wir dich an{erreichbarkeit}.",
       "Erst wenn du einverstanden bist, erfährt ein Betrieb von dir."
     ],
@@ -201,6 +205,6 @@ export const allgemein = {
     fuerBetriebe: "Für Betriebe",
     impressum: "Impressum",
     datenschutz: "Datenschutz",
-    regionen: "Jobs in Industrie und Handwerk in {regionen}."
+    zeile: "Jobs in deiner Nähe – im Handwerk, in der Industrie und im Büro."
   }
 };

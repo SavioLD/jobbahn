@@ -41,7 +41,7 @@ window.PASSTJOB = {
     "danke": {
       "h1": "Danke, {vorname}. Dein Profil ist angelegt.",
       "schritte": [
-        "Wir gleichen dein Profil mit offenen Stellen in deiner Region ab.",
+        "Wir gleichen dein Profil mit offenen Stellen in deiner Nähe ab.",
         "Passt ein Job, rufen wir dich an{erreichbarkeit}.",
         "Erst wenn du einverstanden bist, erfährt ein Betrieb von dir."
       ],
@@ -53,110 +53,295 @@ window.PASSTJOB = {
   },
   "berufe": [
     {
-      "key": "zerspanung",
-      "name": "Zerspanung",
-      "kurz": "Dreher, Fräser, Zerspaner",
+      "key": "metall",
+      "name": "Metall & Maschinenbau",
+      "kurz": "Zerspaner, Industriemechaniker, Schlosser, Schweißer",
       "aliase": [
+        "zerspanung",
+        "metall-montage",
         "cnc",
         "fraeser",
-        "fraesen",
         "dreher",
-        "drehen",
-        "zerspaner"
-      ],
-      "berufe": [
-        "Zerspanungsmechaniker",
-        "CNC-Fräser",
-        "CNC-Dreher",
-        "Einrichter CNC",
-        "Schleifer"
-      ]
-    },
-    {
-      "key": "metall-montage",
-      "name": "Metall und Montage",
-      "kurz": "Industriemechaniker, Schlosser, Schweißer",
-      "aliase": [
-        "metall",
-        "montage",
+        "zerspaner",
         "schlosser",
         "schweisser",
-        "industriemechaniker"
+        "industriemechaniker",
+        "maschinenbau"
       ],
       "berufe": [
+        "Zerspanungsmechaniker / CNC",
         "Industriemechaniker",
-        "Konstruktionsmechaniker",
-        "Schlosser",
+        "Konstruktionsmechaniker / Schlosser",
         "Schweißer",
-        "Monteur"
+        "Werkzeugmechaniker"
       ]
     },
     {
       "key": "elektro",
-      "name": "Elektro",
-      "kurz": "Elektroniker, Mechatroniker",
+      "name": "Elektro & Mechatronik",
+      "kurz": "Elektroniker, Mechatroniker, Elektriker",
       "aliase": [
         "elektriker",
         "elektroniker",
-        "mechatroniker"
+        "mechatroniker",
+        "mechatronik"
       ],
       "berufe": [
-        "Elektroniker für Betriebstechnik",
-        "Elektroniker für Energie- und Gebäudetechnik",
-        "Elektroniker für Automatisierungstechnik",
+        "Elektroniker Betriebstechnik",
+        "Elektroniker Energie- und Gebäudetechnik",
         "Mechatroniker",
+        "Elektroniker Automatisierung",
         "Servicetechniker"
       ]
     },
     {
       "key": "shk",
-      "name": "SHK",
-      "kurz": "Anlagenmechaniker Sanitär, Heizung, Klima",
+      "name": "Sanitär, Heizung & Klima",
+      "kurz": "Anlagenmechaniker, Kundendienst, Kältetechnik",
       "aliase": [
         "sanitaer",
         "heizung",
         "klima",
-        "anlagenmechaniker"
+        "anlagenmechaniker",
+        "installateur"
       ],
       "berufe": [
         "Anlagenmechaniker SHK",
         "Kundendiensttechniker",
-        "Heizungsbauer",
-        "Installateur"
+        "Kälte- und Klimatechniker",
+        "Installateur",
+        "Lüftungsbauer"
+      ]
+    },
+    {
+      "key": "bau",
+      "name": "Bau & Ausbau",
+      "kurz": "Maurer, Zimmerer, Dachdecker, Maler, Fliesenleger",
+      "aliase": [
+        "maurer",
+        "zimmerer",
+        "dachdecker",
+        "maler",
+        "trockenbau",
+        "fliesenleger",
+        "baustelle"
+      ],
+      "berufe": [
+        "Maurer / Betonbauer",
+        "Zimmerer / Dachdecker",
+        "Maler und Lackierer",
+        "Fliesenleger / Bodenleger",
+        "Trockenbauer"
+      ]
+    },
+    {
+      "key": "holz",
+      "name": "Holz & Innenausbau",
+      "kurz": "Schreiner, Tischler, Monteure, Raumausstatter",
+      "aliase": [
+        "schreiner",
+        "tischler",
+        "raumausstatter",
+        "parkettleger",
+        "innenausbau"
+      ],
+      "berufe": [
+        "Schreiner / Tischler",
+        "Monteur Innenausbau",
+        "Raumausstatter",
+        "Parkettleger",
+        "Holzmechaniker"
+      ]
+    },
+    {
+      "key": "kfz",
+      "name": "Kfz & Fahrzeugtechnik",
+      "kurz": "Kfz-Mechatroniker, Karosseriebauer, Lackierer",
+      "aliase": [
+        "auto",
+        "werkstatt",
+        "karosserie",
+        "nutzfahrzeuge",
+        "landmaschinen"
+      ],
+      "berufe": [
+        "Kfz-Mechatroniker",
+        "Nutzfahrzeug-Mechatroniker",
+        "Karosseriebauer",
+        "Fahrzeuglackierer",
+        "Land- und Baumaschinenmechatroniker"
+      ]
+    },
+    {
+      "key": "produktion",
+      "name": "Produktion & Montage",
+      "kurz": "Anlagenführer, Produktion, Montage",
+      "aliase": [
+        "produktion-logistik",
+        "montage",
+        "anlagenfuehrer",
+        "fertigung"
+      ],
+      "berufe": [
+        "Maschinen- und Anlagenführer",
+        "Produktionsmitarbeiter",
+        "Montagemitarbeiter",
+        "Verfahrensmechaniker Kunststoff",
+        "Qualitätsprüfer"
+      ]
+    },
+    {
+      "key": "lager",
+      "name": "Lager & Logistik",
+      "kurz": "Lagerlogistik, Stapler, Versand",
+      "aliase": [
+        "logistik",
+        "stapler",
+        "staplerfahrer",
+        "kommissionierer",
+        "versand"
+      ],
+      "berufe": [
+        "Fachkraft für Lagerlogistik",
+        "Staplerfahrer",
+        "Kommissionierer",
+        "Versand und Wareneingang",
+        "Disponent"
+      ]
+    },
+    {
+      "key": "fahrer",
+      "name": "Fahrer & Transport",
+      "kurz": "Lkw-Fahrer, Auslieferung, Kran und Baumaschinen",
+      "aliase": [
+        "lkw",
+        "berufskraftfahrer",
+        "transport",
+        "kurier",
+        "kran"
+      ],
+      "berufe": [
+        "Berufskraftfahrer CE",
+        "Fahrer Klasse C / C1",
+        "Auslieferungsfahrer",
+        "Kranführer",
+        "Baumaschinenführer"
       ]
     },
     {
       "key": "technik",
-      "name": "Technik",
-      "kurz": "Techniker, Meister",
+      "name": "Technik & Meister",
+      "kurz": "Techniker, Meister, Konstrukteure",
       "aliase": [
         "techniker",
-        "meister"
+        "meister",
+        "konstrukteur",
+        "arbeitsvorbereitung",
+        "qualitaet"
       ],
       "berufe": [
-        "Industriemeister",
-        "Handwerksmeister",
-        "Staatlich geprüfter Techniker",
+        "Techniker",
+        "Meister",
+        "Konstrukteur / Technischer Zeichner",
         "Arbeitsvorbereitung",
         "Qualitätssicherung"
       ]
     },
     {
-      "key": "produktion-logistik",
-      "name": "Produktion und Logistik",
-      "kurz": "Anlagenführer, Produktion, Lager",
+      "key": "buero",
+      "name": "Büro & Verwaltung",
+      "kurz": "Kaufleute, Sachbearbeitung, Assistenz, Buchhaltung",
       "aliase": [
-        "produktion",
-        "logistik",
-        "lager",
-        "stapler"
+        "verwaltung",
+        "kaufmann",
+        "kauffrau",
+        "sachbearbeitung",
+        "assistenz",
+        "buchhaltung",
+        "personal"
       ],
       "berufe": [
-        "Maschinen- und Anlagenführer",
-        "Produktionsmitarbeiter",
-        "Fachkraft für Lagerlogistik",
-        "Staplerfahrer",
-        "Versand"
+        "Kaufmann/-frau für Büromanagement",
+        "Sachbearbeitung",
+        "Assistenz / Empfang",
+        "Buchhaltung",
+        "Personal / Lohn"
+      ]
+    },
+    {
+      "key": "vertrieb",
+      "name": "Vertrieb & Kundenservice",
+      "kurz": "Innendienst, Außendienst, Einkauf, Kundenservice",
+      "aliase": [
+        "verkauf",
+        "aussendienst",
+        "innendienst",
+        "einkauf",
+        "kundenservice"
+      ],
+      "berufe": [
+        "Vertrieb Innendienst",
+        "Vertrieb Außendienst",
+        "Einkauf",
+        "Kundenservice",
+        "Kalkulation / Projektleitung"
+      ]
+    },
+    {
+      "key": "it",
+      "name": "IT & Digitales",
+      "kurz": "Systemadministration, IT-Support, Fachinformatik",
+      "aliase": [
+        "edv",
+        "informatik",
+        "admin",
+        "fachinformatiker",
+        "support"
+      ],
+      "berufe": [
+        "Fachinformatiker Systemintegration",
+        "IT-Support",
+        "Systemadministrator",
+        "Fachinformatiker Anwendungsentwicklung",
+        "ERP-Betreuung"
+      ]
+    },
+    {
+      "key": "gebaeude",
+      "name": "Haustechnik & Gebäudeservice",
+      "kurz": "Hausmeister, Gebäudereinigung, Grünpflege",
+      "aliase": [
+        "hausmeister",
+        "haustechnik",
+        "gebaeudereinigung",
+        "reinigung",
+        "facility",
+        "gaertner"
+      ],
+      "berufe": [
+        "Hausmeister / Haustechniker",
+        "Gebäudereiniger",
+        "Instandhaltung Gebäude",
+        "Gärtner / Grünpflege",
+        "Facility Management"
+      ]
+    },
+    {
+      "key": "helfer",
+      "name": "Helfer & Quereinsteiger",
+      "kurz": "Ohne Ausbildung – Hauptsache, du packst an",
+      "aliase": [
+        "quereinsteiger",
+        "ungelernt",
+        "aushilfe",
+        "hilfskraft"
+      ],
+      "berufe": [
+        "Produktionshelfer",
+        "Lagerhelfer",
+        "Bauhelfer",
+        "Montagehelfer",
+        "Reinigungskraft"
       ]
     }
   ],
@@ -283,7 +468,8 @@ window.PASSTJOB = {
       "pflicht": true,
       "hinweis": "Mehrere Antworten möglich.",
       "optionen": [
-        "Nur Tagschicht",
+        "Vollzeit tagsüber",
+        "Teilzeit",
         "2-Schicht",
         "3-Schicht",
         "Wochenende okay",
@@ -394,11 +580,20 @@ window.PASSTJOB = {
   ],
   "webhooks": {
     "fallback": "",
-    "zerspanung": "",
-    "metall-montage": "",
+    "metall": "",
     "elektro": "",
     "shk": "",
+    "bau": "",
+    "holz": "",
+    "kfz": "",
+    "produktion": "",
+    "lager": "",
+    "fahrer": "",
     "technik": "",
-    "produktion-logistik": ""
+    "buero": "",
+    "vertrieb": "",
+    "it": "",
+    "gebaeude": "",
+    "helfer": ""
   }
 };

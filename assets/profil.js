@@ -98,7 +98,7 @@
 
     if (f.typ === "kategorie") {
       inner = '<div class="optionen optionen-raster">' + C.berufe.map(function (b, j) {
-        return optionHtml("radio", f.key, b.key, esc(b.name) + "<small>" + esc(b.kurz) + "</small>", f.key + "-" + j);
+        return optionHtml("radio", f.key, b.key, esc(b.name), f.key + "-" + j);
       }).join("") + "</div>";
     } else if (f.typ === "beruf") {
       inner = '<div class="optionen" data-berufe></div>' +

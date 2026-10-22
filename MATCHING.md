@@ -20,14 +20,14 @@ Das Matching ist bewusst regelbasiert. Keine KI bewertet oder sortiert Bewerber 
 
 | Feld | Muss erfüllt, wenn … |
 |---|---|
-| `berufskategorie` | gleich der Kategorie der Stelle (sortiert den Pool, ist immer Muss) |
-| `beruf` | in der Liste der Berufe, die der Betrieb akzeptiert. „Anderer Beruf“-Freitext prüft der Talent Scout von Hand |
+| `berufskategorie` | gleich der Richtung der Stelle (sortiert den Pool, ist immer Muss) |
+| `beruf` | in der Liste der Berufe, die der Betrieb akzeptiert – **oder „egal“**: Viele Betriebe suchen nur in einer Richtung, nicht den einen Beruf. Dann filtert nur die Richtung. „Anderer Beruf“-Freitext prüft der Talent Scout von Hand |
 | `abschluss` | mindestens die geforderte Stufe. Vorschlag für die Reihenfolge: in Ausbildung < ohne Abschluss mit Erfahrung < Ausbildung < Meister = Techniker < Studium |
 | `erfahrung` | Untergrenze der gewählten Spanne ≥ geforderte Jahre |
 | `plz` + `fahrweg` | Entfernung Wohnort → Einsatzort ≤ gewählter Fahrweg. „Egal“ = kein Limit |
 | `verfuegbarkeit` | Start des Bewerbers ≤ gewünschter Start des Betriebs (als Wunsch empfohlen, nicht als Muss) |
 | `gehalt` | Wunsch-Spanne überschneidet sich mit dem Gehaltsrahmen der Stelle. „Lieber am Telefon“ = nicht filtern, Talent Scout klärt |
-| `schicht` | Das Arbeitszeitmodell der Stelle ist in der Auswahl des Bewerbers enthalten |
+| `schicht` | Das Arbeitszeitmodell der Stelle ist in der Auswahl des Bewerbers enthalten (inkl. „Teilzeit“ und „Vollzeit tagsüber“) |
 | `fuehrerschein` | Geforderte Klasse ist enthalten |
 | `deutsch` | mindestens die geforderte Stufe |
 | `lebenslauf` | kein Kriterium – nur Info, ob der Talent Scout ihn anfordern muss |

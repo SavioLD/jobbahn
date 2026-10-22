@@ -88,7 +88,7 @@
     "matching": "Muss",
     "pflicht": true,
     "hinweis": "Mehrere Antworten möglich.",
-    "optionen": ["Nur Tagschicht", "2-Schicht", "3-Schicht", "Wochenende okay", "Montage / auswärts okay"]
+    "optionen": ["Vollzeit tagsüber", "Teilzeit", "2-Schicht", "3-Schicht", "Wochenende okay", "Montage / auswärts okay"]
   },
   {
     "key": "fuehrerschein",
