@@ -55,7 +55,7 @@ Der Deploy läuft automatisch über GitHub, sobald zwei Secrets hinterlegt sind.
 | `CLOUDFLARE_API_TOKEN` | der Token aus Schritt 2 |
 | `VERGLEICHER_PASSWORT` | ein langes Passwort für den internen Bereich (selbst ausdenken, z. B. 4 zufällige Wörter) |
 
-**5. Starten.** Im Repo **Actions → Vergleicher → Run workflow**. Der Lauf legt die Datenbank an, deployt und setzt das Passwort. Im Log von „Deploy“ steht die Adresse, z. B. `https://passtjob-vergleicher.<name>.workers.dev`.
+**5. Starten.** Im Repo **Actions → Vergleicher → Run workflow**. Der Lauf legt die Datenbank an (in der EU: `--jurisdiction eu`), deployt, setzt das Passwort und prüft zum Schluss, ob der Vergleicher antwortet und der interne Bereich geschützt ist. Die Adresse steht oben in der Zusammenfassung des Laufs, z. B. `https://passtjob-vergleicher.<name>.workers.dev`.
 
 **6. Portal verbinden.** Die Adresse in `config/webhooks.json` unter `"api"` eintragen, `node build.mjs --pages`, committen. Ab dann schickt das Portal jedes Profil an den Vergleicher.
 
@@ -80,7 +80,9 @@ Geprüft:
 - Ende-zu-Ende im Browser: interne Oberfläche bedienen, Bewerber über das Portal am Handy, Treffer und Übergabe kommen in einer nachgebauten Lead Table an.
 - In der echten Cloudflare-Laufzeit lokal (`wrangler dev` mit D1): Seite, Passwortschutz, Stelle, Bewerber, Treffer, Cron.
 
-**Nicht geprüft:** der Deploy in ein echtes Cloudflare-Konto und die echte Lead Table – dafür fehlt hier der Zugang. Beim ersten Lauf von Schritt 5 also kurz ins Log schauen.
+- Deploy ins Cloudflare-Konto von Ländle Digital: läuft unter `https://passtjob-vergleicher.savio-roeckle.workers.dev`. Jeder Deploy prüft danach automatisch Erreichbarkeit, Passwortschutz und Datenbank.
+
+**Nicht geprüft:** die echte Lead Table – dafür fehlt hier der Zugang. Beim ersten echten Profil also kurz in die Kacheln schauen.
 
 ## Gut zu wissen
 

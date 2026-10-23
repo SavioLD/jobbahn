@@ -14,7 +14,8 @@ ERLAUBTE_ORIGINS = "https://saviold.github.io,https://passtjob.de,https://www.pa
 
 [[d1_databases]]
 binding = "DB"
-database_name = "passtjob"
+# Liegt in der EU: angelegt mit `wrangler d1 create passtjob-eu --jurisdiction eu`
+database_name = "passtjob-eu"
 # Wird beim automatischen Deploy eingesetzt. Wer von Hand deployt: ID aus `wrangler d1 list` hier eintragen.
 database_id = "DATABASE_ID_HIER"
 migrations_dir = "migrations"

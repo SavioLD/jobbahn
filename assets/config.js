@@ -578,7 +578,7 @@ window.PASSTJOB = {
       ]
     }
   ],
-  "api": "",
+  "api": "https://passtjob-vergleicher.savio-roeckle.workers.dev",
   "webhooks": {
     "fallback": "",
     "metall": "",

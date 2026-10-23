@@ -3,8 +3,8 @@
      node build.mjs && NODE_PATH=$(npm root -g) node test/formular-test.cjs
    Prüft auf vier Handy-Größen: alle Wege durchs Formular, Deeplinks,
    Pflichtfeld-Fehler, dass die Seite beim Schrittwechsel nicht springt,
-   dass der Weiter-Button immer im Bild ist, und den Payload, der an die
-   Lead Table ginge.
+   dass der Weiter-Button immer im Bild ist, und den Payload, der an den
+   Vergleicher (oder im Vorschau-Modus an die Lead Table) geht.
    ===================================================================== */
 const { chromium } = require("playwright");
 const { spawn } = require("child_process");
@@ -36,6 +36,12 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
         const page = await ctx.newPage();
         const jsFehler = [];
         page.on("pageerror", e => jsFehler.push(e.message));
+        /* Ist ein Vergleicher eingetragen, fängt der Test die Sendung ab, statt sie wirklich zu schicken. */
+        let gesendet = null;
+        await page.route("**/api/bewerber", async route => {
+          gesendet = { url: route.request().url(), body: route.request().postData() };
+          await route.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: '{"ok":true}' });
+        });
         await page.goto(BASE + fall.url);
 
         const gesamt = await page.$$eval(".schritt", els => els.length);
@@ -115,7 +121,9 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
           const f = await page.textContent(".schritt.ist-aktiv [data-fehler]").catch(() => "");
           throw new Error(`${w}x${h} ${fall.name}: kein Danke – hängt bei „${aktiv}“ (${f})`);
         });
-        const payload = JSON.parse(await page.textContent("#danke pre"));
+        const api = await page.evaluate(() => (window.PASSTJOB && window.PASSTJOB.api || "").replace(/\/+$/, ""));
+        if (api && (!gesendet || gesendet.url !== api + "/api/bewerber")) fail(`${w}x${h} ${fall.name}: nicht an den Vergleicher gesendet (${gesendet && gesendet.url})`);
+        const payload = JSON.parse(gesendet ? gesendet.body : await page.textContent("#danke pre"));
         const pflicht = ["vorname", "nachname", "telefon", "email", "berufskategorie", "beruf", "abschluss", "erfahrung", "plz", "ort", "fahrweg", "verfuegbarkeit", "gehalt", "schicht", "fuehrerschein", "deutsch", "lebenslauf", "sperrliste", "erreichbarkeit", "einwilligung", "datum", "quelle", "seite"];
         for (const k of pflicht) if (!payload[k]) fail(`${w}x${h} ${fall.name}: Payload-Feld „${k}“ leer`);
         if (payload.berufskategorie !== fall.kategorie) fail(`${w}x${h} ${fall.name}: Kategorie ${payload.berufskategorie}`);

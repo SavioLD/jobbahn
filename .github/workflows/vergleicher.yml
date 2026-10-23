@@ -26,6 +26,8 @@ jobs:
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       WRANGLER: npx --yes wrangler@4.151.3
+      # Bewerberdaten bleiben in der EU (D1 mit --jurisdiction eu)
+      DB_NAME: passtjob-eu
     steps:
       - uses: actions/checkout@v4
 
@@ -50,21 +52,27 @@ jobs:
         if: steps.zugang.outputs.ok == 'true'
         run: |
           finde() {
-            $WRANGLER d1 list --json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const t=s.slice(s.indexOf("["),s.lastIndexOf("]")+1);const d=JSON.parse(t||"[]").find(x=>x.name==="passtjob");process.stdout.write(d?d.uuid:"")})'
+            $WRANGLER d1 list --json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const t=s.slice(s.indexOf("["),s.lastIndexOf("]")+1);const d=JSON.parse(t||"[]").find(x=>x.name===process.env.DB_NAME);process.stdout.write(d?d.uuid:"")})'
           }
           ID=$(finde)
-          if [ -z "$ID" ]; then $WRANGLER d1 create passtjob; ID=$(finde); fi
-          if [ -z "$ID" ]; then echo "::error::Die D1-Datenbank „passtjob“ konnte nicht gefunden oder angelegt werden."; exit 1; fi
-          sed -i "s/DATABASE_ID_HIER/$ID/" wrangler.toml
+          if [ -z "$ID" ]; then $WRANGLER d1 create "$DB_NAME" --jurisdiction eu; ID=$(finde); fi
+          if [ -z "$ID" ]; then echo "::error::Die D1-Datenbank „$DB_NAME“ konnte nicht gefunden oder angelegt werden."; exit 1; fi
+          sed -i -e "s/DATABASE_ID_HIER/$ID/" -e "s/^database_name = .*/database_name = \"$DB_NAME\"/" wrangler.toml
           echo "Datenbank: $ID"
 
       - name: Tabellen anlegen oder aktualisieren
         if: steps.zugang.outputs.ok == 'true'
-        run: $WRANGLER d1 migrations apply passtjob --remote
+        run: $WRANGLER d1 migrations apply "$DB_NAME" --remote
 
       - name: Deploy
+        id: deploy
         if: steps.zugang.outputs.ok == 'true'
-        run: $WRANGLER deploy
+        run: |
+          set -o pipefail
+          $WRANGLER deploy | tee deploy.log
+          ADRESSE=$(grep -o 'https://[^ ]*\.workers\.dev' deploy.log | head -1)
+          echo "adresse=$ADRESSE" >> "$GITHUB_OUTPUT"
+          echo "::notice::Vergleicher: $ADRESSE/intern"
 
       - name: Passwort für /intern setzen
         if: steps.zugang.outputs.ok == 'true'
@@ -76,3 +84,27 @@ jobs:
           else
             echo "::warning::Secret VERGLEICHER_PASSWORT fehlt – der interne Bereich bleibt gesperrt, bis es gesetzt ist."
           fi
+
+      - name: Läuft er?
+        if: steps.zugang.outputs.ok == 'true' && steps.deploy.outputs.adresse != ''
+        env:
+          ADRESSE: ${{ steps.deploy.outputs.adresse }}
+          PASSWORT: ${{ secrets.VERGLEICHER_PASSWORT }}
+        run: |
+          # Eine neue workers.dev-Adresse braucht beim ersten Mal ein paar Minuten
+          for i in $(seq 1 30); do
+            curl -fsS "$ADRESSE/api/ping" >/dev/null 2>&1 && break
+            sleep 10
+          done
+          code() { curl -sS -o /dev/null -w '%{http_code}' "$@" || true; }
+          PING=$(code "$ADRESSE/api/ping")
+          OHNE=$(code "$ADRESSE/api/intern/uebersicht")
+          echo "Erreichbar: $PING · ohne Passwort: $OHNE (soll 401 sein)"
+          if [ "$PING" != "200" ]; then echo "::warning::$ADRESSE antwortet noch nicht (Status $PING). Bei einer neuen workers.dev-Adresse kann das ein paar Minuten dauern."; exit 0; fi
+          if [ "$OHNE" != "401" ]; then echo "::error::Der interne Bereich ist nicht geschützt (Status $OHNE)."; exit 1; fi
+          if [ -n "$PASSWORT" ]; then
+            MIT=$(code -H "Authorization: Bearer $PASSWORT" "$ADRESSE/api/intern/uebersicht")
+            echo "Mit Passwort + Datenbank: $MIT (soll 200 sein)"
+            if [ "$MIT" != "200" ]; then echo "::error::Anmeldung oder Datenbank funktioniert nicht (Status $MIT)."; exit 1; fi
+          fi
+          echo "::notice::Vergleicher läuft: $ADRESSE/intern"
