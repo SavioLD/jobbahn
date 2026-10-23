@@ -36,7 +36,7 @@ Die Regeln (Muss filtert, Wunsch gibt Punkte, ein Mensch entscheidet) stehen in 
 
 ## Einrichten (einmalig, ca. 15 Minuten)
 
-Der Deploy läuft automatisch über GitHub, sobald drei Secrets hinterlegt sind.
+Der Deploy läuft automatisch über GitHub, sobald zwei Secrets hinterlegt sind.
 
 **1. Cloudflare-Konto.** Das Konto, auf dem laendle-digital.com läuft, reicht. Der kostenlose Tarif genügt für den Start.
 
@@ -46,14 +46,13 @@ Der Deploy läuft automatisch über GitHub, sobald drei Secrets hinterlegt sind.
 - Unter *Permissions* eine Zeile ergänzen: **Account · D1 · Edit**
 - Erstellen und den Token kopieren (wird nur einmal angezeigt)
 
-**3. Account-ID kopieren.** In Cloudflare links **Workers & Pages** öffnen – rechts steht die **Account ID**.
+**3. Account-ID:** steht schon in `wrangler.toml` (Konto von Ländle Digital).
 
 **4. Secrets in GitHub eintragen.** Im Repo `jobkollege`: **Settings → Secrets and variables → Actions → New repository secret**
 
 | Name | Inhalt |
 |---|---|
 | `CLOUDFLARE_API_TOKEN` | der Token aus Schritt 2 |
-| `CLOUDFLARE_ACCOUNT_ID` | die ID aus Schritt 3 |
 | `VERGLEICHER_PASSWORT` | ein langes Passwort für den internen Bereich (selbst ausdenken, z. B. 4 zufällige Wörter) |
 
 **5. Starten.** Im Repo **Actions → Vergleicher → Run workflow**. Der Lauf legt die Datenbank an, deployt und setzt das Passwort. Im Log von „Deploy“ steht die Adresse, z. B. `https://passtjob-vergleicher.<name>.workers.dev`.

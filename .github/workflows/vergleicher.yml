@@ -1,5 +1,5 @@
 # Testet den Vergleicher bei jeder Änderung und deployt ihn zu Cloudflare,
-# sobald die Secrets CLOUDFLARE_API_TOKEN und CLOUDFLARE_ACCOUNT_ID hinterlegt sind.
+# sobald das Secret CLOUDFLARE_API_TOKEN hinterlegt ist (Account-ID steht in wrangler.toml).
 # Einrichtung Schritt für Schritt: vergleicher/README.md
 name: Vergleicher
 
@@ -25,7 +25,6 @@ jobs:
         working-directory: vergleicher
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       WRANGLER: npx --yes wrangler@4.151.3
     steps:
       - uses: actions/checkout@v4
@@ -40,7 +39,7 @@ jobs:
       - name: Cloudflare-Zugang vorhanden?
         id: zugang
         run: |
-          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
+          if [ -n "$CLOUDFLARE_API_TOKEN" ]; then
             echo "ok=true" >> "$GITHUB_OUTPUT"
           else
             echo "ok=false" >> "$GITHUB_OUTPUT"

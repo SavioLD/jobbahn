@@ -2,6 +2,8 @@
 # Deploy läuft automatisch über .github/workflows/vergleicher.yml (siehe README.md).
 
 name = "passtjob-vergleicher"
+# Cloudflare-Konto von Ländle Digital (die Account-ID ist kein Geheimnis)
+account_id = "4113809b60b7b69a66e80346708f30a3"
 main = "src/index.js"
 compatibility_date = "2025-09-01"
 workers_dev = true
