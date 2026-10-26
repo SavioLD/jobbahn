@@ -71,7 +71,7 @@ const fontFaces = artifact ? "" : familien.flatMap(f => f.variabel
 const tokens = (farben) => Object.entries(farben).map(([k, v]) => `--${k}:${v};`).join("");
 const markeCss = `/* Erzeugt von build.mjs aus config/marke.json – nicht von Hand ändern. */
 ${fontFaces}
-:root{${tokens(marke.farben.hell)}--f-display:"${s.display.familie}",${s.display.fallback};--f-text:"${s.text.familie}",${s.text.fallback};--f-mono:"${s.mono.familie}",${s.mono.fallback}}
+:root{${tokens(marke.farben.hell)}--f-display:"${s.display.familie}",${s.display.fallback};--w-display:${s.display.gewicht || 400};--f-text:"${s.text.familie}",${s.text.fallback};--f-mono:"${s.mono.familie}",${s.mono.fallback}}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){${tokens(marke.farben.dunkel)}color-scheme:dark}}
 :root[data-theme="dark"]{${tokens(marke.farben.dunkel)}color-scheme:dark}
 `;
@@ -99,7 +99,7 @@ const config = {
   api: webhooks.api || "",
   webhooks: Object.fromEntries(Object.entries(webhooks).filter(([k]) => !k.startsWith("_") && k !== "api"))
 };
-writeFileSync(join(out, "assets/config.js"), `/* Erzeugt von build.mjs – nicht von Hand ändern. */\nwindow.PASSTJOB = ${JSON.stringify(config, null, 2)};\n`);
+writeFileSync(join(out, "assets/config.js"), `/* Erzeugt von build.mjs – nicht von Hand ändern. */\nwindow.PORTAL = ${JSON.stringify(config, null, 2)};\n`);
 
 /* Google-Fonts-Link nur für die Artifact-Vorschau; live laufen die Schriften vom eigenen Server. */
 const fontsHref = artifact

@@ -33,7 +33,7 @@ const bewerber = (x = {}) => ({
   abschluss: "Abgeschlossene Ausbildung", erfahrung: "3 bis 5 Jahre", plz: "70173", ort: "Stuttgart",
   fahrweg: "Bis 30 km", verfuegbarkeit: "In 1 Monat", gehalt: "3.300 bis 3.800 €", schicht: "2-Schicht",
   fuehrerschein: "Klasse B", deutsch: "Muttersprache", lebenslauf: "Ja", sperrliste: "–", erreichbarkeit: "Abends",
-  einwilligung: "Ja (ENTWURF 2026-10, 22.10.2026 14:05)", datum: "22.10.2026", quelle: "Bewerberportal Passtjob", seite: "https://x/profil", ...x
+  einwilligung: "Ja (ENTWURF 2026-10, 22.10.2026 14:05)", datum: "22.10.2026", quelle: "Bewerberportal Jobbahn", seite: "https://x/profil", ...x
 });
 
 const stelleMueller = {
@@ -54,7 +54,7 @@ const stelleMueller = {
 const nach = (url) => sendungen.filter(s => s.url === url);
 
 beforeEach(async () => {
-  env = { DB: lokaleD1(), ADMIN_TOKEN: PASSWORT, ERLAUBTE_ORIGINS: "https://saviold.github.io,https://passtjob.de" };
+  env = { DB: lokaleD1(), ADMIN_TOKEN: PASSWORT, ERLAUBTE_ORIGINS: "https://saviold.github.io,https://jobbahn.de" };
   sendungen = []; leadTableKaputt = false;
 });
 

@@ -2,7 +2,7 @@
 
 ## Entscheiden
 
-- [ ] **Name.** „Passtjob“ ist Arbeitstitel. Domain und Marke beim DPMA prüfen. Austausch: eine Zeile in `config/marke.json`.
+- [ ] **Name.** „Jobbahn“ ist der neue Arbeitsname (Stil: schlicht, Nachtblau, Umlaufbahn als Motiv, für 30- bis 45-Jährige). Marke beim DPMA prüfen (Anwalt), Domain jobbahn.de prüfen und sichern. Austausch: eine Zeile in `config/marke.json`.
 - [ ] **Logo und Figur.** Aktuell Platzhalter-Symbol (Welle in der Bohrung = Passung). Logo-Datei und später die Figur in `config/marke.json` eintragen (`logo`, `figur`, Pfad z. B. `assets/figur.png`). Die Figur erscheint dann im Hero hinter der Beispiel-Karte (Hochformat, freigestellt, ca. 4:5). Der Bild-Slot ist gebaut, aber mangels Bild noch nicht im Browser geprüft.
 - [ ] **15 Jobrichtungen.** Richtungen und Unterberufe sind ein Vorschlag. Kürzen, ergänzen oder umbenennen in `config/berufe.json`.
 - [ ] **Gehaltsspannen.** Die fünf Spannen im Formular (bis 2.800 € bis über 4.300 €) sind gesetzt, nicht recherchiert. Mit echten Stellen abgleichen.
@@ -30,7 +30,7 @@ Offen:
 - [ ] Cloudflare-API-Token erneuern (war auf einem Screenshot zu sehen): Cloudflare → My Profile → API Tokens → beim Token „Roll“ → neuen Wert in GitHub als Secret `CLOUDFLARE_API_TOKEN` überschreiben.
 - [ ] Alte, leere D1-Datenbank `passtjob` (Region ENAM, aus dem ersten Lauf) in Cloudflare löschen: Storage & Databases → D1 → `passtjob` → Settings → Delete. **Nicht** `passtjob-eu`.
 - [ ] Erste echte Firmen: pro Firma Kunde + Kachel in der Lead Table wie bisher, Stelle im Vergleicher mit „Neue Stelle“ anlegen, Webhook der Firmen-Kachel in den Steckbrief.
-- [ ] Eigene Domain: später Hosting auf Cloudflare Pages (Build-Befehl `node build.mjs`, Ausgabe `dist`), Domain in `ERLAUBTE_ORIGINS` (`vergleicher/wrangler.toml`) steht schon für passtjob.de.
+- [ ] Eigene Domain: später Hosting auf Cloudflare Pages (Build-Befehl `node build.mjs`, Ausgabe `dist`), Domain in `ERLAUBTE_ORIGINS` (`vergleicher/wrangler.toml`) steht schon für jobbahn.de.
 - [ ] Social-Vorschaubild (`og:image`) fehlt – kommt mit der Marke.
 - [ ] Bestätigungs-SMS oder -Mail nach dem Absenden? Aktuell nicht vorgesehen, der Danke-Screen sagt, was als Nächstes passiert.
 

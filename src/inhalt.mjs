@@ -2,7 +2,7 @@
    ALLE TEXTE DES PORTALS
    Platzhalter in geschweiften Klammern ersetzt der Build aus
    config/marke.json: {marke} {betreiber} {email} {telefon} {anzahl}.
-   ==Wort== markiert ein Wort in Überschriften gelb (wie bei Ländle Digital).
+   ==Wort== hebt ein Wort in Überschriften in der Akzentfarbe hervor.
    Fehlende Fakten stehen in [eckigen Klammern] und bleiben sichtbar.
    CONTENT.md wird aus dieser Datei erzeugt – hier ändern, nicht dort.
    ===================================================================== */
@@ -14,12 +14,12 @@ export const startseite = {
   },
   hero: {
     eyebrow: "Handwerk · Industrie · Büro – in deiner Nähe",
-    h1: "Der Job, der ==passt.==",
+    h1: "Dein nächster Job. ==In deiner Nähe.==",
     lead: "Sag uns in zwei Minuten, was du kannst und was du willst. Wir gleichen das mit offenen Stellen bei Betrieben in deiner Nähe ab und rufen dich an, wenn einer passt.",
     cta: "Kurzprofil anlegen",
     cta2: "So läuft’s",
     fakten: ["2 Minuten", "Kostenlos", "Ohne Lebenslauf", "Vertraulich"],
-    mass: "2 Min · ohne Lebenslauf"
+    mass: "2 Minuten · ohne Lebenslauf"
   },
   matchkarte: {
     label: "Beispiel",

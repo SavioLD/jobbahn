@@ -1,10 +1,10 @@
-# Passtjob – Bewerberportal
+# Jobbahn – Bewerberportal
 
 Bewerberseite des neuen Modells von Ländle Digital: Bewerber aus Handwerk, Industrie und Büro legen in zwei Minuten ein Kurzprofil an, das Profil landet im Bewerberpool (Lead Table), ein Talent Scout ruft bei einem Match an. Keine Regionsgrenze – gesucht wird „in deiner Nähe“, abgeglichen über PLZ und Fahrweg.
 
-Design: CI von Ländle Digital (Gelb `#F4C736`, Schwarz, Creme; Archivo Black und Plus Jakarta Sans).
+Design: schlicht und ruhig für Erwachsene (30–45) – Nachtblau, ruhiges Blau als Akzent, helle Flächen, feine Umlaufbahnen als einziges Schmuckelement; Schrift Plus Jakarta Sans. Keine Farben von Ländle Digital.
 
-**„Passtjob“ ist ein Arbeitstitel.** Alles Markenbezogene steht in `config/marke.json` und lässt sich dort in einer Zeile tauschen.
+**„Jobbahn“ ist der Arbeitsname (vorher „Passtjob“), Marke und Domain sind noch nicht geprüft.** Alles Markenbezogene steht in `config/marke.json` und lässt sich dort in einer Zeile tauschen. Technische Namen (Worker `passtjob-vergleicher`, Datenbank `passtjob-eu`) bleiben bewusst, damit nichts kaputtgeht. Besucher sehen sie nicht.
 
 ## Inhalt
 
@@ -52,7 +52,7 @@ Diese Vorschau ist für Suchmaschinen gesperrt (`noindex`, `robots.txt`), weil I
 
 ## Live schalten (Cloudflare Pages)
 
-Build-Befehl `node build.mjs`, Ausgabeverzeichnis `dist`. Die Seite lädt nichts von fremden Servern – Schriften (Archivo Black und Plus Jakarta Sans, beide SIL Open Font License) liegen in `assets/fonts/`. `sitemap.xml` und `robots.txt` entstehen aus `domain` in `config/marke.json`.
+Build-Befehl `node build.mjs`, Ausgabeverzeichnis `dist`. Die Seite lädt nichts von fremden Servern – die Schrift (Plus Jakarta Sans, SIL Open Font License) liegen in `assets/fonts/`. `sitemap.xml` und `robots.txt` entstehen aus `domain` in `config/marke.json`.
 
 ## Seiten
 
@@ -178,8 +178,8 @@ Die URL kommt aus `config/webhooks.json`: zuerst die Kachel der gewählten Richt
   "erreichbarkeit": "Abends",
   "einwilligung": "Ja (ENTWURF 2026-10, 22.10.2026 14:05)",
   "datum": "22.10.2026",
-  "quelle": "Bewerberportal Passtjob",
-  "seite": "https://passtjob.de/profil?beruf=metall&utm_source=meta",
+  "quelle": "Bewerberportal Jobbahn",
+  "seite": "https://jobbahn.de/profil?beruf=metall&utm_source=meta",
   "utm_source": "meta"
 }
 ```

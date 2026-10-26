@@ -9,7 +9,7 @@
 (function () {
   "use strict";
 
-  var C = window.PASSTJOB;
+  var C = window.PORTAL;
   if (!C) return;
   var T = C.texte;
 

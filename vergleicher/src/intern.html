@@ -6,10 +6,10 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Vergleicher</title>
 <style>
-/* Interne Oberfläche im CI von Ländle Digital. Bewusst nur helles Erscheinungsbild. */
+/* Interne Oberfläche im Stil von Jobbahn (Nachtblau, ruhiges Blau). Bewusst nur helles Erscheinungsbild. */
 :root {
-  --bg: #FBF7EE; --flaeche: #FFFFFF; --flaeche-2: #F3EDDF; --text: #141414; --text-2: #49443C; --linie: #E3DACA;
-  --akzent: #F4C736; --akzent-text: #7A5C00; --akzent-hell: #FEF3CF; --ok: #1F7A4D; --ok-hell: #E3F3E9; --nein: #B3261E; --nein-hell: #FBE9E6;
+  --bg: #F6F7F9; --flaeche: #FFFFFF; --flaeche-2: #EDF0F4; --text: #0F1B2D; --text-2: #4A5568; --linie: #DDE2E9;
+  --akzent: #2B59C3; --auf-akzent: #FFFFFF; --akzent-text: #234BA8; --akzent-hell: #EAF0FB; --ok: #1F7A4D; --ok-hell: #E3F3E9; --nein: #B3261E; --nein-hell: #FBE9E6;
   --f: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   color-scheme: light;
 }
@@ -28,22 +28,22 @@ p { margin: 0; }
 .kopf-innen, main { max-width: 1120px; margin-inline: auto; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
 .kopf-innen { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; min-height: 60px; }
 .marke { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; text-decoration: none; margin-right: auto; }
-.marke i { width: 22px; height: 22px; border: 2.5px solid var(--bg); border-radius: 6px; display: grid; place-items: center; }
-.marke i::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--akzent); }
+.marke i { width: 22px; height: 22px; border: 2px solid var(--bg); border-radius: 50%; display: grid; place-items: center; }
+.marke i::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #7FA2F0; }
 .kopf nav { display: flex; flex-wrap: wrap; gap: 4px; }
 .kopf nav a, .kopf nav button { color: var(--bg); text-decoration: none; font: inherit; font-weight: 700; background: none; border: 0; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
-.kopf nav a[aria-current="page"] { background: var(--akzent); color: var(--text); }
+.kopf nav a[aria-current="page"] { background: var(--akzent); color: var(--auf-akzent); }
 main { padding-block: 28px 64px; display: flex; flex-direction: column; gap: 22px; }
 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 10px; border: 2px solid var(--text); background: var(--flaeche); color: var(--text); font: inherit; font-weight: 800; cursor: pointer; text-decoration: none; }
-.btn-gelb { background: var(--akzent); box-shadow: 0 3px 0 var(--text); }
+.btn-gelb { background: var(--akzent); border-color: var(--akzent); color: var(--auf-akzent); }
 .btn-klein { min-height: 34px; padding: 0 12px; font-size: 14px; }
 .btn[disabled] { opacity: .55; cursor: not-allowed; }
 .zeile { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .karte { background: var(--flaeche); border: 1px solid var(--linie); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 .leise { color: var(--text-2); }
 .klein { font-size: 13px; }
-.hinweis { padding: 12px 16px; border-radius: 10px; background: var(--akzent-hell); border: 1px solid #EFD98A; }
+.hinweis { padding: 12px 16px; border-radius: 10px; background: var(--akzent-hell); border: 1px solid #C9D6F2; }
 .hinweis.fehler { background: var(--nein-hell); border-color: #F0B8B0; }
 .meldung { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 12px 18px; border-radius: 10px; font-weight: 700; max-width: calc(100% - 32px); z-index: 10; }
 
@@ -59,7 +59,7 @@ tbody tr { cursor: pointer; }
 tbody tr:hover { background: var(--akzent-hell); }
 td.zahl { font-variant-numeric: tabular-nums; font-weight: 800; }
 .pille { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; background: var(--flaeche-2); white-space: nowrap; }
-.pille.offen, .pille.neu { background: var(--akzent); }
+.pille.offen, .pille.neu { background: var(--akzent); color: var(--auf-akzent); }
 .pille.besetzt, .pille.uebergeben { background: var(--ok-hell); color: var(--ok); }
 .pille.pausiert, .pille.kein_interesse, .pille.passt_nicht, .pille.gesperrt { background: var(--flaeche-2); color: var(--text-2); }
 .pille.angerufen { background: #E4ECF8; color: #1D4E89; }
@@ -81,7 +81,7 @@ input:focus, select:focus, textarea:focus { outline: 2.5px solid var(--akzent); 
 .haken { display: flex; flex-wrap: wrap; gap: 6px; }
 .haken label { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1.5px solid #D6CCB8; border-radius: 999px; background: var(--flaeche); font-size: 14px; cursor: pointer; }
 .haken input:checked + span { font-weight: 800; }
-.haken label:has(input:checked) { background: var(--akzent); border-color: var(--text); }
+.haken label:has(input:checked) { background: var(--akzent-hell); border-color: var(--akzent); }
 .kriterium { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 14px; align-items: end; padding-top: 12px; border-top: 1px dashed var(--linie); }
 .kriterium:first-of-type { border-top: 0; padding-top: 0; }
 @media (max-width: 720px) { .kriterium { grid-template-columns: minmax(0, 1fr); } }
@@ -90,7 +90,7 @@ input:focus, select:focus, textarea:focus { outline: 2.5px solid var(--akzent); 
 .gewicht input { position: absolute; opacity: 0; }
 .gewicht span { display: block; padding: 7px 12px; font-size: 13px; font-weight: 800; cursor: pointer; }
 .gewicht label + label span { border-left: 1.5px solid var(--text); }
-.gewicht input:checked + span { background: var(--text); color: var(--akzent); }
+.gewicht input:checked + span { background: var(--text); color: var(--bg); }
 .gewicht input:focus-visible + span { outline: 3px solid var(--akzent); outline-offset: -3px; }
 .doppelt { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .fehlertext { color: var(--nein); font-weight: 700; }

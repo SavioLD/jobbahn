@@ -1,11 +1,11 @@
 /* Erzeugt von build.mjs – nicht von Hand ändern. */
-window.PASSTJOB = {
+window.PORTAL = {
   "marke": {
-    "name": "Passtjob"
+    "name": "Jobbahn"
   },
   "texte": {
     "meta": {
-      "titel": "Kurzprofil anlegen – Passtjob",
+      "titel": "Kurzprofil anlegen – Jobbahn",
       "beschreibung": "Leg in zwei Minuten dein Kurzprofil an. Kostenlos, vertraulich, ohne Lebenslauf."
     },
     "kopf": "Kurzprofil",

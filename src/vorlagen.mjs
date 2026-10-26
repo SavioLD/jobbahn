@@ -25,14 +25,17 @@ export const icon = {
   loeschen: svg('<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>')
 };
 
-/* Wortmarke-Symbol: Welle in der Bohrung – eine Passung. Platzhalter,
+/* Wortmarke-Symbol: ein Planet auf seiner Umlaufbahn. Platzhalter,
    bis ein Logo in config/marke.json eingetragen ist. */
-const passungSymbol = `<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="3"/><circle class="punkt" cx="16" cy="16" r="8.5"/></svg>`;
+const bahnSymbol = `<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="12.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="currentColor"/><circle class="punkt" cx="24.8" cy="7.2" r="3.6"/></svg>`;
+
+/* Dezente Umlaufbahnen hinter dem Hero – reine Dekoration. */
+const bahnen = `<svg class="hero-bahnen" viewBox="0 0 800 800" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1"><circle cx="400" cy="400" r="170"/><circle cx="400" cy="400" r="270"/><circle cx="400" cy="400" r="375"/></g><circle class="punkt" cx="591" cy="209" r="9"/><circle cx="139" cy="470" r="5" fill="currentColor"/></svg>`;
 
 export function logo(m, href = "./") {
   const inner = m.logo
     ? `<img src="${esc(m.logo)}" alt="${esc(m.name)}">`
-    : `${passungSymbol}<span class="logo-wort">${esc(m.name)}</span>`;
+    : `${bahnSymbol}<span class="logo-wort">${esc(m.name)}</span>`;
   return `<a class="logo" href="${href}" aria-label="${esc(m.name)} – Startseite">${inner}</a>`;
 }
 
@@ -77,7 +80,7 @@ export function head(m, { titel, beschreibung, pfad, artifact, vorschau, fontsHr
 
 /* ---------- Bausteine ---------- */
 const eyebrow = (t) => `<p class="eyebrow">${esc(t)}</p>`;
-/* ==Wort== → gelb markiert (Ländle-Digital-Markierung) */
+/* ==Wort== → in der Akzentfarbe hervorgehoben */
 export const markiert = (s) => esc(s).replace(/==(.+?)==/g, '<span class="hl">$1</span>');
 
 function ablaufListe(schritte) {
@@ -104,7 +107,7 @@ export function startseite(m, t, a, berufe) {
   const h = t.hero;
   return `${kopf(m, a)}
 <main>
-<section class="hero"><div class="wrap hero-raster">
+<section class="hero">${bahnen}<div class="wrap hero-raster">
   <div class="hero-text">
     ${eyebrow(h.eyebrow)}
     <h1 class="h1">${markiert(h.h1)}</h1>

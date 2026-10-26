@@ -1,13 +1,13 @@
 /* =====================================================================
-   Layout: „Werkstattblatt“ im CI von Ländle Digital – Creme-Fläche, feine
-   Maßlinien, Archivo-Black-Überschriften mit gelber Markierung.
+   Layout: schlicht und ruhig – helle Fläche, Nachtblau, ein ruhiges Blau
+   als Akzent, feine Umlaufbahnen als einziges Schmuckelement.
    Marken-Farben und -Schriften kommen aus assets/marke.css (wird vom
    Build aus config/marke.json erzeugt). Hier stehen nur Tokens, die
    nicht zur Marke gehören.
    ===================================================================== */
 :root {
-  --schatten: rgba(19, 32, 26, .16);
-  --schatten-stark: rgba(19, 32, 26, .28);
+  --schatten: rgba(15, 27, 45, .12);
+  --schatten-stark: rgba(15, 27, 45, .22);
   --radius: 14px;
   --radius-klein: 10px;
   --breite: 1160px;
@@ -56,24 +56,20 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
   font-family: var(--f-text); font-size: 12.5px; font-weight: 800;
   letter-spacing: .14em; text-transform: uppercase; color: var(--text-2);
 }
-.eyebrow::before { content: ""; width: 18px; height: 2px; background: var(--akzent); }
+.eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--akzent); }
 .h1 {
-  font-family: var(--f-display); font-weight: 400;
-  font-size: clamp(2.6rem, 7.6vw, 5.2rem); line-height: 1.03; letter-spacing: -.015em;
+  font-family: var(--f-display); font-weight: var(--w-display);
+  font-size: clamp(2.4rem, 6.4vw, 4.4rem); line-height: 1.06; letter-spacing: -.025em;
 }
 .h2 {
-  font-family: var(--f-display); font-weight: 400;
-  font-size: clamp(1.9rem, 4.4vw, 3rem); line-height: 1.08; letter-spacing: -.01em;
+  font-family: var(--f-display); font-weight: var(--w-display);
+  font-size: clamp(1.75rem, 3.8vw, 2.6rem); line-height: 1.12; letter-spacing: -.02em;
 }
 /* Lange Wörter (z. B. „Gebäudeservice“) dürfen am Handy umbrechen statt überzulaufen. */
 .h1, .h2 { hyphens: auto; overflow-wrap: break-word; }
 .h1-klein { font-size: clamp(1.75rem, 6.2vw, 4.2rem); }
-/* Gelbe Markierung wie bei Ländle Digital: ==Wort== in den Texten */
-.hl { position: relative; z-index: 0; color: var(--auf-akzent); padding-inline: .08em; white-space: nowrap; }
-.hl::before {
-  content: ""; position: absolute; z-index: -1; inset: .06em -.04em -.02em -.04em;
-  background: var(--akzent); border-radius: 4px 14px 6px 12px / 12px 6px 14px 5px; transform: rotate(-1.2deg);
-}
+/* Hervorhebung: ==Wort== in den Texten – nur Farbe, kein Effekt */
+.hl { color: var(--akzent-text); white-space: nowrap; }
 .h3 { font-size: 1.2rem; font-weight: 700; line-height: 1.25; }
 .lead { font-size: clamp(1.08rem, 2.2vw, 1.25rem); color: var(--text-2); max-width: 36em; }
 .text-2 { color: var(--text-2); }
@@ -89,9 +85,10 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .btn:hover { transform: translateY(-1px); }
 .btn:active { transform: translateY(0); }
 .btn svg { width: 18px; height: 18px; flex: none; }
-.btn-primaer { background: var(--akzent); color: var(--auf-akzent); border-color: var(--auf-akzent); box-shadow: 0 3px 0 var(--auf-akzent); }
-.btn-primaer:hover { box-shadow: 0 4px 0 var(--auf-akzent); }
-.btn-sekundaer { background: transparent; color: var(--text); border-color: var(--text); }
+.btn-primaer { background: var(--akzent); color: var(--auf-akzent); border-color: var(--akzent); }
+.btn-primaer:hover { box-shadow: 0 8px 20px -10px var(--akzent); }
+.btn-sekundaer { background: transparent; color: var(--text); border-color: var(--linie); }
+.btn-sekundaer:hover { border-color: var(--text-2); }
 .btn-klein { min-height: 42px; padding: 0 16px; font-size: 15px; }
 .btn-leise { background: transparent; color: var(--text-2); border-color: transparent; padding: 0 10px; }
 .btn[disabled] { opacity: .6; cursor: progress; transform: none; }
@@ -102,7 +99,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
 .logo svg { width: 30px; height: 30px; color: var(--text); flex: none; }
 .logo .punkt { fill: var(--akzent); }
-.logo-wort { font-family: var(--f-display); font-weight: 400; font-size: 22px; letter-spacing: -.01em; line-height: 1; }
+.logo-wort { font-family: var(--f-display); font-weight: var(--w-display); font-size: 21px; letter-spacing: -.02em; line-height: 1; }
 .logo img { height: 34px; width: auto; }
 .nav { display: none; gap: 28px; }
 .nav a { text-decoration: none; font-weight: 600; font-size: 16px; color: var(--text-2); }
@@ -115,7 +112,15 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .abschnitt + .abschnitt { border-top: 1px solid var(--linie); }
 
 /* ---------- Hero ---------- */
-.hero { padding-block: clamp(40px, 7vw, 88px) clamp(56px, 8vw, 96px); }
+.hero { position: relative; overflow: hidden; padding-block: clamp(40px, 7vw, 88px) clamp(56px, 8vw, 96px); }
+.hero > .wrap { position: relative; }
+/* Umlaufbahnen: rechts angeschnitten, sehr zurückhaltend */
+.hero-bahnen {
+  position: absolute; top: 50%; right: -260px; width: 820px; height: auto; max-width: none;
+  transform: translateY(-50%); color: var(--linie); pointer-events: none;
+}
+.hero-bahnen .punkt { fill: var(--akzent); }
+@media (max-width: 959px) { .hero-bahnen { top: 0; right: -420px; transform: none; opacity: .8; } }
 .hero-raster { display: grid; gap: clamp(36px, 5vw, 64px); align-items: center; }
 @media (min-width: 960px) { .hero-raster { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); } }
 .hero-text { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
@@ -124,13 +129,13 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .fakten li { display: inline-flex; align-items: center; gap: 7px; }
 .fakten svg { width: 16px; height: 16px; color: var(--akzent-text); }
 
-/* Maßlinie wie auf einer technischen Zeichnung */
+/* Bahnlinie: dünne Linie mit einem Punkt an jedem Ende */
 .masslinie {
   display: flex; align-items: center; gap: 12px; max-width: 520px;
   font-family: var(--f-mono); font-size: 13px; font-weight: 600; color: var(--text-2); white-space: nowrap;
 }
 .masslinie span[aria-hidden] { position: relative; flex: 1; height: 1px; background: currentColor; min-width: 24px; }
-.masslinie span[aria-hidden]::before { content: ""; position: absolute; top: -6px; width: 1.5px; height: 13px; background: currentColor; }
+.masslinie span[aria-hidden]::before { content: ""; position: absolute; top: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--akzent); }
 .masslinie span[aria-hidden]:first-child::before { left: 0; }
 .masslinie span[aria-hidden]:last-child::before { right: 0; }
 @media (max-width: 420px) { .masslinie { font-size: 12px; gap: 8px; } }
@@ -155,7 +160,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 }
 .match-status { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--akzent-text); font-size: 15px; }
 .match-status::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--akzent-text); box-shadow: 0 0 0 4px var(--akzent-hell); }
-.match-titel { font-family: var(--f-display); font-weight: 400; font-size: 24px; line-height: 1.15; }
+.match-titel { font-family: var(--f-display); font-weight: var(--w-display); font-size: 22px; line-height: 1.2; letter-spacing: -.01em; }
 .match-ort { color: var(--text-2); font-size: 15px; margin-top: 4px; }
 .match-zeilen { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
 .match-zeilen li {
@@ -176,8 +181,10 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .ablauf { display: grid; gap: 28px; padding: 0; margin: 0; list-style: none; counter-reset: schritt; }
 @media (min-width: 640px) { .ablauf { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1000px) { .ablauf { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; } }
-.ablauf li { display: flex; flex-direction: column; gap: 10px; padding-top: 18px; border-top: 2px solid var(--text); min-width: 0; }
-.ablauf li:last-child { border-top: 4px solid var(--akzent); padding-top: 16px; }
+.ablauf li { position: relative; display: flex; flex-direction: column; gap: 10px; padding-top: 22px; border-top: 1px solid var(--linie); min-width: 0; }
+/* Stationen auf einer Bahn: ein Punkt pro Schritt, der letzte gefüllt */
+.ablauf li::before { content: ""; position: absolute; top: -6px; left: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--akzent); }
+.ablauf li:last-child::before { background: var(--akzent); }
 .ablauf-nr { font-family: var(--f-mono); font-size: 14px; color: var(--akzent-text); font-weight: 800; }
 .ablauf p { color: var(--text-2); }
 
@@ -227,8 +234,8 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
   padding: 22px 22px 18px; background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius);
   text-decoration: none; transition: border-color .15s ease, transform .15s ease;
 }
-.beruf-kachel:hover { border-color: var(--text); transform: translateY(-2px); }
-.beruf-kachel .name { font-family: var(--f-display); font-weight: 400; font-size: 21px; line-height: 1.15; }
+.beruf-kachel:hover { border-color: var(--akzent); transform: translateY(-2px); }
+.beruf-kachel .name { font-family: var(--f-display); font-weight: var(--w-display); font-size: 19px; line-height: 1.2; letter-spacing: -.01em; }
 .beruf-kachel .kurz { color: var(--text-2); }
 .beruf-kachel .los { margin-top: auto; padding-top: 10px; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--akzent-text); font-size: 15px; }
 .beruf-kachel .los svg { width: 16px; height: 16px; }
@@ -267,7 +274,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
   border: 2px solid var(--linie); border-radius: 999px; background: var(--flaeche);
   font-weight: 700; text-decoration: none; transition: border-color .15s ease;
 }
-.chips a:hover { border-color: var(--text); }
+.chips a:hover { border-color: var(--akzent); }
 .chips svg { width: 16px; height: 16px; color: var(--akzent-text); }
 .karte-berufe {
   background: var(--flaeche); border: 1px solid var(--linie); border-radius: 18px; padding: clamp(20px, 3vw, 28px);
@@ -320,7 +327,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .schritt.ist-messen { position: absolute; left: 0; right: 0; top: 0; visibility: hidden; }
 .schritt legend { padding: 0; float: left; width: 100%; }
 .schritt legend + * { clear: both; }
-.frage { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.45rem, 5.2vw, 1.8rem); line-height: 1.15; }
+.frage { font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(1.35rem, 4.8vw, 1.65rem); line-height: 1.2; letter-spacing: -.015em; }
 .hinweis { color: var(--text-2); font-size: 15px; line-height: 1.45; }
 .optionen { display: flex; flex-direction: column; gap: 8px; }
 .optionen-raster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -342,10 +349,10 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
   display: grid; place-items: center; background: var(--flaeche);
 }
 .option input[type="checkbox"] + .option-flaeche .option-marke { border-radius: 6px; }
-.option-marke svg { width: 14px; height: 14px; color: var(--akzent); opacity: 0; }
-.option input:checked + .option-flaeche { border-color: var(--auf-akzent); background: var(--akzent); color: var(--auf-akzent); }
-.option input:checked + .option-flaeche small { color: var(--auf-akzent); }
-.option input:checked + .option-flaeche .option-marke { background: var(--auf-akzent); border-color: var(--auf-akzent); }
+.option-marke svg { width: 14px; height: 14px; color: var(--auf-akzent); opacity: 0; }
+.option input:checked + .option-flaeche { border-color: var(--akzent); background: var(--akzent-hell); color: var(--text); }
+.option input:checked + .option-flaeche small { color: var(--text-2); }
+.option input:checked + .option-flaeche .option-marke { background: var(--akzent); border-color: var(--akzent); }
 .option input:checked + .option-flaeche .option-marke svg { opacity: 1; }
 .option input:focus-visible + .option-flaeche { outline: 3px solid var(--text); outline-offset: 2px; }
 

@@ -10,7 +10,7 @@ workers_dev = true
 
 [vars]
 # Von diesen Seiten aus darf das Bewerberformular senden (kommagetrennt).
-ERLAUBTE_ORIGINS = "https://saviold.github.io,https://passtjob.de,https://www.passtjob.de"
+ERLAUBTE_ORIGINS = "https://saviold.github.io,https://jobbahn.de,https://www.jobbahn.de"
 
 [[d1_databases]]
 binding = "DB"

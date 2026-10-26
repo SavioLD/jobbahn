@@ -121,7 +121,7 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
           const f = await page.textContent(".schritt.ist-aktiv [data-fehler]").catch(() => "");
           throw new Error(`${w}x${h} ${fall.name}: kein Danke – hängt bei „${aktiv}“ (${f})`);
         });
-        const api = await page.evaluate(() => (window.PASSTJOB && window.PASSTJOB.api || "").replace(/\/+$/, ""));
+        const api = await page.evaluate(() => (window.PORTAL && window.PORTAL.api || "").replace(/\/+$/, ""));
         if (api && (!gesendet || gesendet.url !== api + "/api/bewerber")) fail(`${w}x${h} ${fall.name}: nicht an den Vergleicher gesendet (${gesendet && gesendet.url})`);
         const payload = JSON.parse(gesendet ? gesendet.body : await page.textContent("#danke pre"));
         const pflicht = ["vorname", "nachname", "telefon", "email", "berufskategorie", "beruf", "abschluss", "erfahrung", "plz", "ort", "fahrweg", "verfuegbarkeit", "gehalt", "schicht", "fuehrerschein", "deutsch", "lebenslauf", "sperrliste", "erreichbarkeit", "einwilligung", "datum", "quelle", "seite"];
