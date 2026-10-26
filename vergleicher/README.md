@@ -48,7 +48,7 @@ Der Deploy läuft automatisch über GitHub, sobald zwei Secrets hinterlegt sind.
 
 **3. Account-ID:** steht schon in `wrangler.toml` (Konto von Ländle Digital).
 
-**4. Secrets in GitHub eintragen.** Im Repo `jobkollege`: **Settings → Secrets and variables → Actions → New repository secret**
+**4. Secrets in GitHub eintragen.** Im Repo `jobbahn`: **Settings → Secrets and variables → Actions → New repository secret**
 
 | Name | Inhalt |
 |---|---|

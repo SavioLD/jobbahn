@@ -39,7 +39,7 @@ python3 -m http.server -d dist    # → http://localhost:8000
 
 ## Vorschau über GitHub Pages
 
-Repo-Settings → **Pages** → Source: **Deploy from a branch**, Branch: `main` / `/root`. Nach ein paar Minuten unter `https://saviold.github.io/jobkollege/` erreichbar.
+Repo-Settings → **Pages** → Source: **Deploy from a branch**, Branch: `main` / `/root`. Nach ein paar Minuten unter `https://saviold.github.io/jobbahn/` erreichbar.
 
 GitHub Pages zeigt nur fertige Dateien. Deshalb liegen die gebauten Seiten (`index.html`, die Berufsseiten, `profil.html` …, `assets/marke.css`, `assets/config.js`) direkt im Hauptordner. **Nach jeder Änderung an Config, Texten oder Vorlagen:**
 

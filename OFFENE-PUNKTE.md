@@ -20,7 +20,7 @@
 ## Technik
 
 **Stand 23.10.2026:**
-- Portal live auf GitHub Pages: https://saviold.github.io/jobkollege/ (noindex, bis Marke und Recht stehen).
+- Portal live auf GitHub Pages: https://saviold.github.io/jobbahn/ (noindex, bis Marke und Recht stehen).
 - Vergleicher live: https://passtjob-vergleicher.savio-roeckle.workers.dev/intern (Cloudflare-Konto Ländle Digital, D1-Datenbank `passtjob-eu` in der EU). Das Portal sendet an ihn (`api` in `config/webhooks.json`).
 - GitHub-Secrets `CLOUDFLARE_API_TOKEN` und `VERGLEICHER_PASSWORT` sind gesetzt. Jeder Deploy prüft danach Erreichbarkeit, Passwortschutz und Datenbank (Schritt „Läuft er?“).
 - In der Lead Table gibt es den Kunden „Bewerberpool“ mit den Kacheln „Pool · Alle“ und „Matches“.
