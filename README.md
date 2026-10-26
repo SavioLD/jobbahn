@@ -52,7 +52,7 @@ Diese Vorschau ist für Suchmaschinen gesperrt (`noindex`, `robots.txt`), weil I
 
 ## Live schalten (Cloudflare Pages)
 
-Build-Befehl `node build.mjs`, Ausgabeverzeichnis `dist`. Die Seite lädt nichts von fremden Servern – die Schrift (Plus Jakarta Sans, SIL Open Font License) liegen in `assets/fonts/`. `sitemap.xml` und `robots.txt` entstehen aus `domain` in `config/marke.json`.
+Build-Befehl `node build.mjs`, Ausgabeverzeichnis `dist`. Die Seite lädt nichts von fremden Servern – die Schrift (Plus Jakarta Sans, SIL Open Font License) liegt in `assets/fonts/`. `sitemap.xml` und `robots.txt` entstehen aus `domain` in `config/marke.json`.
 
 ## Seiten
 
