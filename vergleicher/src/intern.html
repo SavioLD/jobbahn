@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Vergleicher</title>
+<!--FAVICON-->
 <style>
 /* Interne Oberfläche im Stil von Jobbahn (Nachtblau, ruhiges Blau). Bewusst nur helles Erscheinungsbild. */
 :root {
@@ -28,8 +29,7 @@ p { margin: 0; }
 .kopf-innen, main { max-width: 1120px; margin-inline: auto; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
 .kopf-innen { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; min-height: 60px; }
 .marke { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; text-decoration: none; margin-right: auto; }
-.marke i { width: 22px; height: 22px; border: 2px solid var(--bg); border-radius: 50%; display: grid; place-items: center; }
-.marke i::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #7FA2F0; }
+.marke svg { width: 30px; height: 30px; flex: none; }
 .kopf nav { display: flex; flex-wrap: wrap; gap: 4px; }
 .kopf nav a, .kopf nav button { color: var(--bg); text-decoration: none; font: inherit; font-weight: 700; background: none; border: 0; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
 .kopf nav a[aria-current="page"] { background: var(--akzent); color: var(--auf-akzent); }
@@ -159,7 +159,7 @@ dl.steck dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 </head>
 <body>
 <header class="kopf"><div class="kopf-innen">
-  <a class="marke" href="#stellen"><i aria-hidden="true"></i>Vergleicher</a>
+  <a class="marke" href="#stellen"><!--SYMBOL-->Vergleicher</a>
   <nav id="nav" hidden>
     <a href="#stellen" data-nav="stellen">Stellen</a>
     <a href="#neu" data-nav="neu">Neue Stelle</a>

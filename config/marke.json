@@ -9,7 +9,7 @@
     "email": "[E-Mail-Adresse]",
     "telefon": "[Telefonnummer]"
   },
-  "logo": null,
+  "logo": "assets/jobbahn-logo.svg",
   "figur": null,
   "schriften": {
     "display": {
@@ -87,5 +87,6 @@
       "band-2": "#A3AEBF",
       "fehler": "#F28B82"
     }
-  }
+  },
+  "symbol": "assets/favicon.svg"
 }

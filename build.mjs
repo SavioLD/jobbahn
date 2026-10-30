@@ -39,6 +39,17 @@ const keys = berufe.map(b => b.key);
 if (new Set(keys).size !== keys.length) fehler.push("config/berufe.json: doppelter key");
 if (fehler.length) { console.error("Build abgebrochen:\n- " + fehler.join("\n- ")); process.exit(1); }
 
+/* ---------- Logo: SVG einmal pro Seite als <symbol>, gefärbt per CSS ---------- */
+/* Schrift = currentColor, Planet und Mond über --logo-planet / --logo-mond – so passt es hell wie dunkel. */
+if (marke.logo && marke.logo.endsWith(".svg")) {
+  const roh = readFileSync(join(root, marke.logo), "utf8");
+  const viewBox = (/viewBox="([^"]+)"/.exec(roh) || [])[1];
+  const farbe = { "logo-text": "currentColor", "logo-planet": "var(--logo-planet,#2B59C3)", "logo-mond": "var(--logo-mond,#7FA2F0)" };
+  const pfade = [...roh.matchAll(/<path class="([\w-]+)"[^>]*\sd="([^"]+)"/g)].map(([, k, d]) => `<path fill="${farbe[k] || "currentColor"}" fill-rule="evenodd" d="${d}"/>`).join("");
+  marke.logoViewBox = viewBox;
+  marke.logoSymbol = `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="jobbahn-logo" viewBox="${viewBox}">${pfade}</symbol></svg>`;
+}
+
 /* ---------- Platzhalter der Marke ersetzen ---------- */
 const basis = {
   marke: marke.name, betreiber: marke.betreiber, anzahl: berufe.length,

@@ -59,7 +59,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--akzent); }
 .h1 {
   font-family: var(--f-display); font-weight: var(--w-display);
-  font-size: clamp(2.4rem, 6.4vw, 4.4rem); line-height: 1.06; letter-spacing: -.025em;
+  font-size: clamp(2.3rem, 5.6vw, 4rem); line-height: 1.06; letter-spacing: -.025em;
 }
 .h2 {
   font-family: var(--f-display); font-weight: var(--w-display);
@@ -70,6 +70,8 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .h1-klein { font-size: clamp(1.75rem, 6.2vw, 4.2rem); }
 /* Hervorhebung: ==Wort== in den Texten – nur Farbe, kein Effekt */
 .hl { color: var(--akzent-text); white-space: nowrap; }
+/* Im Hero steht der hervorgehobene Teil in einer eigenen Zeile: „Dein nächster Job. / In deiner Nähe.“ */
+.hero .h1 .hl { display: block; }
 .h3 { font-size: 1.2rem; font-weight: 700; line-height: 1.25; }
 .lead { font-size: clamp(1.08rem, 2.2vw, 1.25rem); color: var(--text-2); max-width: 36em; }
 .text-2 { color: var(--text-2); }
@@ -101,6 +103,10 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .logo .punkt { fill: var(--akzent); }
 .logo-wort { font-family: var(--f-display); font-weight: var(--w-display); font-size: 21px; letter-spacing: -.02em; line-height: 1; }
 .logo img { height: 34px; width: auto; }
+.logo .logo-bild { height: 34px; width: auto; color: var(--text); --logo-planet: #2B59C3; --logo-mond: #7FA2F0; }
+.fuss .logo .logo-bild { height: 30px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .logo .logo-bild { --logo-planet: #5A85E6; } }
+:root[data-theme="dark"] .logo .logo-bild { --logo-planet: #5A85E6; }
 .nav { display: none; gap: 28px; }
 .nav a { text-decoration: none; font-weight: 600; font-size: 16px; color: var(--text-2); }
 .nav a:hover { color: var(--text); }

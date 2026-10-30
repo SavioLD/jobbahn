@@ -10,6 +10,7 @@ on:
       - "vergleicher/**"
       - "config/berufe.json"
       - "schema/felder.json"
+      - "assets/favicon.svg"
       - ".github/workflows/vergleicher.yml"
   workflow_dispatch:
 

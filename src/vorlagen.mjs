@@ -33,7 +33,9 @@ const bahnSymbol = `<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false
 const bahnen = `<svg class="hero-bahnen" viewBox="0 0 800 800" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1"><circle cx="400" cy="400" r="170"/><circle cx="400" cy="400" r="270"/><circle cx="400" cy="400" r="375"/></g><circle class="punkt" cx="591" cy="209" r="9"/><circle cx="139" cy="470" r="5" fill="currentColor"/></svg>`;
 
 export function logo(m, href = "./") {
-  const inner = m.logo
+  const inner = m.logoSymbol
+    ? `<svg class="logo-bild" viewBox="0 0 ${m.logoViewBox.split(/\s+/).slice(2).join(" ")}" aria-hidden="true" focusable="false"><use href="#jobbahn-logo"/></svg>`
+    : m.logo
     ? `<img src="${esc(m.logo)}" alt="${esc(m.name)}">`
     : `${bahnSymbol}<span class="logo-wort">${esc(m.name)}</span>`;
   return `<a class="logo" href="${href}" aria-label="${esc(m.name)} – Startseite">${inner}</a>`;
@@ -43,7 +45,7 @@ export function logo(m, href = "./") {
 export function kopf(m, a, { minimal = false, rechts = "" } = {}) {
   const nav = minimal ? "" : `<nav class="nav" aria-label="Hauptnavigation">${a.nav.map(n => `<a href="${esc(n.href)}">${esc(n.text)}</a>`).join("")}</nav>`;
   const cta = minimal ? rechts : `<a class="btn btn-primaer btn-klein" href="profil.html">${esc(a.navCta)}</a>`;
-  return `<header class="kopf${minimal ? " profil-kopf" : ""}"><div class="wrap kopf-innen">${logo(m)}${nav}${cta}</div></header>`;
+  return `${m.logoSymbol || ""}<header class="kopf${minimal ? " profil-kopf" : ""}"><div class="wrap kopf-innen">${logo(m)}${nav}${cta}</div></header>`;
 }
 
 export function fuss(m, a) {
@@ -73,6 +75,7 @@ export function head(m, { titel, beschreibung, pfad, artifact, vorschau, fontsHr
     `<meta property="og:description" content="${esc(beschreibung)}">`,
     canonical && !artifact ? `<link rel="canonical" href="${esc(canonical)}">` : "",
     fontsHref ? `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="${esc(fontsHref)}">` : "",
+    m.symbol ? `<link rel="icon" href="${esc(m.symbol)}" type="image/svg+xml">` : "",
     `<link rel="stylesheet" href="assets/marke.css">`,
     `<link rel="stylesheet" href="assets/style.css">`
   ].filter(Boolean).join("\n");
