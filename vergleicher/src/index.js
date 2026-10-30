@@ -17,6 +17,7 @@
    Kopien – Pool, Treffer („Matches“) und Übergaben an die Firmen.
    ===================================================================== */
 import berufe from "../../config/berufe.json" with { type: "json" };
+import { holeWebsiteInfo, websiteAdresse } from "./website.js";
 import felder from "../../schema/felder.json" with { type: "json" };
 import { vergleiche, koordinaten, entfernungKm, gruendeText, passungText, ABSCHLUSS_MIN, DEUTSCH_MIN, START } from "./matching.js";
 import internSeite from "./intern-seite.js";
@@ -96,6 +97,7 @@ function matchPayload(b, s, m, basisUrl) {
     vorname: d.vorname, nachname: d.nachname, telefon: d.telefon, email: d.email,
     match: `Passt zu: ${s.titel} bei ${s.firma}${arbeitsort ? ` in ${arbeitsort}` : ""} · ${entfernung} entfernt · ${passung}`,
     passende_firma: s.firma, passende_stelle: s.titel, stellen_ort: arbeitsort || "–",
+    ueber_die_firma: s.firmen_info || "–", firmen_website: s.website || "–",
     entfernung, passung,
     pruefen: unklar.length ? unklar.join(" · ") : "–",
     gruende: gruendeText(m.gruende),
@@ -283,6 +285,8 @@ function steckbriefPruefen(p, env) {
     telefon: String(p.telefon || "").slice(0, 60),
     email: String(p.email || "").slice(0, 120),
     firmen_webhook: String(p.firmen_webhook || "").trim().slice(0, 1000),
+    website: websiteAdresse(p.website),
+    firmen_info: String(p.firmen_info || "").trim().slice(0, 500),
     titel: String(p.titel || "").trim().slice(0, 120),
     richtung: String(p.richtung || ""),
     berufe: [],
@@ -301,6 +305,7 @@ function steckbriefPruefen(p, env) {
   if (!RICHTUNG[s.richtung]) fehler.push("Richtung fehlt");
   if (!/^\d{5}$/.test(s.plz)) fehler.push("PLZ des Arbeitsorts fehlt oder hat nicht fünf Ziffern");
   if (s.firmen_webhook && !zielOk(s.firmen_webhook, env)) fehler.push("Webhook der Firmen-Kachel muss mit https:// beginnen");
+  if (String(p.website || "").trim() && !s.website) fehler.push("Website der Firma ist keine gültige Adresse");
   if (RICHTUNG[s.richtung]) s.berufe = (Array.isArray(p.berufe) ? p.berufe : []).filter(x => RICHTUNG[s.richtung].berufe.includes(x));
 
   const k = p.kriterien || {};
@@ -321,6 +326,11 @@ function steckbriefPruefen(p, env) {
 async function stelleSpeichern(env, p, id) {
   const { s, fehler } = steckbriefPruefen(p, env);
   if (fehler.length) return antwort({ ok: false, fehler: fehler.join(" · ") }, 400);
+  /* Website angegeben, aber noch keine Kurzinfo: einmal selbst nachsehen. */
+  if (s.website && !s.firmen_info) {
+    const w = await holeWebsiteInfo(s.website);
+    if (w.ok) s.firmen_info = w.text;
+  }
   const ko = koordinaten(s.plz);
   if (id) {
     const alt = await env.DB.prepare("SELECT id, status FROM stellen WHERE id = ?").bind(id).first();
@@ -377,6 +387,7 @@ async function intern(req, env, pfad, url) {
   }
 
   if (pfad === "/api/intern/stellen" && req.method === "POST") return stelleSpeichern(env, body);
+  if (pfad === "/api/intern/website-info" && req.method === "POST") return antwort(await holeWebsiteInfo(body && body.url));
 
   if ((m = pfad.match(/^\/api\/intern\/stellen\/([\w-]+)$/))) {
     if (req.method === "PUT") return stelleSpeichern(env, body, m[1]);

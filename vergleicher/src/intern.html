@@ -118,6 +118,8 @@ dl.steck dt { color: var(--text-2); }
 dl.steck dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 @media (max-width: 600px) { dl.steck { grid-template-columns: minmax(0, 1fr); } dl.steck dd { margin-bottom: 6px; } }
 .login { max-width: 420px; margin: 40px auto; }
+.mit-knopf { display: flex; gap: 8px; }
+.mit-knopf input { flex: 1; min-width: 0; }
 
 /* Fürs Telefonat */
 .telefonat { background: var(--akzent-hell); border: 1px solid #C9D6F2; border-radius: 10px; padding: 10px 14px; }
@@ -309,6 +311,8 @@ async function formular(id) {
         <div class="feld"><label for="ansprechpartner">Ansprechpartner</label><input type="text" id="ansprechpartner" name="ansprechpartner" value="${esc(s && s.ansprechpartner)}"></div>
         <div class="feld"><label for="telefon">Telefon</label><input type="tel" id="telefon" name="telefon" value="${esc(s && s.telefon)}"></div>
         <div class="feld"><label for="email">E-Mail</label><input type="email" id="email" name="email" value="${esc(s && s.email)}"></div>
+        <div class="feld voll"><label for="website">Website der Firma</label><div class="mit-knopf"><input type="text" id="website" name="website" inputmode="url" placeholder="z. B. www.mueller-metallbau.de" value="${esc(s && s.website)}"><button class="btn btn-klein" type="button" id="website-holen">Von der Website holen</button></div></div>
+        <div class="feld voll"><label for="firmen_info">Kurz über die Firma</label><textarea id="firmen_info" name="firmen_info" maxlength="500" placeholder="1–2 Sätze: Branche, was sie machen, Größe, Besonderheiten. Z. B. „Familienbetrieb, ca. 80 Mitarbeiter, baut Sondermaschinen für die Autoindustrie.“">${esc(s && s.firmen_info)}</textarea><small>Steht beim Treffer und in der Lead Table – hilft beim Telefonat. Bleibt das Feld leer, holt der Vergleicher beim Speichern die Beschreibung von der Website.</small></div>
         <div class="feld voll"><label for="firmen_webhook">Lead-Table-Kachel der Firma (Webhook)</label><input type="url" id="firmen_webhook" name="firmen_webhook" placeholder="https://api-v2.lead-table.com/api/webhook/generic/…" value="${esc(s && s.firmen_webhook)}"><small>Hierhin geht ein Bewerber, sobald du ihn nach dem Telefonat übergibst.</small></div>
       </fieldset>
 
@@ -350,6 +354,19 @@ async function formular(id) {
   };
   berufeZeigen();
   form.richtung.addEventListener("change", berufeZeigen);
+  document.getElementById("website-holen").addEventListener("click", async (e) => {
+    const knopf = e.currentTarget, adresse = form.website.value.trim();
+    if (!adresse) { melden("Bitte zuerst die Website eintragen."); form.website.focus(); return; }
+    if (form.firmen_info.value.trim() && !confirm("Den Text in „Kurz über die Firma“ durch die Beschreibung von der Website ersetzen?")) return;
+    knopf.disabled = true; knopf.textContent = "Wird gelesen …";
+    try {
+      const r = await api("POST", "/api/intern/website-info", { url: adresse });
+      if (r.url) form.website.value = r.url;
+      if (r.ok) { form.firmen_info.value = r.text; melden("Beschreibung übernommen – bitte kurz prüfen und ergänzen."); }
+      else melden(r.fehler);
+    } catch (err) { melden(err.message); }
+    knopf.disabled = false; knopf.textContent = "Von der Website holen";
+  });
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -357,7 +374,7 @@ async function formular(id) {
     const gew = (n) => f.get("g_" + n) || "egal";
     const daten = {
       firma: f.get("firma"), ansprechpartner: f.get("ansprechpartner"), telefon: f.get("telefon"), email: f.get("email"),
-      firmen_webhook: f.get("firmen_webhook"), titel: f.get("titel"), richtung: f.get("richtung"), berufe: f.getAll("berufe"),
+      firmen_webhook: f.get("firmen_webhook"), website: f.get("website"), firmen_info: f.get("firmen_info"), titel: f.get("titel"), richtung: f.get("richtung"), berufe: f.getAll("berufe"),
       plz: f.get("plz"), ort: f.get("ort"), umkreis: f.get("umkreis"), anzahl: f.get("anzahl"), start: f.get("start"),
       benefits: f.get("benefits"), lebenslauf_noetig: !!f.get("lebenslauf_noetig"), notizen: f.get("notizen"),
       kriterien: {
@@ -396,6 +413,7 @@ function kriterienListe(s) {
   if (k.arbeitszeit && k.arbeitszeit.werte.length) z.push(["Arbeitszeit", esc(k.arbeitszeit.werte.join(", ")) + g(k.arbeitszeit.gewicht)]);
   if (k.fuehrerschein && k.fuehrerschein.werte.length) z.push(["Führerschein", esc(k.fuehrerschein.werte.join(", ")) + g(k.fuehrerschein.gewicht)]);
   if (k.deutsch && k.deutsch.wert !== "egal") z.push(["Deutsch", esc(k.deutsch.wert) + g(k.deutsch.gewicht)]);
+  if (s.firmen_info || s.website) z.push(["Über die Firma", esc(s.firmen_info || "") + (s.website ? ` <a href="${esc(s.website)}" target="_blank" rel="noopener">Website ↗</a>` : "")]);
   if (s.benefits) z.push(["Benefits", esc(s.benefits)]);
   z.push(["Lebenslauf vorab", s.lebenslauf_noetig ? "ja" : "nein"]);
   if (s.ansprechpartner || s.telefon || s.email) z.push(["Ansprechpartner", esc([s.ansprechpartner, s.telefon, s.email].filter(Boolean).join(" · "))]);
@@ -414,7 +432,7 @@ function telefonatPunkte(t, s) {
     klaeren,
     immer: ["Was müsste beim nächsten Job anders sein als jetzt? (Wechselgrund)", "Was verdienen Sie aktuell – ab wann lohnt sich ein Wechsel?", "Kündigungsfrist und frühester Start?"],
     fach: (r && r.fragen) || [],
-    verkaufen: [`${s.titel} bei ${s.firma}${s.ort ? " in " + s.ort : ""}${t.entfernung_km != null ? ` – ca. ${t.entfernung_km} km von zu Hause` : ""}`].concat(s.benefits ? [s.benefits] : []),
+    verkaufen: [`${s.titel} bei ${s.firma}${s.ort ? " in " + s.ort : ""}${t.entfernung_km != null ? ` – ca. ${t.entfernung_km} km von zu Hause` : ""}`].concat(s.firmen_info ? [s.firmen_info] : [], s.benefits ? [s.benefits] : []),
     zustimmung: `Darf ich Sie bei ${s.firma} vorstellen?`
   };
 }
@@ -427,7 +445,7 @@ function telefonatKasten(t, s) {
       ${p.klaeren.length ? `<div><h4>Zuerst klären</h4>${liste(p.klaeren)}</div>` : ""}
       <div><h4>Immer fragen</h4>${liste(p.immer)}</div>
       ${p.fach.length ? `<div><h4>Fachfragen ${esc(richtungName(s.richtung))}</h4>${liste(p.fach)}</div>` : ""}
-      <div><h4>Zum Vorstellen der Stelle</h4>${liste(p.verkaufen)}</div>
+      <div><h4>Zum Vorstellen der Stelle</h4>${liste(p.verkaufen)}${s.website ? `<p class="klein"><a href="${esc(s.website)}" target="_blank" rel="noopener">Website der Firma ↗</a></p>` : ""}</div>
     </div>
     <p class="zustimmung">Zum Schluss: „${esc(p.zustimmung)}“ – nur bei klarem Ja übergeben.${b_sperr(t)}</p>
     <p><a class="btn btn-klein" href="#leitfaden-${esc(s.id)}_${esc(t.id)}">Als Gesprächsbogen drucken</a></p>

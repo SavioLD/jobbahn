@@ -38,6 +38,7 @@ const bewerber = (x = {}) => ({
 
 const stelleMueller = {
   firma: "Müller Elektrotechnik GmbH", ansprechpartner: "Frau Müller", firmen_webhook: URL_FIRMA,
+  firmen_info: "Familienbetrieb, ca. 60 Mitarbeiter, Schaltschrankbau.",
   titel: "Mechatroniker (m/w/d)", richtung: "elektro", berufe: ["Mechatroniker", "Elektroniker Betriebstechnik"],
   plz: "71032", ort: "Böblingen", start: "In 1 Monat", benefits: "Firmenwagen · 4-Tage-Woche",
   kriterien: {
@@ -112,6 +113,8 @@ test("Der ganze Ablauf: Stelle zuerst, dann Bewerber, dann Übergabe", async () 
   assert.equal(treffer.length, 1, "Treffer in die Kachel „Matches“");
   assert.equal(treffer[0].daten.passende_firma, "Müller Elektrotechnik GmbH");
   assert.equal(treffer[0].daten.firma, undefined, "nicht ins Firmenfeld des Kontakts");
+  assert.equal(treffer[0].daten.ueber_die_firma, "Familienbetrieb, ca. 60 Mitarbeiter, Schaltschrankbau.");
+  assert.equal(treffer[0].daten.firmen_website, "–");
   assert.match(treffer[0].daten.match, /^Passt zu: .+ bei Müller Elektrotechnik GmbH .*km entfernt · 3 von 3 Wünschen$/);
   assert.equal(treffer[0].daten.vorname, "Max");
   assert.equal(treffer[0].daten.passung, "3 von 3 Wünschen");

@@ -68,7 +68,7 @@ Danach läuft jede Änderung an `vergleicher/`, `config/berufe.json` oder `schem
 ```bash
 cd vergleicher
 npm run lokal          # → http://localhost:8787/intern, Passwort „lokal“
-npm test               # 21 Tests: Regeln und kompletter Ablauf
+npm test               # 25 Tests: Regeln, kompletter Ablauf, Firmen-Website
 ```
 
 Lokal nutzt der Vergleicher statt D1 eine SQLite-Datei (`lokal.sqlite`, nicht im Repo). Lead-Table-Adressen müssen mit `https://` beginnen; zum Testen gegen einen lokalen Server `LOKALE_ZIELE=1` setzen.
