@@ -23,6 +23,7 @@ Design: schlicht und ruhig für Erwachsene (30–45) – Nachtblau, ruhiges Blau
 | `SCHEMA.md` | Feldschema als Tabelle |
 | `MATCHING.md` | Regeln fürs spätere Matching in der Lead Table |
 | `LEAD-TABLE.md` | Was in der Lead Table eingerichtet werden muss |
+| `META-FORMULARE.md` | Meta-Sofortformulare über Make.com automatisch in Vergleicher und Lead Table |
 | `vergleicher/` | **Der Vergleicher**: Stellen-Steckbrief, automatischer Abgleich Bewerber ↔ Stellen, Übergabe an die Firmen (eigene Anleitung: `vergleicher/README.md`) |
 | `OFFENE-PUNKTE.md` | Was noch entschieden oder geprüft werden muss |
 

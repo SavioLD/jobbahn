@@ -233,6 +233,29 @@ async function poolNachsenden(env, e, max = 10) {
   }
 }
 
+/* Meta-Sofortformulare (über Make/Zapier) liefern eigene Feldnamen, oft „full_name“
+   und die Richtung als Klartext. Hier auf unsere Felder bringen, bevor geprüft wird. */
+const META_FELDER = { first_name: "vorname", last_name: "nachname", phone_number: "telefon", phone: "telefon", zip_code: "plz", post_code: "plz", postleitzahl: "plz", city: "ort", stadt: "ort", e_mail: "email" };
+const vereinfachen = (x) => String(x || "").toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss").replace(/[^a-z0-9]+/g, "");
+function richtungFinden(text) {
+  const t = vereinfachen(text);
+  if (!t) return "";
+  for (const b of berufe) if (t === b.key || t === vereinfachen(b.name) || (b.aliase || []).some(a => vereinfachen(a) === t)) return b.key;
+  return "";
+}
+function meta_angleichen(p, d) {
+  for (const [von, nach] of Object.entries(META_FELDER)) if (!d[nach] && p[von] != null && p[von] !== "") d[nach] = String(p[von]).slice(0, 300);
+  if ((!d.vorname || !d.nachname) && p.full_name) {
+    const teile = String(p.full_name).trim().split(/\s+/);
+    if (!d.vorname) d.vorname = teile.length > 1 ? teile.slice(0, -1).join(" ") : teile[0];
+    if (!d.nachname) d.nachname = teile.length > 1 ? teile[teile.length - 1] : "–";
+  }
+  if (d.plz) d.plz = (String(d.plz).match(/\d{5}/) || [d.plz])[0];
+  if (d.richtung && !RICHTUNG[d.richtung]) d.richtung = richtungFinden(d.richtung) || d.richtung;
+  if (!d.richtung && d.berufskategorie) d.richtung = richtungFinden(d.berufskategorie);
+  if (RICHTUNG[d.richtung] && !d.berufskategorie) d.berufskategorie = RICHTUNG[d.richtung].name;
+}
+
 /* ---------- Öffentlich: Bewerber annehmen ---------- */
 const BEWERBER_FELDER = ["vorname", "nachname", "telefon", "email", "richtung", "berufskategorie", "beruf", "abschluss", "erfahrung", "plz", "ort", "fahrweg", "verfuegbarkeit", "gehalt", "schicht", "fuehrerschein", "deutsch", "lebenslauf", "sperrliste", "erreichbarkeit", "einwilligung", "datum", "quelle", "seite", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 
@@ -245,6 +268,7 @@ async function bewerberAnnehmen(req, env) {
 
   const daten = {};
   for (const k of BEWERBER_FELDER) if (p[k] != null && p[k] !== "") daten[k] = String(p[k]).slice(0, k === "sperrliste" ? 400 : 300);
+  meta_angleichen(p, daten);
   for (const k of ["vorname", "nachname", "telefon", "email", "richtung", "plz"]) {
     if (!daten[k]) return antwort({ ok: false, fehler: `Feld „${k}“ fehlt` }, 400, kopf);
   }

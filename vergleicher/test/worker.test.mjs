@@ -121,6 +121,17 @@ test("Der ganze Ablauf: Stelle zuerst, dann Bewerber, dann Übergabe", async () 
   assert.match(treffer[0].daten.gruende, /✓ \d+ km Fahrweg/);
   assert.match(treffer[0].daten.bearbeiten, /^https:\/\/vergleicher\.test\/intern#stelle-/);
 
+  /* 2b. Meta-Sofortformular über Make: Meta-Feldnamen, Richtung als Klartext */
+  const meta = await anfrage("POST", "/api/bewerber", { full_name: "Erika Maria Muster", email: "erika@beispiel.de", phone_number: "+49 160 999", zip_code: "D-73728", richtung: "Elektro & Mechatronik", quelle: "Meta-Sofortformular" }, { passwort: "" });
+  assert.equal(meta.status, 200);
+  const metaPool = nach(URL_POOL_ELEKTRO).find(x => x.daten.email === "erika@beispiel.de");
+  assert.ok(metaPool, "Meta-Lead landet in der Pool-Kachel seiner Richtung");
+  assert.equal(metaPool.daten.vorname, "Erika Maria");
+  assert.equal(metaPool.daten.nachname, "Muster");
+  assert.equal(metaPool.daten.plz, "73728");
+  assert.equal(metaPool.daten.richtung, "elektro");
+  assert.equal(metaPool.daten.berufskategorie, "Elektro & Mechatronik");
+
   /* 3. Nicht passende Bewerber: zu weit, falsche Schicht, Gehalt zu hoch */
   await anfrage("POST", "/api/bewerber", bewerber({ email: "hh@beispiel.de", telefon: "0160 2", plz: "20095", ort: "Hamburg" }), { passwort: "" });
   await anfrage("POST", "/api/bewerber", bewerber({ email: "tz@beispiel.de", telefon: "0160 3", schicht: "Teilzeit" }), { passwort: "" });
@@ -133,7 +144,7 @@ test("Der ganze Ablauf: Stelle zuerst, dann Bewerber, dann Übergabe", async () 
 
   /* 5. Übersicht und Detail */
   const u = await anfrage("GET", "/api/intern/uebersicht");
-  assert.equal(u.daten.pool.elektro, 5);
+  assert.equal(u.daten.pool.elektro, 6, "5 aus dem Portal + 1 aus dem Meta-Formular");
   assert.equal(u.daten.stellen[0].neu, 1);
   const d = await anfrage("GET", `/api/intern/stellen/${stelleId}`);
   assert.equal(d.daten.treffer.length, 2);
@@ -144,7 +155,7 @@ test("Der ganze Ablauf: Stelle zuerst, dann Bewerber, dann Übergabe", async () 
 
   /* 6. Gleiche Person meldet sich noch mal → kein Doppel, kein zweiter Treffer */
   await anfrage("POST", "/api/bewerber", bewerber({ telefon: "0151 1111111", email: "MAX@beispiel.de" }), { passwort: "" });
-  assert.equal((await anfrage("GET", "/api/intern/uebersicht")).daten.pool.elektro, 5);
+  assert.equal((await anfrage("GET", "/api/intern/uebersicht")).daten.pool.elektro, 6);
   assert.equal(nach(URL_MATCHES).length, 1);
 
   /* 7. Übergabe nach dem Telefonat → Kachel der Firma, ohne Sperrliste und Einwilligung */
