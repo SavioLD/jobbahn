@@ -87,11 +87,16 @@ async function anLeadTable(env, url, daten, wofuer) {
 function matchPayload(b, s, m, basisUrl) {
   const d = b.daten;
   const unklar = m.gruende.filter(g => g.ok === null).map(g => g.text);
+  const arbeitsort = [s.plz, s.ort].filter(Boolean).join(" ");
+  const entfernung = m.entfernung_km != null ? `${m.entfernung_km} km` : "unbekannt";
+  const passung = passungText({ punkte: m.punkte, maxPunkte: m.max_punkte });
+  /* Bewusst nicht „firma“: Das ist in der Lead Table das Firmenfeld des Kontakts selbst –
+     dort sähe die passende Firma aus wie der Arbeitgeber des Bewerbers. */
   return {
     vorname: d.vorname, nachname: d.nachname, telefon: d.telefon, email: d.email,
-    firma: s.firma, stelle: s.titel, arbeitsort: [s.plz, s.ort].filter(Boolean).join(" "),
-    entfernung: m.entfernung_km != null ? `${m.entfernung_km} km` : "unbekannt",
-    passung: passungText({ punkte: m.punkte, maxPunkte: m.max_punkte }),
+    match: `Passt zu: ${s.titel} bei ${s.firma}${arbeitsort ? ` in ${arbeitsort}` : ""} · ${entfernung} entfernt · ${passung}`,
+    passende_firma: s.firma, passende_stelle: s.titel, stellen_ort: arbeitsort || "–",
+    entfernung, passung,
     pruefen: unklar.length ? unklar.join(" · ") : "–",
     gruende: gruendeText(m.gruende),
     richtung: (RICHTUNG[b.richtung] || {}).name || b.richtung,

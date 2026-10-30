@@ -110,7 +110,9 @@ test("Der ganze Ablauf: Stelle zuerst, dann Bewerber, dann Übergabe", async () 
   assert.equal(nach(URL_POOL).length, 0);
   const treffer = nach(URL_MATCHES);
   assert.equal(treffer.length, 1, "Treffer in die Kachel „Matches“");
-  assert.equal(treffer[0].daten.firma, "Müller Elektrotechnik GmbH");
+  assert.equal(treffer[0].daten.passende_firma, "Müller Elektrotechnik GmbH");
+  assert.equal(treffer[0].daten.firma, undefined, "nicht ins Firmenfeld des Kontakts");
+  assert.match(treffer[0].daten.match, /^Passt zu: .+ bei Müller Elektrotechnik GmbH .*km entfernt · 3 von 3 Wünschen$/);
   assert.equal(treffer[0].daten.vorname, "Max");
   assert.equal(treffer[0].daten.passung, "3 von 3 Wünschen");
   assert.match(treffer[0].daten.gruende, /✓ \d+ km Fahrweg/);
