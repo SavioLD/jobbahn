@@ -118,6 +118,41 @@ dl.steck dt { color: var(--text-2); }
 dl.steck dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 @media (max-width: 600px) { dl.steck { grid-template-columns: minmax(0, 1fr); } dl.steck dd { margin-bottom: 6px; } }
 .login { max-width: 420px; margin: 40px auto; }
+
+/* Fürs Telefonat */
+.telefonat { background: var(--akzent-hell); border: 1px solid #C9D6F2; border-radius: 10px; padding: 10px 14px; }
+.telefonat summary { font-weight: 800; cursor: pointer; }
+.telefonat-raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px 20px; margin-top: 10px; }
+.telefonat h4 { margin: 0 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--akzent-text); }
+.telefonat ul { margin: 0; padding-left: 18px; font-size: 14px; display: grid; gap: 3px; }
+.telefonat .zustimmung { margin-top: 10px; font-weight: 700; font-size: 14px; }
+.telefonat p:last-child { margin-top: 10px; }
+
+/* Gesprächsleitfaden */
+.bogen { max-width: 820px; width: 100%; margin-inline: auto; gap: 0; }
+.lf-kopf { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; padding-bottom: 12px; border-bottom: 2px solid var(--text); }
+.lf-block { padding: 12px 0; border-bottom: 1px solid var(--linie); display: grid; gap: 6px; }
+.lf-block h2 { font-size: 15px; }
+.lf-zwei { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; }
+.lf-zeile { display: flex; gap: 10px; align-items: baseline; font-size: 14px; min-width: 0; }
+.lf-zeile > span:first-child { flex: none; max-width: 60%; color: var(--text-2); }
+.lf-feld { flex: 1; min-height: 22px; border-bottom: 1px solid var(--text-2); font-weight: 600; overflow-wrap: anywhere; }
+.lf-frei { height: 64px; border: 1px solid var(--linie); border-radius: 6px; }
+.lf-kreuz { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
+.lf-kreuz li::before { content: "☐"; margin-right: 8px; font-size: 16px; }
+.lf-reihe { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.lf-fuss { padding-top: 10px; font-size: 12.5px; }
+@media (max-width: 600px) { .lf-zwei { grid-template-columns: minmax(0, 1fr); } }
+@media print {
+  @page { size: A4; margin: 12mm; }
+  body { background: #fff; font-size: 12px; }
+  .kopf, .nicht-drucken, .meldung { display: none !important; }
+  main { padding: 0; max-width: none; }
+  .bogen { border: 0; padding: 0; max-width: none; }
+  .lf-block { padding: 5px 0; gap: 4px; break-inside: avoid; }
+  .lf-frei { height: 44px; }
+  .lf-kreuz { gap: 2px; }
+}
 </style>
 </head>
 <body>
@@ -126,6 +161,7 @@ dl.steck dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
   <nav id="nav" hidden>
     <a href="#stellen" data-nav="stellen">Stellen</a>
     <a href="#neu" data-nav="neu">Neue Stelle</a>
+    <a href="#leitfaden" data-nav="leitfaden">Leitfaden</a>
     <a href="#einstellungen" data-nav="einstellungen">Einstellungen</a>
     <button type="button" id="abmelden">Abmelden</button>
   </nav>
@@ -200,7 +236,7 @@ async function zeigen() {
   document.getElementById("nav").hidden = false;
   const h = location.hash.slice(1) || "stellen";
   document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", false));
-  const aktiv = h.startsWith("stelle-") || h.startsWith("bearbeiten-") ? "stellen" : h;
+  const aktiv = h.startsWith("stelle-") || h.startsWith("bearbeiten-") ? "stellen" : h.startsWith("leitfaden") ? "leitfaden" : h;
   const nav = document.querySelector(`[data-nav="${aktiv}"]`);
   if (nav) nav.setAttribute("aria-current", "page");
   app.innerHTML = `<p class="leise">Lädt …</p>`;
@@ -209,6 +245,7 @@ async function zeigen() {
     if (h.startsWith("bearbeiten-")) return formular(h.slice(11));
     if (h.startsWith("stelle-")) return detail(h.slice(7));
     if (h === "einstellungen") return einstellungen();
+    if (h === "leitfaden" || h.startsWith("leitfaden-")) return leitfaden(h.slice(10));
     return uebersicht();
   } catch (err) {
     app.innerHTML = `<div class="hinweis fehler">${esc(err.message)}</div>`;
@@ -367,15 +404,47 @@ function kriterienListe(s) {
   return `<dl class="steck">${z.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${b}</dd>`).join("")}</dl>`;
 }
 
-function trefferKarte(t) {
+/* Alles fürs Telefonat zu genau diesem Treffer: offene Punkte, Fachfragen der Richtung, Argumente. */
+function telefonatPunkte(t, s) {
+  const b = t.bewerber;
+  const r = konfig && konfig.richtungen.find(x => x.key === s.richtung);
+  const klaeren = t.gruende.filter(g => g.ok === null).map(g => g.text);
+  if (s.lebenslauf_noetig && !/^ja/i.test(b.lebenslauf || "")) klaeren.push("Die Firma will vorab einen Lebenslauf – anfordern");
+  return {
+    klaeren,
+    immer: ["Was müsste beim nächsten Job anders sein als jetzt? (Wechselgrund)", "Was verdienen Sie aktuell – ab wann lohnt sich ein Wechsel?", "Kündigungsfrist und frühester Start?"],
+    fach: (r && r.fragen) || [],
+    verkaufen: [`${s.titel} bei ${s.firma}${s.ort ? " in " + s.ort : ""}${t.entfernung_km != null ? ` – ca. ${t.entfernung_km} km von zu Hause` : ""}`].concat(s.benefits ? [s.benefits] : []),
+    zustimmung: `Darf ich Sie bei ${s.firma} vorstellen?`
+  };
+}
+
+function telefonatKasten(t, s) {
+  const p = telefonatPunkte(t, s);
+  const liste = (xs) => `<ul>${xs.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+  return `<details class="telefonat"${t.status === "neu" ? " open" : ""}><summary>Fürs Telefonat</summary>
+    <div class="telefonat-raster">
+      ${p.klaeren.length ? `<div><h4>Zuerst klären</h4>${liste(p.klaeren)}</div>` : ""}
+      <div><h4>Immer fragen</h4>${liste(p.immer)}</div>
+      ${p.fach.length ? `<div><h4>Fachfragen ${esc(richtungName(s.richtung))}</h4>${liste(p.fach)}</div>` : ""}
+      <div><h4>Zum Vorstellen der Stelle</h4>${liste(p.verkaufen)}</div>
+    </div>
+    <p class="zustimmung">Zum Schluss: „${esc(p.zustimmung)}“ – nur bei klarem Ja übergeben.${b_sperr(t)}</p>
+    <p><a class="btn btn-klein" href="#leitfaden-${esc(s.id)}_${esc(t.id)}">Als Gesprächsbogen drucken</a></p>
+  </details>`;
+}
+const b_sperr = (t) => t.bewerber.sperrliste && t.bewerber.sperrliste !== "–" ? ` Sperrliste des Bewerbers: ${esc(t.bewerber.sperrliste)}.` : "";
+
+function trefferKarte(t, s) {
   const b = t.bewerber;
   const klasse = (g) => g.ok === true ? "ok" : g.ok === false ? "nein" : "unklar";
   const passung = t.max_punkte ? `${t.punkte} von ${t.max_punkte} Wünschen` : "Muss erfüllt";
   return `<article class="treffer st-${esc(t.status)}" data-id="${esc(t.id)}">
     <header><h3>${esc(b.vorname)} ${esc(b.nachname)}</h3><span class="pille">${esc(passung)}</span><span class="pille ${esc(t.status)}">${STATUS_TEXT[t.status] || t.status}</span></header>
-    <p class="leise">${esc(b.beruf || "–")} · ${esc([b.plz, b.ort].filter(Boolean).join(" "))}${t.entfernung_km != null ? ` · ca. ${t.entfernung_km} km` : ""} · ${esc(b.abschluss || "")}, ${esc(b.erfahrung || "")}</p>
+    <p class="leise">${esc(b.beruf || "–")} · ${esc([b.plz, b.ort].filter(Boolean).join(" "))}${t.entfernung_km != null ? ` · ca. ${t.entfernung_km} km` : ""}${[b.abschluss, b.erfahrung].filter(Boolean).length ? " · " + esc([b.abschluss, b.erfahrung].filter(Boolean).join(", ")) : ""}</p>
     <ul class="gruende">${t.gruende.map(g => `<li class="${klasse(g)}">${esc(g.text)}${g.gewicht === "wunsch" ? " <small>(Wunsch)</small>" : ""}</li>`).join("")}</ul>
     <div class="kontakt"><span>Telefon: <b>${esc(b.telefon)}</b></span><span>E-Mail: ${esc(b.email)}</span><span>Erreichbar: ${esc(b.erreichbarkeit || "–")}</span><span>Verfügbar: ${esc(b.verfuegbarkeit || "–")}</span><span>Gehalt: ${esc(b.gehalt || "–")}</span><span>Lebenslauf: ${esc(b.lebenslauf || "–")}</span>${b.sperrliste && b.sperrliste !== "–" ? `<span>Sperrliste: ${esc(b.sperrliste)}</span>` : ""}</div>
+    ${t.status === "gesperrt" ? "" : telefonatKasten(t, s)}
     ${t.status === "gesperrt" ? "" : `<div class="aktion">
       ${auswahl("status-" + t.id, ["neu", "angerufen", "kein_interesse", "passt_nicht"].concat(t.status === "uebergeben" ? ["uebergeben"] : []), t.status, ["Neu", "Angerufen", "Kein Interesse", "Passt nicht"].concat(t.status === "uebergeben" ? ["Übergeben"] : []))}
       <textarea name="notiz-${esc(t.id)}" aria-label="Notiz zum Telefonat" placeholder="Notiz zum Telefonat (geht bei der Übergabe mit an die Firma)">${esc(t.notiz || "")}</textarea>
@@ -400,8 +469,8 @@ async function detail(id) {
     <details class="karte"><summary><b>Steckbrief</b> <span class="leise">· ${esc(richtungName(s.richtung))} · ${esc([s.plz, s.ort].filter(Boolean).join(" "))} · ${s.anzahl} ${s.anzahl > 1 ? "Personen" : "Person"}</span></summary>${kriterienListe(s)}</details>
     <h2>Treffer (${sichtbar.length})</h2>
     ${s.status !== "offen" ? `<p class="leise">Die Stelle ist ${STATUS_TEXT[s.status].toLowerCase()} – es kommen keine neuen Treffer dazu.</p>` : ""}
-    <div class="treffer-liste">${sichtbar.length ? sichtbar.map(trefferKarte).join("") : `<div class="karte"><p>Noch kein passender Bewerber im Pool. Sobald sich jemand meldet, der passt, erscheint er hier – und in der Lead-Table-Kachel „Matches“.</p></div>`}</div>
-    ${gesperrt.length ? `<details class="karte"><summary>${gesperrt.length} Bewerber wegen ihrer Sperrliste ausgeschlossen</summary><div class="treffer-liste">${gesperrt.map(trefferKarte).join("")}</div></details>` : ""}
+    <div class="treffer-liste">${sichtbar.length ? sichtbar.map(t => trefferKarte(t, s)).join("") : `<div class="karte"><p>Noch kein passender Bewerber im Pool. Sobald sich jemand meldet, der passt, erscheint er hier – und in der Lead-Table-Kachel „Matches“.</p></div>`}</div>
+    ${gesperrt.length ? `<details class="karte"><summary>${gesperrt.length} Bewerber wegen ihrer Sperrliste ausgeschlossen</summary><div class="treffer-liste">${gesperrt.map(t => trefferKarte(t, s)).join("")}</div></details>` : ""}
   `;
 
   app.querySelectorAll("[data-status]").forEach(btn => btn.addEventListener("click", async () => {
@@ -423,6 +492,64 @@ async function detail(id) {
       if (confirm("Hat der Bewerber am Telefon zugestimmt, dass wir ihn bei " + s.firma + " vorstellen? Erst dann übergeben.")) speichern("uebergeben");
     });
   });
+}
+
+/* ---------- Gesprächsleitfaden (druckbar) ---------- */
+async function leitfaden(ids) {
+  let t = null, s = null;
+  const m = /^(.+)_(.+)$/.exec(ids || "");   /* Stellen- und Treffer-ID mit „_“ getrennt – IDs enthalten „-“ */
+  if (m) {
+    const d = await api("GET", "/api/intern/stellen/" + m[1]);
+    s = d.stelle; t = d.treffer.find(x => String(x.id) === m[2]) || null;
+  }
+  const p = t ? telefonatPunkte(t, s) : null;
+  const b = t ? t.bewerber : null;
+  const linie = (label, wert) => `<div class="lf-zeile"><span>${esc(label)}</span><span class="lf-feld">${esc(wert || "")}</span></div>`;
+  const kreuz = (xs) => `<ul class="lf-kreuz">${xs.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+  const fach = p ? p.fach : [];
+  app.innerHTML = `
+    <div class="zeile nicht-drucken">
+      ${t ? `<a href="#stelle-${esc(s.id)}">← Zurück zur Stelle</a>` : ""}
+      <button class="btn btn-gelb btn-klein" type="button" id="drucken" style="margin-left:auto">Drucken</button>
+    </div>
+    <article class="karte bogen">
+      <header class="lf-kopf"><h1>Gesprächsleitfaden</h1><span class="leise">Jobbahn · Telefonat mit Bewerber · ca. 10–15 Min.</span></header>
+      <section class="lf-block lf-zwei">
+        ${linie("Bewerber", b ? `${b.vorname} ${b.nachname}` : "")}
+        ${linie("Telefon", b ? b.telefon : "")}
+        ${linie("Stelle / Firma", t ? `${s.titel} – ${s.firma}` : "")}
+        ${linie("Erreichbar", b ? b.erreichbarkeit : "")}
+        ${linie("Datum", "")}
+        ${linie("Anruf von", "")}
+      </section>
+      <section class="lf-block"><h2>1 · Vorstellen</h2>
+        ${kreuz(["Name und Jobbahn genannt, gefragt, ob es gerade passt", "„Ihr jetziger Arbeitgeber erfährt nichts.“"])}
+      </section>
+      <section class="lf-block"><h2>2 · Wechselgrund</h2>
+        <p class="leise">Was müsste beim nächsten Job anders sein als jetzt? Was stört am meisten?</p>
+        <div class="lf-frei"></div>
+      </section>
+      <section class="lf-block"><h2>3 · Angaben prüfen</h2>
+        ${p && p.klaeren.length ? `<p><b>Offen laut Vergleicher:</b></p>${kreuz(p.klaeren)}` : ""}
+        <div class="lf-zwei">${linie("Gehalt aktuell", "")}${linie("Gehalt Wunsch", "")}${linie("Kündigungsfrist", "")}${linie("Start ab", "")}</div>
+        ${fach.length ? `<p><b>Fachfragen ${esc(richtungName(s.richtung))}:</b></p>${fach.map(f => linie(f, "")).join("")}`
+          : `<p class="leise">Fachfragen der Jobrichtung (stehen beim Treffer im Vergleicher):</p>${linie("", "")}${linie("", "")}${linie("", "")}`}
+      </section>
+      <section class="lf-block"><h2>4 · Stelle vorstellen</h2>
+        ${p ? kreuz(p.verkaufen) : `<p class="leise">Firma, Ort, Fahrweg, Arbeitszeit, Gehaltsrahmen, Benefits – mit dem Wechselgrund verbinden.</p>`}
+        ${kreuz(["Sperrliste geprüft – Firma ist nicht gesperrt" + (b && b.sperrliste && b.sperrliste !== "–" ? ` (Sperrliste: ${b.sperrliste})` : "")])}
+      </section>
+      <section class="lf-block"><h2>5 · Zustimmung</h2>
+        <p><b>„${esc(p ? p.zustimmung : "Darf ich Sie bei der Firma … vorstellen?")}“</b></p>
+        <ul class="lf-kreuz lf-reihe"><li>Ja</li><li>Nein</li><li>Später nochmal melden</li><li>Lebenslauf angefordert</li></ul>
+      </section>
+      <section class="lf-block"><h2>6 · Nächste Schritte &amp; Notiz für die Firma</h2>
+        <p class="leise">Wird bei „An Firma übergeben“ als Notiz mitgeschickt: Wechselgrund, Kündigungsfrist, Gehalt, Besonderheiten.</p>
+        <div class="lf-frei"></div>
+      </section>
+      <footer class="lf-fuss leise">Danach im Vergleicher: Ja → „An Firma übergeben“ · Nein → „Kein Interesse“ · passt nicht → „Passt nicht“ · nicht erreicht → „Angerufen“ (max. 3 Versuche, dann SMS/Mail).</footer>
+    </article>`;
+  document.getElementById("drucken").addEventListener("click", () => window.print());
 }
 
 /* ---------- Einstellungen ---------- */

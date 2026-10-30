@@ -348,7 +348,7 @@ async function intern(req, env, pfad, url) {
 
   if (pfad === "/api/intern/konfig" && req.method === "GET") {
     return antwort({
-      richtungen: berufe.map(({ key, name, berufe }) => ({ key, name, berufe })),
+      richtungen: berufe.map(({ key, name, berufe, fragen }) => ({ key, name, berufe, fragen })),
       arbeitszeit: optionen("schicht"),
       fuehrerschein: optionen("fuehrerschein").filter(x => x !== "Keinen"),
       abschluss: Object.keys(ABSCHLUSS_MIN), deutsch: Object.keys(DEUTSCH_MIN), start: Object.keys(START)
