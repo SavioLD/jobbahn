@@ -121,6 +121,11 @@ test("Der ganze Ablauf: Stelle zuerst, dann Bewerber, dann Übergabe", async () 
   assert.match(treffer[0].daten.gruende, /✓ \d+ km Fahrweg/);
   assert.match(treffer[0].daten.bearbeiten, /^https:\/\/vergleicher\.test\/intern#stelle-/);
 
+  /* 2a. Browser-Link statt Webhook wird abgelehnt */
+  const falsch = await anfrage("PUT", "/api/intern/einstellungen", { matches_webhook: "https://app.lead-table.com/kunden/123/kacheln/456", pool_webhooks: { fallback: URL_POOL } });
+  assert.equal(falsch.status, 400);
+  assert.match(falsch.daten.fehler, /Link zur Kachel aus dem Browser/);
+
   /* 2b. Meta-Sofortformular über Make: Meta-Feldnamen, Richtung als Klartext */
   const meta = await anfrage("POST", "/api/bewerber", { full_name: "Erika Maria Muster", email: "erika@beispiel.de", phone_number: "+49 160 999", zip_code: "D-73728", richtung: "Elektro & Mechatronik", quelle: "Meta-Sofortformular" }, { passwort: "" });
   assert.equal(meta.status, 200);

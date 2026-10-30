@@ -106,5 +106,15 @@ jobs:
             MIT=$(code -H "Authorization: Bearer $PASSWORT" "$ADRESSE/api/intern/uebersicht")
             echo "Mit Passwort + Datenbank: $MIT (soll 200 sein)"
             if [ "$MIT" != "200" ]; then echo "::error::Anmeldung oder Datenbank funktioniert nicht (Status $MIT)."; exit 1; fi
+            # Kurzdiagnose – bewusst ohne Firmennamen und ohne Webhook-Adressen (die Logs sind öffentlich)
+            curl -fsS -H "Authorization: Bearer $PASSWORT" "$ADRESSE/api/intern/uebersicht" | python3 -c '
+          import json, sys, collections, re
+          d = json.load(sys.stdin)
+          k = collections.Counter(s.get("kachel", "?") for s in d.get("stellen", []))
+          print("Stellen:", len(d.get("stellen", [])), "· Firmen-Kachel:", dict(k), "(ok = Webhook, browserlink = falscher Link, fehlt = leer)")
+          print("Pool:", sum(d.get("pool", {}).values()), "Bewerber · Treffer noch nicht gesendet:", d.get("ausstehend"))
+          f = (d.get("hinweise") or {}).get("letzterFehler")
+          print("Letzter Fehler:", "keiner" if not f else f.get("zeit", "") + " · " + str(f.get("wofuer", "")).split(" an ")[0] + " · " + re.sub(r"https?://\S+", "[Adresse]", str(f.get("text", ""))))
+          ' || true
           fi
           echo "::notice::Vergleicher läuft: $ADRESSE/intern"

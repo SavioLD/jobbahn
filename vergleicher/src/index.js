@@ -31,6 +31,19 @@ const GEWICHTE = ["muss", "wunsch", "egal"];
 const MAX_SENDUNGEN = 25;
 
 const jetzt = () => new Date().toISOString();
+/* Ist das eine Webhook-Adresse? Häufigster Fehler: der Link zur Kachel aus dem Browser
+   (app.lead-table.com/…). Den nimmt die Lead Table mit „200 OK“ an, legt aber nichts an. */
+function kachelPruefung(u, env) {
+  if (!u) return "fehlt";
+  if (!zielOk(u, env)) return "ungueltig";
+  try {
+    const url = new URL(u);
+    if (/(^|\.)lead-table\.com$/i.test(url.hostname) && !/webhook/i.test(url.pathname)) return "browserlink";
+  } catch { return "ungueltig"; }
+  return "ok";
+}
+const BROWSERLINK_TEXT = "ist der Link zur Kachel aus dem Browser, nicht ihre Webhook-Adresse. In der Lead Table bei der Kachel die Webhook-Adresse kopieren (beginnt mit https://api-v2.lead-table.com/api/webhook/…).";
+
 /* Ziel-Adressen müssen https sein. Nur für lokale Tests (LOKALE_ZIELE=1) auch http://localhost. */
 const zielOk = (u, env) => /^https:\/\//.test(u) || (env.LOKALE_ZIELE === "1" && /^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?\//.test(u));
 const heute = () => new Date().toLocaleDateString("de-DE", { timeZone: "Europe/Berlin", day: "2-digit", month: "2-digit", year: "numeric" });
@@ -76,6 +89,11 @@ async function anLeadTable(env, url, daten, wofuer) {
   if (!url) return false;
   try {
     const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(daten) });
+    /* Eine Webseite statt einer Webhook-Antwort heißt: falsche Adresse, angelegt wurde nichts. */
+    if (res.ok && /text\/html/i.test(res.headers.get("Content-Type") || "")) {
+      await setzeEinstellung(env, "letzter_fehler", { zeit: jetzt(), wofuer, text: "Die Adresse liefert eine Webseite statt einer Webhook-Antwort – das ist keine Webhook-Adresse. Es wurde nichts angelegt." });
+      return false;
+    }
     if (res.ok) return true;
     await setzeEinstellung(env, "letzter_fehler", { zeit: jetzt(), wofuer, text: `Lead Table antwortet mit HTTP ${res.status}` });
   } catch (err) {
@@ -329,6 +347,7 @@ function steckbriefPruefen(p, env) {
   if (!RICHTUNG[s.richtung]) fehler.push("Richtung fehlt");
   if (!/^\d{5}$/.test(s.plz)) fehler.push("PLZ des Arbeitsorts fehlt oder hat nicht fünf Ziffern");
   if (s.firmen_webhook && !zielOk(s.firmen_webhook, env)) fehler.push("Webhook der Firmen-Kachel muss mit https:// beginnen");
+  else if (kachelPruefung(s.firmen_webhook, env) === "browserlink") fehler.push("Die Adresse bei „Lead-Table-Kachel der Firma“ " + BROWSERLINK_TEXT);
   if (String(p.website || "").trim() && !s.website) fehler.push("Website der Firma ist keine gültige Adresse");
   if (RICHTUNG[s.richtung]) s.berufe = (Array.isArray(p.berufe) ? p.berufe : []).filter(x => RICHTUNG[s.richtung].berufe.includes(x));
 
@@ -399,7 +418,7 @@ async function intern(req, env, pfad, url) {
     const { results: pool } = await env.DB.prepare("SELECT richtung, COUNT(*) AS anzahl FROM bewerber GROUP BY richtung").all();
     const ausstehend = await env.DB.prepare("SELECT COUNT(*) AS n FROM matches m JOIN stellen s ON s.id = m.stelle_id WHERE m.lt_gesendet = 0 AND m.status = 'neu' AND s.status = 'offen'").first();
     return antwort({
-      stellen: (stellen || []).map(z => ({ id: z.id, firma: z.firma, titel: z.titel, richtung: z.richtung, ort: [z.plz, JSON.parse(z.daten).ort].filter(Boolean).join(" "), status: z.status, neu: z.neu, aktiv: z.aktiv, uebergeben: z.uebergeben })),
+      stellen: (stellen || []).map(z => ({ id: z.id, firma: z.firma, titel: z.titel, richtung: z.richtung, ort: [z.plz, JSON.parse(z.daten).ort].filter(Boolean).join(" "), status: z.status, neu: z.neu, aktiv: z.aktiv, uebergeben: z.uebergeben, kachel: kachelPruefung(JSON.parse(z.daten).firmen_webhook, env) })),
       pool: Object.fromEntries((pool || []).map(z => [z.richtung, z.anzahl])),
       ausstehend: ausstehend ? ausstehend.n : 0,
       hinweise: {
@@ -449,8 +468,12 @@ async function intern(req, env, pfad, url) {
       if (!sz || !bz) return antwort({ ok: false, fehler: "Stelle oder Bewerber gibt es nicht mehr" }, 404);
       const s = stelleAus(sz);
       if (!s.firmen_webhook) return antwort({ ok: false, fehler: "Für diese Stelle ist keine Lead-Table-Kachel der Firma hinterlegt. Im Steckbrief unter „Firma“ eintragen." }, 400);
+      if (kachelPruefung(s.firmen_webhook, env) === "browserlink") return antwort({ ok: false, fehler: "Nicht übergeben: Die Adresse im Steckbrief " + BROWSERLINK_TEXT + " Dann Steckbrief speichern und noch mal übergeben." }, 400);
       const ok = await anLeadTable(env, s.firmen_webhook, uebergabePayload(bewerberAus(bz), s, notiz), `Übergabe an ${s.firma}`);
-      if (!ok) return antwort({ ok: false, fehler: "Die Lead Table der Firma hat die Übergabe nicht angenommen. Bitte später noch mal versuchen." }, 502);
+      if (!ok) {
+        const f = (await einstellungen(env)).letzter_fehler;
+        return antwort({ ok: false, fehler: "Nicht übergeben – die Lead Table der Firma hat nicht angenommen" + (f && f.text ? ": " + f.text : ".") }, 502);
+      }
     }
     await env.DB.prepare("UPDATE matches SET status = ?, notiz = ? WHERE id = ?").bind(body.status, notiz, m[1]).run();
     return antwort({ ok: true });
@@ -463,10 +486,12 @@ async function intern(req, env, pfad, url) {
       for (const k of ["fallback", ...berufe.map(b => b.key)]) {
         const u = String((body.pool_webhooks || {})[k] || "").trim();
         if (u && !zielOk(u, env)) return antwort({ ok: false, fehler: `Pool-Kachel „${k}“: Die Adresse muss mit https:// beginnen` }, 400);
+        if (u && kachelPruefung(u, env) === "browserlink") return antwort({ ok: false, fehler: `Pool-Kachel „${k}“: Die Adresse ${BROWSERLINK_TEXT}` }, 400);
         if (u) pool[k] = u;
       }
       const mw = String(body.matches_webhook || "").trim();
       if (mw && !zielOk(mw, env)) return antwort({ ok: false, fehler: "Kachel „Matches“: Die Adresse muss mit https:// beginnen" }, 400);
+      if (mw && kachelPruefung(mw, env) === "browserlink") return antwort({ ok: false, fehler: "Kachel „Matches“: Die Adresse " + BROWSERLINK_TEXT }, 400);
       const frist = Math.max(1, Math.min(60, parseInt(body.loeschfrist_monate, 10) || 12));
       await setzeEinstellung(env, "pool_webhooks", pool);
       await setzeEinstellung(env, "matches_webhook", mw);

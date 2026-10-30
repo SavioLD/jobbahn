@@ -417,7 +417,10 @@ function kriterienListe(s) {
   if (s.benefits) z.push(["Benefits", esc(s.benefits)]);
   z.push(["Lebenslauf vorab", s.lebenslauf_noetig ? "ja" : "nein"]);
   if (s.ansprechpartner || s.telefon || s.email) z.push(["Ansprechpartner", esc([s.ansprechpartner, s.telefon, s.email].filter(Boolean).join(" · "))]);
-  z.push(["Übergabe an", s.firmen_webhook ? "Lead-Table-Kachel der Firma ✓" : `<span class="fehlertext">keine Kachel hinterlegt – Übergabe nicht möglich</span>`]);
+  const browserlink = s.firmen_webhook && /lead-table\.com/i.test(s.firmen_webhook) && !/webhook/i.test(s.firmen_webhook);
+  z.push(["Übergabe an", !s.firmen_webhook ? `<span class="fehlertext">keine Kachel hinterlegt – Übergabe nicht möglich</span>`
+    : browserlink ? `<span class="fehlertext">Falsche Adresse: Das ist der Link zur Kachel aus dem Browser, nicht die Webhook-Adresse. Steckbrief bearbeiten und die Webhook-Adresse der Kachel eintragen.</span>`
+    : "Lead-Table-Kachel der Firma ✓"]);
   if (s.notizen) z.push(["Notizen", esc(s.notizen)]);
   return `<dl class="steck">${z.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${b}</dd>`).join("")}</dl>`;
 }
