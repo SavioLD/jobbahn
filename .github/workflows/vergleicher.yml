@@ -114,6 +114,20 @@ jobs:
           print("Stellen:", len(d.get("stellen", [])), "· Firmen-Kachel:", dict(k), "(ok = Webhook, browserlink = falscher Link, fehlt = leer)")
           print("Pool:", sum(d.get("pool", {}).values()), "Bewerber · Treffer noch nicht gesendet:", d.get("ausstehend"))
           f = (d.get("hinweise") or {}).get("letzterFehler")
+          h = d.get("hinweise") or {}
+          u = h.get("letzteUebergabe")
+          print("Übergaben bisher:", sum(s.get("uebergeben", 0) for s in d.get("stellen", [])), "· Firmen-Kachel gleich Pool/Matches:", h.get("firmenKachelDoppelt"))
+          def kurz(t):
+              # Nur unverfängliche Felder zeigen – die Logs sind öffentlich, keine Namen oder Kontaktdaten
+              try:
+                  j = json.loads(t)
+              except Exception:
+                  return "kein JSON, " + str(len(t)) + " Zeichen"
+              if not isinstance(j, dict):
+                  return type(j).__name__
+              erlaubt = ("status", "success", "ok", "message", "error", "duplicate", "updated", "created", "code")
+              return "Felder: " + ", ".join(j.keys()) + " · " + ", ".join(k + "=" + str(j[k])[:60] for k in j if k.lower() in erlaubt)
+          print("Letzte Übergabe, Antwort der Lead Table:", "noch keine" if not u else u.get("zeit", "") + " · HTTP " + str(u.get("status")) + " · " + kurz(str(u.get("antwort", ""))))
           print("Letzter Fehler:", "keiner" if not f else f.get("zeit", "") + " · " + str(f.get("wofuer", "")).split(" an ")[0] + " · " + re.sub(r"https?://\S+", "[Adresse]", str(f.get("text", ""))))
           ' || true
           fi

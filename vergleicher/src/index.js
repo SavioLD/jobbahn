@@ -71,7 +71,7 @@ function angemeldet(req, env) {
 }
 
 /* ---------- Einstellungen (in der Datenbank, über /intern pflegbar) ---------- */
-const STANDARD = { pool_webhooks: {}, matches_webhook: "", loeschfrist_monate: 12, basis_url: "", letzter_fehler: null };
+const STANDARD = { pool_webhooks: {}, matches_webhook: "", loeschfrist_monate: 12, basis_url: "", letzter_fehler: null, letzte_uebergabe: null };
 
 async function einstellungen(env) {
   const e = structuredClone(STANDARD);
@@ -93,6 +93,11 @@ async function anLeadTable(env, url, daten, wofuer) {
     if (res.ok && /text\/html/i.test(res.headers.get("Content-Type") || "")) {
       await setzeEinstellung(env, "letzter_fehler", { zeit: jetzt(), wofuer, text: "Die Adresse liefert eine Webseite statt einer Webhook-Antwort – das ist keine Webhook-Adresse. Es wurde nichts angelegt." });
       return false;
+    }
+    /* Bei Übergaben die Antwort der Lead Table merken – zur Fehlersuche (ohne Adressen). */
+    if (wofuer.startsWith("Übergabe")) {
+      const text = (await res.clone().text().catch(() => "")).replace(/https?:\/\/\S+/g, "[Adresse]").slice(0, 300);
+      await setzeEinstellung(env, "letzte_uebergabe", { zeit: jetzt(), status: res.status, antwort: text });
     }
     if (res.ok) return true;
     await setzeEinstellung(env, "letzter_fehler", { zeit: jetzt(), wofuer, text: `Lead Table antwortet mit HTTP ${res.status}` });
@@ -424,7 +429,10 @@ async function intern(req, env, pfad, url) {
       hinweise: {
         matchesKachelFehlt: !e.matches_webhook,
         poolKachelFehlt: !e.pool_webhooks.fallback && !Object.values(e.pool_webhooks).some(Boolean),
-        letzterFehler: e.letzter_fehler
+        letzterFehler: e.letzter_fehler,
+        letzteUebergabe: e.letzte_uebergabe,
+        /* Firmen-Kachel versehentlich gleich der Pool- oder Matches-Kachel? */
+        firmenKachelDoppelt: (stellen || []).filter(z => { const w = JSON.parse(z.daten).firmen_webhook; return w && (w === e.matches_webhook || Object.values(e.pool_webhooks).includes(w)); }).length
       }
     });
   }
