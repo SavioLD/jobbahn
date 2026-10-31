@@ -9,10 +9,12 @@ const PASSWORT = "test-passwort-123";
 const URL_POOL = "https://lt.test/pool-alle", URL_POOL_ELEKTRO = "https://lt.test/pool-elektro";
 const URL_MATCHES = "https://lt.test/matches", URL_FIRMA = "https://lt.test/firma-mueller";
 
-let env, sendungen, leadTableKaputt;
+let env, sendungen, leadTableKaputt, leadTableHtml;
 globalThis.fetch = async (url, opt) => {
   if (leadTableKaputt) return new Response("{}", { status: 500 });
   sendungen.push({ url: String(url), daten: JSON.parse(opt.body) });
+  /* Manche Kacheln antworten mit text/html, obwohl der Lead angelegt wurde. */
+  if (leadTableHtml) return new Response("<html>ok</html>", { status: 200, headers: { "Content-Type": "text/html; charset=utf-8" } });
   return new Response("{}", { status: 200 });
 };
 
@@ -252,4 +254,27 @@ test("Geänderter Steckbrief: unbearbeitete Treffer, die nicht mehr passen, vers
   await anfrage("PUT", `/api/intern/stellen/${st.daten.id}`, { ...stelleMueller, kriterien: { ...stelleMueller.kriterien, arbeitszeit: { werte: ["3-Schicht"], gewicht: "muss" } } });
   d = await anfrage("GET", `/api/intern/stellen/${st.daten.id}`);
   assert.equal(d.daten.treffer.length, 0);
+});
+
+test("Keine Duplikate: HTML-Antwort zählt als angekommen, Wartung und erneute Anmeldung schicken nicht noch mal", async () => {
+  await anfrage("PUT", "/api/intern/einstellungen", { matches_webhook: URL_MATCHES, pool_webhooks: { fallback: URL_POOL } });
+  leadTableHtml = true;
+  await anfrage("POST", "/api/bewerber", bewerber({ richtung: "metall", berufskategorie: "Metall & Maschinenbau" }), { passwort: "" });
+  assert.equal(sendungen.filter(x => x.url === URL_POOL).length, 1);
+  for (let i = 0; i < 5; i++) await wartung(env);
+  assert.equal(sendungen.filter(x => x.url === URL_POOL).length, 1, "Wartung schickt einen angekommenen Bewerber nicht erneut");
+  await anfrage("POST", "/api/bewerber", bewerber({ richtung: "metall", berufskategorie: "Metall & Maschinenbau", ort: "Esslingen" }), { passwort: "" });
+  assert.equal(sendungen.filter(x => x.url === URL_POOL).length, 1, "Wer sich erneut meldet, landet nicht doppelt im Pool");
+  leadTableHtml = false;
+});
+
+test("Lead Table dauerhaft kaputt: höchstens 3 Versuche pro Bewerber", async () => {
+  await anfrage("PUT", "/api/intern/einstellungen", { matches_webhook: URL_MATCHES, pool_webhooks: { fallback: URL_POOL } });
+  let versuche = 0;
+  const echt = globalThis.fetch;
+  globalThis.fetch = async (url, opt) => { if (String(url) === URL_POOL) versuche++; return new Response("{}", { status: 500 }); };
+  await anfrage("POST", "/api/bewerber", bewerber({ richtung: "metall", berufskategorie: "Metall & Maschinenbau" }), { passwort: "" });
+  for (let i = 0; i < 10; i++) await wartung(env);
+  globalThis.fetch = echt;
+  assert.equal(versuche, 3);
 });

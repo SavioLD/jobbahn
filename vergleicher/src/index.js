@@ -89,11 +89,6 @@ async function anLeadTable(env, url, daten, wofuer) {
   if (!url) return false;
   try {
     const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(daten) });
-    /* Eine Webseite statt einer Webhook-Antwort heißt: falsche Adresse, angelegt wurde nichts. */
-    if (res.ok && /text\/html/i.test(res.headers.get("Content-Type") || "")) {
-      await setzeEinstellung(env, "letzter_fehler", { zeit: jetzt(), wofuer, text: "Die Adresse liefert eine Webseite statt einer Webhook-Antwort – das ist keine Webhook-Adresse. Es wurde nichts angelegt." });
-      return false;
-    }
     /* Bei Übergaben die Antwort der Lead Table merken – zur Fehlersuche (ohne Adressen). */
     if (wofuer.startsWith("Übergabe")) {
       const text = (await res.clone().text().catch(() => "")).replace(/https?:\/\/\S+/g, "[Adresse]").slice(0, 300);
@@ -231,12 +226,13 @@ async function ausgangSenden(env, e, max = MAX_SENDUNGEN) {
   const { results } = await env.DB.prepare(
     `SELECT m.*, b.daten AS b_daten, b.richtung AS b_richtung, s.daten AS s_daten, s.firma, s.titel, s.plz AS s_plz, s.richtung AS s_richtung, s.status AS s_status
      FROM matches m JOIN bewerber b ON b.id = m.bewerber_id JOIN stellen s ON s.id = m.stelle_id
-     WHERE m.lt_gesendet = 0 AND m.status = 'neu' AND s.status = 'offen'
+     WHERE m.lt_gesendet = 0 AND m.lt_versuche < 3 AND m.status = 'neu' AND s.status = 'offen'
      ORDER BY m.punkte DESC, m.entfernung_km ASC LIMIT ?`).bind(max).all();
   let gesendet = 0;
   for (const z of results || []) {
     const b = { id: z.bewerber_id, richtung: z.b_richtung, daten: JSON.parse(z.b_daten) };
     const s = { ...JSON.parse(z.s_daten), id: z.stelle_id, firma: z.firma, titel: z.titel, plz: z.s_plz };
+    await env.DB.prepare("UPDATE matches SET lt_versuche = lt_versuche + 1 WHERE id = ?").bind(z.id).run();
     const ok = await anLeadTable(env, e.matches_webhook, matchPayload(b, s, matchAus(z), e.basis_url), "Treffer an Kachel „Matches“");
     if (!ok) break;
     await env.DB.prepare("UPDATE matches SET lt_gesendet = 1 WHERE id = ?").bind(z.id).run();
@@ -247,10 +243,12 @@ async function ausgangSenden(env, e, max = MAX_SENDUNGEN) {
 
 /* Bewerber, deren Pool-Sendung fehlgeschlagen ist, nachschicken. */
 async function poolNachsenden(env, e, max = 10) {
-  const { results } = await env.DB.prepare("SELECT id, richtung, daten FROM bewerber WHERE lt_gesendet = 0 LIMIT ?").bind(max).all();
+  const { results } = await env.DB.prepare("SELECT id, richtung, daten FROM bewerber WHERE lt_gesendet = 0 AND lt_versuche < 3 LIMIT ?").bind(max).all();
   for (const z of results || []) {
     const url = e.pool_webhooks[z.richtung] || e.pool_webhooks.fallback;
     if (!url) continue;
+    /* Versuch zuerst zählen – so kann ein Bewerber nie öfter als dreimal geschickt werden. */
+    await env.DB.prepare("UPDATE bewerber SET lt_versuche = lt_versuche + 1 WHERE id = ?").bind(z.id).run();
     if (!(await anLeadTable(env, url, JSON.parse(z.daten), "Bewerber an Pool-Kachel"))) break;
     await env.DB.prepare("UPDATE bewerber SET lt_gesendet = 1 WHERE id = ?").bind(z.id).run();
   }
@@ -304,8 +302,10 @@ async function bewerberAnnehmen(req, env) {
   const vorhanden = await env.DB.prepare("SELECT id FROM bewerber WHERE email = ? OR (telefon = ? AND telefon <> '') LIMIT 1").bind(email, telefon).first();
   const id = vorhanden ? vorhanden.id : crypto.randomUUID();
   if (vorhanden) {
-    /* Wer sich erneut meldet, aktualisiert sein Profil statt einen zweiten Eintrag anzulegen. */
-    await env.DB.prepare("UPDATE bewerber SET aktualisiert = ?, richtung = ?, email = ?, telefon = ?, plz = ?, lat = ?, lon = ?, daten = ?, lt_gesendet = 0 WHERE id = ?")
+    /* Wer sich erneut meldet, aktualisiert sein Profil statt einen zweiten Eintrag anzulegen.
+       lt_gesendet bleibt: Wer schon in der Pool-Kachel steht, wird nicht noch einmal geschickt
+       (die Lead Table legt sonst ein Duplikat an). */
+    await env.DB.prepare("UPDATE bewerber SET aktualisiert = ?, richtung = ?, email = ?, telefon = ?, plz = ?, lat = ?, lon = ?, daten = ? WHERE id = ?")
       .bind(jetzt(), daten.richtung, email, telefon, daten.plz, ko ? ko[0] : null, ko ? ko[1] : null, JSON.stringify(daten), id).run();
   } else {
     await env.DB.prepare("INSERT INTO bewerber (id, erstellt, aktualisiert, richtung, email, telefon, plz, lat, lon, daten, lt_gesendet) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)")
@@ -314,8 +314,12 @@ async function bewerberAnnehmen(req, env) {
 
   const e = await einstellungen(env);
   const poolUrl = e.pool_webhooks[daten.richtung] || e.pool_webhooks.fallback;
-  if (await anLeadTable(env, poolUrl, daten, "Bewerber an Pool-Kachel")) {
-    await env.DB.prepare("UPDATE bewerber SET lt_gesendet = 1 WHERE id = ?").bind(id).run();
+  const schonImPool = vorhanden && (await env.DB.prepare("SELECT lt_gesendet FROM bewerber WHERE id = ?").bind(id).first()).lt_gesendet === 1;
+  if (poolUrl && !schonImPool) {
+    await env.DB.prepare("UPDATE bewerber SET lt_versuche = lt_versuche + 1 WHERE id = ?").bind(id).run();
+    if (await anLeadTable(env, poolUrl, daten, "Bewerber an Pool-Kachel")) {
+      await env.DB.prepare("UPDATE bewerber SET lt_gesendet = 1 WHERE id = ?").bind(id).run();
+    }
   }
   const b = { id, richtung: daten.richtung, lat: ko ? ko[0] : null, lon: ko ? ko[1] : null, daten };
   await abgleichBewerber(env, b);
