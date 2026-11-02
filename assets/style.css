@@ -66,7 +66,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
   font-size: clamp(1.75rem, 3.8vw, 2.6rem); line-height: 1.12; letter-spacing: -.02em;
 }
 /* Lange Wörter (z. B. „Gebäudeservice“) dürfen am Handy umbrechen statt überzulaufen. */
-.h1, .h2 { hyphens: auto; overflow-wrap: break-word; }
+.h1, .h2 { hyphens: manual; overflow-wrap: break-word; text-wrap: balance; }
 .h1-klein { font-size: clamp(1.75rem, 6.2vw, 4.2rem); }
 /* Hervorhebung: ==Wort== in den Texten – nur Farbe, kein Effekt */
 .hl { color: var(--akzent-text); white-space: nowrap; }
@@ -329,16 +329,17 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 
 .schritte { min-height: var(--form-min); position: relative; }
 .schritt { display: none; border: 0; margin: 0; padding: 0; min-width: 0; }
-.schritt.ist-aktiv, .schritt.ist-messen { display: flex; flex-direction: column; gap: 14px; }
+.schritt.ist-aktiv, .schritt.ist-messen { display: flex; flex-direction: column; gap: 18px; }
 .schritt.ist-messen { position: absolute; left: 0; right: 0; top: 0; visibility: hidden; }
 .schritt legend { padding: 0; float: left; width: 100%; }
 .schritt legend + * { clear: both; }
-.frage { font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(1.35rem, 4.8vw, 1.65rem); line-height: 1.2; letter-spacing: -.015em; }
+.frage { text-wrap: balance; hyphens: manual; font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(1.35rem, 4.8vw, 1.65rem); line-height: 1.2; letter-spacing: -.015em; }
 .hinweis { color: var(--text-2); font-size: 15px; line-height: 1.45; }
 .optionen { display: flex; flex-direction: column; gap: 8px; }
-.optionen-raster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.optionen-raster .option-flaeche { min-height: 54px; height: 100%; padding: 9px 12px; font-size: 15px; line-height: 1.25; }
-.optionen-raster .option-flaeche > span:first-child { min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
+.optionen-raster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 10px; }
+.optionen-raster .option:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.optionen-raster .option-flaeche { min-height: 60px; height: 100%; padding: 10px 14px; font-size: 15px; line-height: 1.3; }
+.optionen-raster .option-flaeche > span:first-child { min-width: 0; overflow-wrap: break-word; hyphens: manual; text-wrap: balance; }
 .optionen-raster .option-marke { display: none; }
 .optionen-raster .option { height: 100%; min-width: 0; }
 .option { position: relative; display: block; }
