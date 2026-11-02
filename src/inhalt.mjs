@@ -203,7 +203,7 @@ export const allgemein = {
   ],
   navCta: "Profil anlegen",
   footer: {
-    betreiber: "Ein Angebot von {betreiber}",
+    betreiber: "Ein Angebot von {betreiber} · HRB 807018",
     fuerBetriebe: "Für Betriebe",
     impressum: "Impressum",
     datenschutz: "Datenschutz",
