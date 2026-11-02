@@ -85,7 +85,7 @@ Wir speichern dein Profil, um es mit offenen Stellen abzugleichen. An einen Betr
 Wähl die Richtung, die am nächsten dran ist. Viele Betriebe suchen nicht den einen Beruf, sondern jemanden, der zu ihnen passt. Den Rest klären wir am Telefon.
 
 **Wer steckt dahinter?**  
-Jobbahn ist ein Angebot von Ländle Digital, einer Recruiting-Agentur.
+Jobbahn ist ein Angebot von Ländle Digital GmbH, einer Recruiting-Agentur.
 
 ### Abschluss
 
@@ -341,7 +341,7 @@ _Wir rufen nur an, wenn ein Job passt._
 - E-Mail
 - Wann erreichen wir dich am besten? Vormittags · Mittags · Nachmittags · Abends
 
-**Einwilligung (ENTWURF 2026-10):** Ich bin einverstanden, dass Ländle Digital mein Profil speichert, mit offenen Stellen abgleicht und mich dazu anruft oder anschreibt. An einen Betrieb geht mein Profil erst, wenn wir telefoniert haben und ich zugestimmt habe. Ich kann das jederzeit widerrufen.
+**Einwilligung (ENTWURF 2026-10):** Ich bin einverstanden, dass Ländle Digital GmbH mein Profil speichert, mit offenen Stellen abgleicht und mich dazu anruft oder anschreibt. An einen Betrieb geht mein Profil erst, wenn wir telefoniert haben und ich zugestimmt habe. Ich kann das jederzeit widerrufen.
 
 ### Fehlermeldungen
 
@@ -372,7 +372,7 @@ Profil löschen lassen: kurze Mail an [E-Mail-Adresse].
 > ENTWURF – Freigabe durch Anwalt. Dieser Text ist ein Arbeitsstand und noch nicht rechtlich geprüft.
 
 **Wer verantwortlich ist**  
-Ländle Digital, [Anschrift], [Vertretungsberechtigte Person]. E-Mail: [E-Mail-Adresse], Telefon: [Telefonnummer].
+Ländle Digital GmbH (HRB 807018), [Anschrift], [Vertretungsberechtigte Person]. E-Mail: [E-Mail-Adresse], Telefon: [Telefonnummer].
 
 **Welche Daten wir speichern**  
 Die Angaben aus deinem Kurzprofil: Beruf, Abschluss, Erfahrung, Wohnort, Fahrweg, Verfügbarkeit, Gehaltswunsch, Arbeitszeiten, Führerscheine, Deutschkenntnisse, ob du einen Lebenslauf hast, deine Sperrliste und deine Kontaktdaten. Dazu, über welche Seite und welche Anzeige du gekommen bist.
@@ -402,9 +402,10 @@ Diese Seite setzt derzeit keine Cookies und lädt keine Inhalte von fremden Serv
 ## Impressum
 
 Jobbahn ist ein Angebot von:  
-Ländle Digital  
-[Rechtsform, Anschrift]  
+Ländle Digital GmbH  
+[Anschrift]  
 [Vertretungsberechtigte Person]  
 E-Mail: [E-Mail-Adresse]  
 Telefon: [Telefonnummer]  
-[Registergericht, Registernummer, USt-IdNr.]  
+Handelsregister: HRB 807018, [Registergericht]  
+USt-IdNr.: [USt-IdNr.]  

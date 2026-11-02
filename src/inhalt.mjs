@@ -166,7 +166,7 @@ export const datenschutz = {
   hinweis: "ENTWURF – Freigabe durch Anwalt. Dieser Text ist ein Arbeitsstand und noch nicht rechtlich geprüft.",
   h1: "Datenschutz",
   abschnitte: [
-    { h: "Wer verantwortlich ist", t: ["{betreiber}, [Anschrift], [Vertretungsberechtigte Person]. E-Mail: {email}, Telefon: {telefon}."] },
+    { h: "Wer verantwortlich ist", t: ["{betreiber} (HRB 807018), [Anschrift], [Vertretungsberechtigte Person]. E-Mail: {email}, Telefon: {telefon}."] },
     { h: "Welche Daten wir speichern", t: ["Die Angaben aus deinem Kurzprofil: Beruf, Abschluss, Erfahrung, Wohnort, Fahrweg, Verfügbarkeit, Gehaltswunsch, Arbeitszeiten, Führerscheine, Deutschkenntnisse, ob du einen Lebenslauf hast, deine Sperrliste und deine Kontaktdaten. Dazu, über welche Seite und welche Anzeige du gekommen bist."] },
     { h: "Wofür wir sie nutzen", t: ["Wir gleichen dein Profil mit offenen Stellen unserer Kundenbetriebe ab und melden uns bei dir, wenn ein Job passt.", "An einen Betrieb geben wir dein Profil erst weiter, nachdem wir mit dir telefoniert haben und du zugestimmt hast. Betriebe auf deiner Sperrliste bekommen es nie."] },
     { h: "Rechtsgrundlage", t: ["Deine Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. [Anwalt: prüfen, ob für die Weitergabe an den Betrieb eine gesonderte, dokumentierte Einwilligung nötig ist.]"] },
@@ -185,11 +185,12 @@ export const impressum = {
   zeilen: [
     "{marke} ist ein Angebot von:",
     "{betreiber}",
-    "[Rechtsform, Anschrift]",
+    "[Anschrift]",
     "[Vertretungsberechtigte Person]",
     "E-Mail: {email}",
     "Telefon: {telefon}",
-    "[Registergericht, Registernummer, USt-IdNr.]"
+    "Handelsregister: HRB 807018, [Registergericht]",
+    "USt-IdNr.: [USt-IdNr.]"
   ]
 };
 

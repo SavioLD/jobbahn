@@ -35,7 +35,7 @@ window.PORTAL = {
       "einwilligung": "Ohne dein Okay dürfen wir dein Profil nicht speichern.",
       "senden": "Das hat nicht geklappt. Bitte prüf deine Verbindung und tipp noch mal auf „Profil absenden“."
     },
-    "einwilligung": "Ich bin einverstanden, dass Ländle Digital mein Profil speichert, mit offenen Stellen abgleicht und mich dazu anruft oder anschreibt. An einen Betrieb geht mein Profil erst, wenn wir telefoniert haben und ich zugestimmt habe. Ich kann das jederzeit widerrufen.",
+    "einwilligung": "Ich bin einverstanden, dass Ländle Digital GmbH mein Profil speichert, mit offenen Stellen abgleicht und mich dazu anruft oder anschreibt. An einen Betrieb geht mein Profil erst, wenn wir telefoniert haben und ich zugestimmt habe. Ich kann das jederzeit widerrufen.",
     "einwilligungLink": "Datenschutz",
     "einwilligungVersion": "ENTWURF 2026-10",
     "danke": {
