@@ -54,7 +54,7 @@ export function fuss(m, a) {
   <div class="fuss-spalte">${logo(m)}<p>${esc(f.zeile)}</p><p>${esc(f.betreiber)}</p></div>
   <div class="fuss-spalte"><div class="fuss-links">
     <a href="${esc(m.betreiberUrl)}" rel="noopener">${esc(f.fuerBetriebe)}</a>
-    <a href="impressum.html">${esc(f.impressum)}</a>
+    <a href="${esc(m.impressumUrl || "impressum.html")}"${m.impressumUrl ? ' rel="noopener"' : ""}>${esc(f.impressum)}</a>
     <a href="datenschutz.html">${esc(f.datenschutz)}</a>
   </div></div>
 </div></footer>`;
@@ -240,6 +240,14 @@ ${fuss(m, a)}`;
 }
 
 export function impressumseite(m, t, a) {
+  /* Impressum liegt bei Ländle Digital: diese Seite leitet nur weiter (alte Links, Facebook, Instagram). */
+  if (m.impressumUrl) return `<meta http-equiv="refresh" content="0; url=${esc(m.impressumUrl)}"><script>location.replace(${JSON.stringify(m.impressumUrl)})</script>
+${kopf(m, a)}
+<main class="abschnitt"><div class="wrap recht">
+  <h1 class="h2">${esc(t.h1)}</h1>
+  <p>Das Impressum von ${esc(m.name)} findest du bei ${esc(m.betreiber)}: <a href="${esc(m.impressumUrl)}">${esc(m.impressumUrl)}</a></p>
+</div></main>
+${fuss(m, a)}`;
   return `${kopf(m, a)}
 <main class="abschnitt"><div class="wrap recht">
   <h1 class="h2">${esc(t.h1)}</h1>

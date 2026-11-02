@@ -88,5 +88,6 @@
       "fehler": "#F28B82"
     }
   },
-  "symbol": "assets/favicon.svg"
+  "symbol": "assets/favicon.svg",
+  "impressumUrl": "https://laendle-digital.com/impressum/"
 }
