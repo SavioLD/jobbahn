@@ -2,7 +2,7 @@
 
 ## Entscheiden
 
-- [ ] **Name.** „Jobbahn“ ist der neue Arbeitsname (Stil: schlicht, Nachtblau, Umlaufbahn als Motiv, für 30- bis 45-Jährige). Marke beim DPMA prüfen (Anwalt), Domain jobbahn.de prüfen und sichern. Austausch: eine Zeile in `config/marke.json`.
+- [ ] **Name.** „Jobbahn“ ist der neue Arbeitsname (Stil: schlicht, Nachtblau, Umlaufbahn als Motiv, für 30- bis 45-Jährige). Marke beim DPMA prüfen (Anwalt), Domain: jobbahn.com bei Strato (DNS: A 185.199.108.153, AAAA 2606:50c0:8000::153, www → CNAME saviold.github.io), Website unter https://www.jobbahn.com. Austausch: eine Zeile in `config/marke.json`.
 - [ ] **Logo und Figur.** Aktuell Platzhalter-Symbol (Welle in der Bohrung = Passung). Logo-Datei und später die Figur in `config/marke.json` eintragen (`logo`, `figur`, Pfad z. B. `assets/figur.png`). Die Figur erscheint dann im Hero hinter der Beispiel-Karte (Hochformat, freigestellt, ca. 4:5). Der Bild-Slot ist gebaut, aber mangels Bild noch nicht im Browser geprüft.
 - [ ] **15 Jobrichtungen.** Richtungen und Unterberufe sind ein Vorschlag. Kürzen, ergänzen oder umbenennen in `config/berufe.json`.
 - [ ] **Gehaltsspannen.** Die fünf Spannen im Formular (bis 2.800 € bis über 4.300 €) sind gesetzt, nicht recherchiert. Mit echten Stellen abgleichen.
@@ -20,7 +20,7 @@
 ## Technik
 
 **Stand 23.10.2026:**
-- Portal live auf GitHub Pages: https://saviold.github.io/jobbahn/ (noindex, bis Marke und Recht stehen).
+- Portal live auf GitHub Pages: https://www.jobbahn.com/ (noindex, bis Marke und Recht stehen).
 - Vergleicher live: https://passtjob-vergleicher.savio-roeckle.workers.dev/intern (Cloudflare-Konto Ländle Digital, D1-Datenbank `passtjob-eu` in der EU). Das Portal sendet an ihn (`api` in `config/webhooks.json`).
 - GitHub-Secrets `CLOUDFLARE_API_TOKEN` und `VERGLEICHER_PASSWORT` sind gesetzt. Jeder Deploy prüft danach Erreichbarkeit, Passwortschutz und Datenbank (Schritt „Läuft er?“).
 - In der Lead Table gibt es den Kunden „Bewerberpool“ mit den Kacheln „Pool · Alle“ und „Matches“.

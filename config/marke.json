@@ -2,7 +2,7 @@
   "_hinweis": "Alles Markenbezogene steht in dieser einen Datei. Name, Farben, Schriften, Logo und Figur hier ändern, dann `node build.mjs --pages` – die ganze Seite zieht nach. Stil: schlicht, Nachtblau mit ruhigem Blau, Umlaufbahn als Motiv.",
   "name": "Jobbahn",
   "claim": "Dein nächster Job. In deiner Nähe.",
-  "domain": "jobbahn.de",
+  "domain": "jobbahn.com",
   "betreiber": "Ländle Digital",
   "betreiberUrl": "https://laendle-digital.com",
   "kontakt": {

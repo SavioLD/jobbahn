@@ -143,6 +143,8 @@ if (pages) {
   /* Vorschau: nicht indexieren (Rechtstexte sind Entwürfe), kein Jekyll-Umbau durch GitHub. */
   writeFileSync(join(out, "robots.txt"), "User-agent: *\nDisallow: /\n");
   writeFileSync(join(out, ".nojekyll"), "");
+  /* Eigene Domain für GitHub Pages: www.<domain> (DNS bei Strato: www → CNAME saviold.github.io). */
+  if (marke.domain) writeFileSync(join(out, "CNAME"), `www.${marke.domain}\n`);
 } else if (!artifact && marke.domain) {
   const url = (p) => `https://${marke.domain}/${p === "index.html" ? "" : p.replace(/\.html$/, "")}`;
   writeFileSync(join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${seiten.filter(p => !["impressum.html", "datenschutz.html"].includes(p)).map(p => `  <url><loc>${url(p)}</loc></url>`).join("\n")}\n</urlset>\n`);
