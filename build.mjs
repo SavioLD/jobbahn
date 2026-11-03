@@ -10,7 +10,7 @@
    Erzeugt außerdem CONTENT.md (alle Texte) und SCHEMA.md (Feldschema).
    Keine Abhängigkeiten – nur Node ≥ 18.
    ===================================================================== */
-import { readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync, readdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import * as inhalt from "./src/inhalt.mjs";
@@ -24,6 +24,8 @@ const out = pages ? root : join(root, artifact ? "dist-artifact" : "dist");
 const json = (p) => JSON.parse(readFileSync(join(root, p), "utf8"));
 const marke = json("config/marke.json");
 const berufe = json("config/berufe.json");
+/* Foto je Richtung (optional): assets/beruf-<key>.jpg */
+for (const b of berufe) b.bild = existsSync(join(root, `assets/beruf-${b.key}.jpg`)) ? `assets/beruf-${b.key}.jpg` : null;
 const felder = json("schema/felder.json");
 const webhooks = json("config/webhooks.json");
 

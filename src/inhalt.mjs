@@ -26,7 +26,7 @@ export const startseite = {
     ],
     fakten: ["Kostenlos", "Ohne Lebenslauf", "Dein Chef erfährt nichts"],
     mass: "2 Minuten · ohne Lebenslauf",
-    foto: "assets/team-ansprechpartner.jpg",
+    foto: "assets/team-headset.jpg",
     fotoAlt: "Ein Berater aus dem Jobbahn-Team",
     fotoKarte: { titel: "Wir rufen dich an.", text: "Persönlich – kein Callcenter, kein Bot." },
     fotoMatch: { label: "Neuer Treffer", text: "Zerspaner · 18 km · Tagschicht" },
@@ -54,6 +54,18 @@ export const startseite = {
     ],
     schluss: "Trifft eins davon zu? Dann suchen wir den Betrieb, der besser passt.",
     cta: "Jetzt Kurzprofil anlegen"
+  },
+  team: {
+    eyebrow: "Wer hinter Jobbahn steckt",
+    h2: "Echte Menschen. ==Kein Bot.==",
+    text: "Bei uns landest du nicht in einem Postfach, das nie antwortet. Wir rufen dich persönlich an, hören zu und schauen mit dir, welcher Betrieb wirklich passt.",
+    punkte: ["Ein fester Ansprechpartner für dich", "Ehrliche Einschätzung statt Massenmails", "Wir melden uns nur, wenn es passt"],
+    bilder: [
+      { src: "assets/team-gruppe.jpg", alt: "Das Jobbahn-Team bei der Arbeit", w: 1200, h: 800 },
+      { src: "assets/team-ansprechpartner.jpg", alt: "Ein Berater aus dem Jobbahn-Team", w: 800, h: 1000 },
+      { src: "assets/team-laptop.jpg", alt: "Ein Kollege aus dem Jobbahn-Team am Laptop", w: 800, h: 1000 },
+      { src: "assets/team-handy.jpg", alt: "Ein Kollege aus dem Jobbahn-Team am Telefon", w: 800, h: 1000 }
+    ]
   },
   matchkarte: {
     label: "Beispiel",

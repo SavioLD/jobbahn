@@ -107,7 +107,7 @@ function matchKarte(k) {
 }
 
 function berufeKacheln(berufe) {
-  return `<div class="berufe-raster">${berufe.map(b => `<a class="beruf-kachel" href="${b.key}.html"><span class="name">${esc(b.name)}</span><span class="kurz">${esc(b.kurz)}</span><span class="los">Jobs ansehen ${icon.pfeil}</span></a>`).join("")}</div>`;
+  return `<div class="berufe-raster">${berufe.map(b => `<a class="beruf-kachel${b.bild ? " mit-bild" : ""}" href="${b.key}.html">${b.bild ? `<img class="beruf-bild" src="${b.bild}" alt="" width="800" height="600" loading="lazy">` : ""}<span class="name">${esc(b.name)}</span><span class="kurz">${esc(b.kurz)}</span><span class="los">Jobs ansehen ${icon.pfeil}</span></a>`).join("")}</div>`;
 }
 
 const punktIcons = [icon.auge, icon.sprechen, icon.sperre, icon.loeschen];
@@ -148,6 +148,13 @@ export function startseite(m, t, a, berufe) {
 <section class="abschnitt hellblau-band" id="ablauf"><div class="wrap">
   <div class="abschnitt-kopf">${eyebrow(t.ablauf.eyebrow)}<h2 class="h2">${esc(t.ablauf.h2)}</h2></div>
   ${ablaufListe(t.ablauf.schritte)}
+</div></section>
+
+<section class="abschnitt team" id="team"><div class="wrap team-raster">
+  <div class="team-text">${eyebrow(t.team.eyebrow)}<h2 class="h2">${markiert(t.team.h2)}</h2><p class="lead">${esc(t.team.text)}</p>
+    <ul class="team-punkte">${t.team.punkte.map(p => `<li>${icon.haken}${esc(p)}</li>`).join("")}</ul>
+    <a class="btn btn-primaer" href="profil.html">${esc(t.hero.cta)} ${icon.pfeil}</a></div>
+  <div class="team-bilder">${t.team.bilder.map((b, i) => `<img class="tb-${i}" src="${esc(b.src)}" alt="${esc(b.alt)}" width="${b.w}" height="${b.h}" loading="lazy">`).join("")}</div>
 </div></section>
 
 <section class="abschnitt band" id="vertraulich"><div class="wrap vertraulich-raster">
@@ -200,6 +207,7 @@ export function berufsseite(m, t, ablauf, a, b) {
   </div>
 </div></section>
 
+${b.bild ? `<div class="wrap beruf-foto-wrap"><img class="beruf-foto" src="${b.bild}" alt="" width="800" height="600"></div>` : ""}
 <section class="abschnitt"><div class="wrap">
   <div class="abschnitt-kopf"><h2 class="h2">${esc(t.fragenH2)}</h2><p class="lead">${esc(t.fragenText)}</p></div>
   <ul class="fragen">${b.fragen.map(f => `<li>${esc(f)}</li>`).join("")}</ul>
