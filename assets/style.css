@@ -411,3 +411,133 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
 }
+
+/* =====================================================================
+   Startseite: mehr Farbe und klare Führung
+   Nachtblau oben (wie Logo und Anzeigen), Hellblau als zweiter Ton,
+   Abschnitte wechseln die Fläche, damit man sieht, wo man ist.
+   ===================================================================== */
+:root { --nacht: #0F1B2D; --nacht-2: #18273F; --blau: #2B59C3; --hellblau: #7FA2F0; --hellblau-text: #A9C0F6; }
+
+/* Kopf auf dem dunklen Hero */
+.kopf-dunkel { background: var(--nacht); border-bottom-color: rgba(127, 162, 240, .18); }
+.kopf-dunkel .logo, .kopf-dunkel .logo .logo-bild { color: #fff; --logo-planet: var(--hellblau); --logo-mond: #fff; }
+.kopf-dunkel .nav a { color: #C9D3E3; }
+.kopf-dunkel .nav a:hover { color: #fff; }
+.kopf-dunkel .btn-primaer { background: var(--hellblau); border-color: var(--hellblau); color: var(--nacht); }
+
+/* Hero dunkel */
+.hero-dunkel { background: var(--nacht); color: #fff; }
+.hero-dunkel .hero-bahnen { color: rgba(127, 162, 240, .22); }
+.hero-dunkel .hero-bahnen .punkt { fill: var(--hellblau); }
+.hero-dunkel .eyebrow {
+  align-self: flex-start; color: var(--hellblau-text); background: rgba(127, 162, 240, .12);
+  border: 1px solid rgba(127, 162, 240, .3); padding: 7px 14px 7px 12px; border-radius: 999px; letter-spacing: .1em;
+}
+.hero-dunkel .eyebrow::before { background: var(--hellblau); }
+.hero-dunkel .h1 { color: #fff; font-weight: 800; }
+.hero-dunkel .hl { color: var(--hellblau); }
+.hero-dunkel .lead { color: #D3DBE8; }
+.hero-dunkel .lead { font-size: clamp(1.1rem, 2.3vw, 1.3rem); }
+.hero-dunkel .fakten { color: #C9D3E3; }
+.hero-dunkel .fakten svg { color: var(--hellblau); }
+
+/* Drei Schritte direkt im Hero: was passiert, wenn ich mich eintrage */
+.hero-schritte {
+  list-style: none; margin: 0; padding: 6px 0; display: grid; gap: 0;
+  background: rgba(127, 162, 240, .08); border: 1px solid rgba(127, 162, 240, .22); border-radius: 16px; max-width: 560px;
+}
+.hero-schritte li { position: relative; display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 14px; align-items: center; padding: 11px 18px; }
+.hero-schritte li + li::after { content: ""; position: absolute; left: 36px; top: -11px; height: 22px; border-left: 2px dotted rgba(127, 162, 240, .55); }
+.hs-nr {
+  position: relative; z-index: 1; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+  background: var(--hellblau); color: var(--nacht); font-weight: 800; font-size: 17px;
+}
+.hero-schritte li:first-child .hs-nr { background: #fff; }
+.hs-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+.hs-text strong { font-size: 17px; color: #fff; }
+.hs-text span { font-size: 14.5px; color: #B9C5D8; }
+
+/* Buttons für dunkle und blaue Flächen */
+.btn-hell { background: var(--hellblau); color: var(--nacht); border-color: var(--hellblau); }
+.btn-hell:hover { background: #9DB8F5; border-color: #9DB8F5; box-shadow: 0 10px 24px -12px var(--hellblau); }
+.btn-rand-hell { background: transparent; color: #fff; border-color: rgba(127, 162, 240, .45); }
+.btn-rand-hell:hover { border-color: var(--hellblau); }
+.btn-weiss { background: #fff; color: var(--blau); border-color: #fff; }
+.btn-weiss:hover { box-shadow: 0 10px 24px -12px rgba(0, 0, 0, .5); }
+
+/* Beispiel-Karte auf dem dunklen Hero: bleibt hell, Hellblau-Rand */
+.hero-dunkel .karte-match { color: var(--text); border-color: rgba(127, 162, 240, .4); box-shadow: 0 30px 70px -30px rgba(0, 0, 0, .7); }
+
+/* „Kennst du das?“ */
+.kennst { background: var(--flaeche); }
+.schmerz-raster { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+@media (min-width: 640px) { .schmerz-raster { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
+@media (min-width: 1000px) { .schmerz-raster { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.schmerz-raster li {
+  display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 2px 14px; align-content: start;
+  padding: 18px; border-radius: var(--radius); background: var(--bg); border: 1px solid var(--linie);
+  border-left: 4px solid var(--hellblau);
+}
+.schmerz-icon {
+  grid-row: span 2; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 12px;
+  background: var(--akzent-hell); color: var(--akzent-text);
+}
+.schmerz-icon svg { width: 26px; height: 26px; }
+.schmerz-raster .h3 { font-size: 1.1rem; align-self: end; }
+.schmerz-raster p { color: var(--text-2); font-size: 15.5px; line-height: 1.45; }
+.schmerz-schluss {
+  margin-top: clamp(24px, 4vw, 36px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px;
+  padding: clamp(18px, 3vw, 26px); border-radius: var(--radius); background: var(--nacht); color: #fff;
+}
+.schmerz-schluss p { font-family: var(--f-display); font-weight: 800; font-size: clamp(1.15rem, 2.6vw, 1.45rem); line-height: 1.3; max-width: 30em; }
+.schmerz-schluss .btn-primaer { background: var(--hellblau); border-color: var(--hellblau); color: var(--nacht); }
+
+/* So läuft's auf Hellblau-Fläche, Nummern als Kreise */
+.hellblau-band { background: var(--akzent-hell); border-top: 0 !important; }
+.hellblau-band .eyebrow { color: var(--akzent-text); }
+.hellblau-band .ablauf li {
+  border-top: 0; padding: 22px; background: var(--flaeche); border-radius: var(--radius);
+  box-shadow: 0 14px 30px -24px var(--schatten-stark);
+}
+.hellblau-band .ablauf li::before { display: none; }
+.hellblau-band .ablauf-nr {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--hellblau); color: var(--nacht); font-size: 16px;
+}
+.hellblau-band .ablauf li:first-child .ablauf-nr { background: var(--blau); color: #fff; }
+.abschnitt + .band, .band + .abschnitt, .hellblau-band + .abschnitt { border-top: 0 !important; }
+
+/* Vertraulich-Band: Icons in Hellblau */
+.band .punkte svg { color: var(--hellblau); }
+.band .eyebrow::before { background: var(--hellblau); }
+
+/* Unterschied & Berufe auf Hellgrau, damit sich die Abschnitte abheben */
+#berufe { background: var(--bg); }
+#unterschied { background: var(--flaeche); }
+#fragen { background: var(--flaeche); }
+.vergleich td.unsere { border-left: 3px solid var(--hellblau); }
+
+/* Berufe am Handy kompakt: zwei Spalten, nur Name + Pfeil */
+@media (max-width: 639px) {
+  .berufe-raster { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .beruf-kachel { padding: 14px 14px 12px; border-top: 3px solid var(--hellblau); }
+  .beruf-kachel .name { font-size: 15.5px; overflow-wrap: break-word; }
+  .beruf-kachel .kurz { display: none; }
+  .beruf-kachel .los { font-size: 13.5px; padding-top: 6px; }
+}
+@media (min-width: 640px) { .beruf-kachel { border-top: 3px solid var(--hellblau); } }
+
+/* Schluss-CTA in Blau */
+.cta-blau { background: var(--blau); color: #fff; }
+.cta-blau .h2 { color: #fff; }
+.cta-blau .hl { color: #C9D8FA; }
+.cta-blau p { color: #DCE5F8; }
+
+/* Dunkelmodus: Hero bleibt nachtblau, Flächen wie gehabt */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .hero-dunkel, :root:not([data-theme="light"]) .kopf-dunkel { background: #0F1B2D; }
+  :root:not([data-theme="light"]) .cta-blau { background: #23488F; }
+}
+:root[data-theme="dark"] .cta-blau { background: #23488F; }
+@media (max-width: 520px) { .hero-dunkel .hero-aktionen .btn { flex: 1 1 100%; } }

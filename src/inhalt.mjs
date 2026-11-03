@@ -13,13 +13,33 @@ export const startseite = {
     beschreibung: "Leg in zwei Minuten ein Kurzprofil an. {marke} sucht passende Jobs in deiner Nähe – im Handwerk, in der Industrie und im Büro – und ruft dich an, wenn einer passt. Kostenlos und vertraulich."
   },
   hero: {
-    eyebrow: "Handwerk · Industrie · Büro – in deiner Nähe",
+    eyebrow: "Kostenlose Jobvermittlung",
     h1: "Dein nächster Job. ==In deiner Nähe.==",
-    lead: "Sag uns in zwei Minuten, was du kannst und was du willst. Wir gleichen das mit offenen Stellen bei Betrieben in deiner Nähe ab und rufen dich an, wenn einer passt.",
+    lead: "Du trägst dich in 2 Minuten ein. Wir suchen für dich den Arbeitgeber, der wirklich zu dir passt – und rufen dich an.",
     cta: "Kurzprofil anlegen",
     cta2: "So läuft’s",
-    fakten: ["2 Minuten", "Kostenlos", "Ohne Lebenslauf", "Vertraulich"],
+    schritte: [
+      { titel: "Du trägst dich ein", text: "2 Minuten, ohne Lebenslauf" },
+      { titel: "Wir suchen für dich", text: "Betriebe in deiner Nähe, die passen" },
+      { titel: "Wir rufen dich an", text: "Nur wenn ein Job wirklich passt" }
+    ],
+    fakten: ["Kostenlos", "Ohne Lebenslauf", "Vertraulich"],
     mass: "2 Minuten · ohne Lebenslauf"
+  },
+  kennst: {
+    eyebrow: "Kennst du das?",
+    h2: "Gute Arbeit. Aber der ==Job passt nicht mehr.==",
+    text: "Die meisten, die sich bei uns melden, haben einen Job. Nur eben nicht den richtigen.",
+    punkte: [
+      { icon: "auto", titel: "Jeden Tag im Stau", text: "Eine Stunde hin, eine zurück – und das fünfmal die Woche." },
+      { icon: "geld", titel: "Zu wenig Gehalt", text: "Du machst mehr als früher. Auf dem Lohnzettel merkst du davon nichts." },
+      { icon: "chef", titel: "Chef und Kollegen nerven", text: "Kein Danke, schlechte Stimmung, immer dieselben Diskussionen." },
+      { icon: "treppe", titel: "Kein Weiterkommen", text: "Mehr Verantwortung? Gibt’s nicht – oder nur ohne mehr Geld." },
+      { icon: "kreis", titel: "Seit Jahren dasselbe", text: "Gleiche Halle, gleiche Aufgaben, gleicher Trott." },
+      { icon: "uhr", titel: "Schicht passt nicht zum Leben", text: "Familie, Hobby, Feierabend – alles muss sich nach dem Plan richten." }
+    ],
+    schluss: "Trifft eins davon zu? Dann suchen wir den Betrieb, der besser passt.",
+    cta: "Jetzt Kurzprofil anlegen"
   },
   matchkarte: {
     label: "Beispiel",

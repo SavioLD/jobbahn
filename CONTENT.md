@@ -9,12 +9,12 @@
 
 ### Hero
 
-- Eyebrow: Handwerk · Industrie · Büro – in deiner Nähe
+- Eyebrow: Kostenlose Jobvermittlung
 - H1: **Dein nächster Job. In deiner Nähe.**
-- Maßlinie: 2 Minuten · ohne Lebenslauf
-- Text: Sag uns in zwei Minuten, was du kannst und was du willst. Wir gleichen das mit offenen Stellen bei Betrieben in deiner Nähe ab und rufen dich an, wenn einer passt.
+- Text: Du trägst dich in 2 Minuten ein. Wir suchen für dich den Arbeitgeber, der wirklich zu dir passt – und rufen dich an.
+- Schritte: Du trägst dich ein (2 Minuten, ohne Lebenslauf) → Wir suchen für dich (Betriebe in deiner Nähe, die passen) → Wir rufen dich an (Nur wenn ein Job wirklich passt)
 - Buttons: „Kurzprofil anlegen“ · „So läuft’s“
-- Fakten: 2 Minuten · Kostenlos · Ohne Lebenslauf · Vertraulich
+- Fakten: Kostenlos · Ohne Lebenslauf · Vertraulich
 
 ### Beispiel-Match (als „Beispiel“ gekennzeichnet)
 
@@ -24,6 +24,21 @@
 - Gehalt: im Rahmen (deines Wunsches)
 - Start: in 2–3 Monaten (passt zur Kündigungsfrist)
 - Nächster Schritt: Wir rufen dich an.
+
+### Kennst du das?
+
+**Gute Arbeit. Aber der Job passt nicht mehr.**
+
+Die meisten, die sich bei uns melden, haben einen Job. Nur eben nicht den richtigen.
+
+- **Jeden Tag im Stau** – Eine Stunde hin, eine zurück – und das fünfmal die Woche.
+- **Zu wenig Gehalt** – Du machst mehr als früher. Auf dem Lohnzettel merkst du davon nichts.
+- **Chef und Kollegen nerven** – Kein Danke, schlechte Stimmung, immer dieselben Diskussionen.
+- **Kein Weiterkommen** – Mehr Verantwortung? Gibt’s nicht – oder nur ohne mehr Geld.
+- **Seit Jahren dasselbe** – Gleiche Halle, gleiche Aufgaben, gleicher Trott.
+- **Schicht passt nicht zum Leben** – Familie, Hobby, Feierabend – alles muss sich nach dem Plan richten.
+
+Trifft eins davon zu? Dann suchen wir den Betrieb, der besser passt.
 
 ### So läuft’s
 

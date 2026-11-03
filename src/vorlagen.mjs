@@ -22,7 +22,13 @@ export const icon = {
   auge: svg('<path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c5.5 0 9 5 10 7a14 14 0 0 1-2.6 3.4M6.6 6.6A14.5 14.5 0 0 0 2 12c1 2 4.5 7 10 7a9.6 9.6 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2"/>'),
   sprechen: svg('<path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-4.8A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01" stroke-width="3"/>'),
   sperre: svg('<circle cx="12" cy="12" r="9.5"/><path d="m5.5 5.5 13 13"/>'),
-  loeschen: svg('<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>')
+  loeschen: svg('<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>'),
+  auto: svg('<path d="M5 16V11l2-5h10l2 5v5M5 16h14M5 16v2.5M19 16v2.5M5 11h14"/><circle cx="8" cy="13.5" r=".6" fill="currentColor"/><circle cx="16" cy="13.5" r=".6" fill="currentColor"/>'),
+  geld: svg('<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v5M18 9.5v5"/>'),
+  chef: svg('<circle cx="12" cy="12" r="9.5"/><path d="M8.5 16.2c1.9-1.6 5.1-1.6 7 0M8 9.2l2.2.9M16 9.2l-2.2.9"/>'),
+  treppe: svg('<path d="M3 20h5v-5h5v-5h5V5h3"/>'),
+  kreis: svg('<path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v4.5h-4.5"/>'),
+  uhr: svg('<circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3.5 2"/>')
 };
 
 /* Wortmarke-Symbol: ein Planet auf seiner Umlaufbahn. Platzhalter,
@@ -42,10 +48,10 @@ export function logo(m, href = "./") {
 }
 
 /* ---------- Rahmen ---------- */
-export function kopf(m, a, { minimal = false, rechts = "" } = {}) {
+export function kopf(m, a, { minimal = false, rechts = "", dunkel = false } = {}) {
   const nav = minimal ? "" : `<nav class="nav" aria-label="Hauptnavigation">${a.nav.map(n => `<a href="${esc(n.href)}">${esc(n.text)}</a>`).join("")}</nav>`;
   const cta = minimal ? rechts : `<a class="btn btn-primaer btn-klein" href="profil.html">${esc(a.navCta)}</a>`;
-  return `${m.logoSymbol || ""}<header class="kopf${minimal ? " profil-kopf" : ""}"><div class="wrap kopf-innen">${logo(m)}${nav}${cta}</div></header>`;
+  return `${m.logoSymbol || ""}<header class="kopf${minimal ? " profil-kopf" : ""}${dunkel ? " kopf-dunkel" : ""}"><div class="wrap kopf-innen">${logo(m)}${nav}${cta}</div></header>`;
 }
 
 export function fuss(m, a) {
@@ -108,26 +114,30 @@ const punktIcons = [icon.auge, icon.sprechen, icon.sperre, icon.loeschen];
 /* ---------- Seiten ---------- */
 export function startseite(m, t, a, berufe) {
   const h = t.hero;
-  return `${kopf(m, a)}
+  return `${kopf(m, a, { dunkel: true })}
 <main>
-<section class="hero">${bahnen}<div class="wrap hero-raster">
+<section class="hero hero-dunkel">${bahnen}<div class="wrap hero-raster">
   <div class="hero-text">
     ${eyebrow(h.eyebrow)}
     <h1 class="h1">${markiert(h.h1)}</h1>
-    <p class="masslinie"><span aria-hidden="true"></span>${esc(h.mass)}<span aria-hidden="true"></span></p>
     <p class="lead">${esc(h.lead)}</p>
+    <ol class="hero-schritte">${h.schritte.map((x, i) => `<li><span class="hs-nr">${i + 1}</span><span class="hs-text"><strong>${esc(x.titel)}</strong><span>${esc(x.text)}</span></span></li>`).join("")}</ol>
     <div class="hero-aktionen">
-      <a class="btn btn-primaer" href="profil.html">${esc(h.cta)} ${icon.pfeil}</a>
-      <a class="btn btn-sekundaer" href="#ablauf">${esc(h.cta2)}</a>
+      <a class="btn btn-hell" href="profil.html">${esc(h.cta)} ${icon.pfeil}</a>
+      <a class="btn btn-rand-hell" href="#ablauf">${esc(h.cta2)}</a>
     </div>
     <ul class="fakten">${h.fakten.map(f => `<li>${icon.check}${esc(f)}</li>`).join("")}</ul>
   </div>
-  ${m.figur
-    ? `<div class="hero-bild"><img class="figur" src="${esc(m.figur)}" alt="" width="480" height="600">${matchKarte(t.matchkarte)}</div>`
-    : matchKarte(t.matchkarte)}
+  ${matchKarte(t.matchkarte)}
 </div></section>
 
-<section class="abschnitt" id="ablauf"><div class="wrap">
+<section class="abschnitt kennst" id="kennst"><div class="wrap">
+  <div class="abschnitt-kopf">${eyebrow(t.kennst.eyebrow)}<h2 class="h2">${markiert(t.kennst.h2)}</h2><p class="lead">${esc(t.kennst.text)}</p></div>
+  <ul class="schmerz-raster">${t.kennst.punkte.map(p => `<li><span class="schmerz-icon">${icon[p.icon] || icon.check}</span><h3 class="h3">${esc(p.titel)}</h3><p>${esc(p.text)}</p></li>`).join("")}</ul>
+  <div class="schmerz-schluss"><p>${esc(t.kennst.schluss)}</p><a class="btn btn-primaer" href="profil.html">${esc(t.kennst.cta)} ${icon.pfeil}</a></div>
+</div></section>
+
+<section class="abschnitt hellblau-band" id="ablauf"><div class="wrap">
   <div class="abschnitt-kopf">${eyebrow(t.ablauf.eyebrow)}<h2 class="h2">${esc(t.ablauf.h2)}</h2></div>
   ${ablaufListe(t.ablauf.schritte)}
 </div></section>
@@ -155,9 +165,9 @@ export function startseite(m, t, a, berufe) {
   <div class="faq">${t.faq.eintraege.map(e => `<details><summary>${esc(e.frage)}</summary><p>${esc(e.antwort)}</p></details>`).join("")}</div>
 </div></section>
 
-<section class="cta-band"><div class="wrap cta-innen">
+<section class="cta-band cta-blau"><div class="wrap cta-innen">
   <div><h2 class="h2">${markiert(t.cta.h2)}</h2><p>${esc(t.cta.text)}</p></div>
-  <a class="btn btn-primaer" href="profil.html">${esc(t.cta.button)} ${icon.pfeil}</a>
+  <a class="btn btn-weiss" href="profil.html">${esc(t.cta.button)} ${icon.pfeil}</a>
 </div></section>
 </main>
 ${fuss(m, a)}`;
