@@ -247,6 +247,7 @@ async function zeigen() {
     if (h.startsWith("bearbeiten-")) return formular(h.slice(11));
     if (h.startsWith("stelle-")) return detail(h.slice(7));
     if (h === "einstellungen") return einstellungen();
+    if (h === "import") return importSeite();
     if (h === "leitfaden" || h.startsWith("leitfaden-")) return leitfaden(h.slice(10));
     return uebersicht();
   } catch (err) {
@@ -262,7 +263,7 @@ async function uebersicht() {
   const poolGesamt = Object.values(d.pool).reduce((a, b) => a + b, 0);
   const h = d.hinweise;
   app.innerHTML = `
-    <div class="zeile"><h1 style="margin-right:auto">Stellen</h1><a class="btn btn-gelb" href="#neu">Neue Stelle anlegen</a></div>
+    <div class="zeile"><h1 style="margin-right:auto">Stellen</h1><a class="btn" href="#import" style="margin-right:8px">Stellen importieren</a><a class="btn btn-gelb" href="#neu">Neue Stelle anlegen</a></div>
     ${h.matchesKachelFehlt ? `<div class="hinweis">Treffer gehen noch nicht in die Lead Table: Unter <a href="#einstellungen">Einstellungen</a> die Kachel „Matches“ eintragen. Hier in der Liste siehst du sie trotzdem.</div>` : ""}
     ${h.poolKachelFehlt ? `<div class="hinweis">Neue Bewerber werden noch nicht in die Pool-Kacheln der Lead Table kopiert: Unter <a href="#einstellungen">Einstellungen</a> eintragen.</div>` : ""}
     ${h.letzterFehler ? `<div class="hinweis fehler"><b>Letzter Fehler beim Senden an die Lead Table</b> (${esc(new Date(h.letzterFehler.zeit).toLocaleString("de-DE"))}, ${esc(h.letzterFehler.wofuer)}): ${esc(h.letzterFehler.text)} <button type="button" class="btn" id="fehler-weg" style="margin-left:8px">Erledigt, ausblenden</button></div>` : ""}
@@ -284,6 +285,60 @@ async function uebersicht() {
     const los = () => { location.hash = "stelle-" + tr.dataset.id; };
     tr.addEventListener("click", los);
     tr.addEventListener("keydown", (e) => { if (e.key === "Enter") los(); });
+  });
+}
+
+
+/* ---------- Stellen importieren (Datei von Claude) ----------
+   Liest eine JSON-Datei mit Steckbriefen und legt sie nacheinander an.
+   Gibt es Firma + Stelle schon, wird sie aktualisiert – eine eingetragene
+   Lead-Table-Kachel bleibt dabei erhalten. */
+function importSeite() {
+  app.innerHTML = `
+    <div class="zeile"><h1 style="margin-right:auto">Stellen importieren</h1><a class="btn" href="#stellen">Zurück</a></div>
+    <section class="karte">
+      <p>Wähl die Datei <b>.json</b> aus, die du bekommen hast. Jede Stelle wird angelegt und sofort mit dem Bewerberpool verglichen. Gibt es Firma und Stelle schon, wird sie aktualisiert.</p>
+      <p><input type="file" id="imp-datei" accept=".json,application/json"></p>
+      <div id="imp-vorschau"></div>
+    </section>`;
+  let liste = [];
+  document.getElementById("imp-datei").addEventListener("change", async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const box = document.getElementById("imp-vorschau");
+    try {
+      const roh = JSON.parse(await f.text());
+      liste = (Array.isArray(roh) ? roh : roh.stellen || []).filter(x => x && x.firma && x.titel);
+    } catch { box.innerHTML = `<div class="hinweis fehler">Die Datei ist keine gültige Import-Datei.</div>`; return; }
+    if (!liste.length) { box.innerHTML = `<div class="hinweis fehler">In der Datei sind keine Stellen.</div>`; return; }
+    const firmen = [...new Set(liste.map(x => x.firma))];
+    box.innerHTML = `<p><b>${liste.length} Stellen</b> von <b>${firmen.length} Firmen</b>:</p>
+      <ul class="klein">${firmen.map(fi => `<li><b>${esc(fi)}</b>: ${liste.filter(x => x.firma === fi).map(x => esc(x.titel)).join(", ")}</li>`).join("")}</ul>
+      <p><button class="btn btn-gelb" id="imp-los">Jetzt alle importieren</button></p><div id="imp-log"></div>`;
+    document.getElementById("imp-los").addEventListener("click", async (ev) => {
+      ev.target.disabled = true;
+      const log = document.getElementById("imp-log");
+      const d = await api("GET", "/api/intern/uebersicht");
+      const schluessel = (a, b) => (a + "|" + b).toLowerCase().replace(/\s+/g, " ").trim();
+      const vorhanden = new Map(d.stellen.map(s => [schluessel(s.firma, s.titel), s.id]));
+      let ok = 0, treffer = 0, fehler = 0;
+      for (const [i, x] of liste.entries()) {
+        const daten = Object.assign({}, x); delete daten.repo; delete daten.luecken;
+        const id = vorhanden.get(schluessel(x.firma, x.titel));
+        try {
+          if (id) {
+            const alt = (await api("GET", "/api/intern/stellen/" + id)).stelle;
+            if (!daten.firmen_webhook && alt.firmen_webhook) daten.firmen_webhook = alt.firmen_webhook;
+          }
+          const r = id ? await api("PUT", "/api/intern/stellen/" + id, daten) : await api("POST", "/api/intern/stellen", daten);
+          ok++; treffer += r.neueTreffer || 0;
+          log.insertAdjacentHTML("beforeend", `<p class="klein">✓ ${esc(x.firma)} – ${esc(x.titel)}${id ? " (aktualisiert)" : ""}${r.neueTreffer ? ` · <b>${r.neueTreffer} neue Treffer</b>` : ""}${r.plzBekannt === false ? " · PLZ unbekannt, Entfernung wird nicht berechnet" : ""}</p>`);
+        } catch (err) {
+          fehler++;
+          log.insertAdjacentHTML("beforeend", `<p class="klein" style="color:var(--fehler,#B3261E)">✗ ${esc(x.firma)} – ${esc(x.titel)}: ${esc(err.message)}</p>`);
+        }
+      }
+      log.insertAdjacentHTML("beforeend", `<div class="hinweis"><b>Fertig:</b> ${ok} Stellen gespeichert, ${treffer} neue Treffer${fehler ? `, ${fehler} mit Fehler (siehe oben)` : ""}. <a href="#stellen">Zur Übersicht</a></div>`);
+    });
   });
 }
 
