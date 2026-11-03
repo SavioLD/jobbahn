@@ -265,7 +265,7 @@ async function uebersicht() {
     <div class="zeile"><h1 style="margin-right:auto">Stellen</h1><a class="btn btn-gelb" href="#neu">Neue Stelle anlegen</a></div>
     ${h.matchesKachelFehlt ? `<div class="hinweis">Treffer gehen noch nicht in die Lead Table: Unter <a href="#einstellungen">Einstellungen</a> die Kachel „Matches“ eintragen. Hier in der Liste siehst du sie trotzdem.</div>` : ""}
     ${h.poolKachelFehlt ? `<div class="hinweis">Neue Bewerber werden noch nicht in die Pool-Kacheln der Lead Table kopiert: Unter <a href="#einstellungen">Einstellungen</a> eintragen.</div>` : ""}
-    ${h.letzterFehler ? `<div class="hinweis fehler"><b>Letzter Fehler beim Senden an die Lead Table</b> (${esc(new Date(h.letzterFehler.zeit).toLocaleString("de-DE"))}, ${esc(h.letzterFehler.wofuer)}): ${esc(h.letzterFehler.text)}</div>` : ""}
+    ${h.letzterFehler ? `<div class="hinweis fehler"><b>Letzter Fehler beim Senden an die Lead Table</b> (${esc(new Date(h.letzterFehler.zeit).toLocaleString("de-DE"))}, ${esc(h.letzterFehler.wofuer)}): ${esc(h.letzterFehler.text)} <button type="button" class="btn" id="fehler-weg" style="margin-left:8px">Erledigt, ausblenden</button></div>` : ""}
     ${d.ausstehend ? `<p class="leise klein">${d.ausstehend} Treffer warten auf den Versand an die Lead Table – sie werden alle 15 Minuten nachgeschickt.</p>` : ""}
     <section class="karte">
       <div class="zeile"><h2 style="margin-right:auto">Bewerberpool</h2><span class="pool-zahl">${poolGesamt}</span></div>
@@ -278,6 +278,8 @@ async function uebersicht() {
         <td class="zahl">${s.neu}</td><td class="zahl">${s.aktiv}</td><td class="zahl">${s.uebergeben}</td><td><span class="pille ${esc(s.status)}">${STATUS_TEXT[s.status] || s.status}</span></td></tr>`).join("")}</tbody>
     </table></div></section>` : `<section class="karte"><h2>Noch keine Stelle</h2><p class="leise">Leg im Onboarding für jede Stelle einen Steckbrief an. Der Vergleicher sucht dann sofort im ganzen Pool.</p><p><a class="btn btn-gelb" href="#neu">Erste Stelle anlegen</a></p></section>`}
   `;
+  const fw = document.getElementById("fehler-weg");
+  if (fw) fw.addEventListener("click", async () => { await api("POST", "/api/intern/fehler-ausblenden"); uebersicht(); });
   app.querySelectorAll("tbody tr").forEach(tr => {
     const los = () => { location.hash = "stelle-" + tr.dataset.id; };
     tr.addEventListener("click", los);

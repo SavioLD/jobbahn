@@ -94,7 +94,11 @@ async function anLeadTable(env, url, daten, wofuer) {
       const text = (await res.clone().text().catch(() => "")).replace(/https?:\/\/\S+/g, "[Adresse]").slice(0, 300);
       await setzeEinstellung(env, "letzte_uebergabe", { zeit: jetzt(), status: res.status, antwort: text });
     }
-    if (res.ok) return true;
+    if (res.ok) {
+      /* Ein erfolgreicher Versand macht eine alte Fehlermeldung hinfällig. */
+      if ((await einstellungen(env)).letzter_fehler) await setzeEinstellung(env, "letzter_fehler", null);
+      return true;
+    }
     await setzeEinstellung(env, "letzter_fehler", { zeit: jetzt(), wofuer, text: `Lead Table antwortet mit HTTP ${res.status}` });
   } catch (err) {
     await setzeEinstellung(env, "letzter_fehler", { zeit: jetzt(), wofuer, text: String(err && err.message || err) });
@@ -488,6 +492,11 @@ async function intern(req, env, pfad, url) {
       }
     }
     await env.DB.prepare("UPDATE matches SET status = ?, notiz = ? WHERE id = ?").bind(body.status, notiz, m[1]).run();
+    return antwort({ ok: true });
+  }
+
+  if (pfad === "/api/intern/fehler-ausblenden" && req.method === "POST") {
+    await setzeEinstellung(env, "letzter_fehler", null);
     return antwort({ ok: true });
   }
 
