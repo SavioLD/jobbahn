@@ -33,7 +33,7 @@ export const startseite = {
     /* Überschrift passend zur Anzeige: ?t=pendeln oder utm_content=1-pendeln */
     themen: {
       pendeln: { h1: "Schluss mit ==1 Stunde Stau.==", lead: "Trag dich in 2 Minuten ein. Wir suchen gute Jobs in deiner Nähe – du sagst, wie weit du fahren willst. Passt einer, rufen wir dich an." },
-      gehalt: { h1: "Mehr Erfahrung? ==Dann auch mehr Gehalt.==", lead: "Trag dich in 2 Minuten ein und sag uns, was du verdienen willst. Wir suchen Betriebe in deiner Nähe, die das zahlen – und rufen dich an." },
+      gehalt: { h1: "Mehr Arbeit? ==Dann auch mehr Lohn.==", lead: "Trag dich in 2 Minuten ein und sag uns, was du verdienen willst. Wir suchen Betriebe in deiner Nähe, die das zahlen – und rufen dich an." },
       chef: { h1: "Gute Leute verdienen ==einen guten Chef.==", lead: "Trag dich in 2 Minuten ein. Wir suchen den Betrieb, in dem du dich wohlfühlst – und rufen dich an. Dein jetziger Chef erfährt nichts." },
       montag: { h1: "Wieder Lust ==auf Montag.==", lead: "Trag dich in 2 Minuten ein. Wir suchen einen Job in deiner Nähe, auf den du dich wieder freust. Passt einer, rufen wir dich an." },
       verantwortung: { h1: "Du kannst mehr. ==Zeig es woanders.==", lead: "Trag dich in 2 Minuten ein. Wir suchen Betriebe, die dir mehr zutrauen – und mehr Verantwortung geben. Passt einer, rufen wir dich an." },
