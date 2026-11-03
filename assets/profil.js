@@ -78,6 +78,10 @@
     var v = params.get(k);
     if (v) utm[k] = v.slice(0, 200);
   });
+  /* Kam jemand über eine Anzeige auf die Startseite, stehen die UTM-Werte dort im sessionStorage. */
+  if (!Object.keys(utm).length) {
+    try { var gemerkt = JSON.parse(sessionStorage.getItem("jb_utm") || "{}"); Object.keys(gemerkt).forEach(function (k) { if (/^utm_/.test(k)) utm[k] = String(gemerkt[k]).slice(0, 200); }); } catch (e) {}
+  }
 
   /* ---------- Schritte bauen ---------- */
   var felder = C.felder.filter(function (f) {

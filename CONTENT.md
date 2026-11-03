@@ -10,11 +10,11 @@
 ### Hero
 
 - Eyebrow: Kostenlose Jobvermittlung
-- H1: **Dein nächster Job. In deiner Nähe.**
-- Text: Du trägst dich in 2 Minuten ein. Wir suchen für dich den Arbeitgeber, der wirklich zu dir passt – und rufen dich an.
-- Schritte: Du trägst dich ein (2 Minuten, ohne Lebenslauf) → Wir suchen für dich (Betriebe in deiner Nähe, die passen) → Wir rufen dich an (Nur wenn ein Job wirklich passt)
-- Buttons: „Kurzprofil anlegen“ · „So läuft’s“
-- Fakten: Kostenlos · Ohne Lebenslauf · Vertraulich
+- H1: **Dein Job passt nicht mehr? Wir finden einen besseren.**
+- Text: Trag dich in 2 Minuten ein. Wir suchen für dich den Betrieb in deiner Nähe, der besser passt – und rufen dich an. Bewerben musst du dich nirgends.
+- Schritte: Du trägst dich ein (2 Minuten, ohne Lebenslauf) → Wir suchen für dich (Betriebe in deiner Nähe, die besser passen) → Wir rufen dich an (Nur wenn ein Job wirklich passt)
+- Buttons: „Jetzt in 2 Minuten eintragen“ · „So läuft’s“
+- Fakten: Kostenlos · Ohne Lebenslauf · Dein Chef erfährt nichts
 
 ### Beispiel-Match (als „Beispiel“ gekennzeichnet)
 
@@ -27,7 +27,7 @@
 
 ### Kennst du das?
 
-**Gute Arbeit. Aber der Job passt nicht mehr.**
+**Kommt dir davon was bekannt vor?**
 
 Die meisten, die sich bei uns melden, haben einen Job. Nur eben nicht den richtigen.
 

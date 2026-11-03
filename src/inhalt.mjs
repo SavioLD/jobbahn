@@ -14,21 +14,35 @@ export const startseite = {
   },
   hero: {
     eyebrow: "Kostenlose Jobvermittlung",
-    h1: "Dein nächster Job. ==In deiner Nähe.==",
-    lead: "Du trägst dich in 2 Minuten ein. Wir suchen für dich den Arbeitgeber, der wirklich zu dir passt – und rufen dich an.",
-    cta: "Kurzprofil anlegen",
+    h1: "Dein Job passt nicht mehr? ==Wir finden einen besseren.==",
+    lead: "Trag dich in 2 Minuten ein. Wir suchen für dich den Betrieb in deiner Nähe, der besser passt – und rufen dich an. Bewerben musst du dich nirgends.",
+    schritteTitel: "So einfach geht’s",
+    cta: "Jetzt in 2 Minuten eintragen",
     cta2: "So läuft’s",
     schritte: [
       { titel: "Du trägst dich ein", text: "2 Minuten, ohne Lebenslauf" },
-      { titel: "Wir suchen für dich", text: "Betriebe in deiner Nähe, die passen" },
+      { titel: "Wir suchen für dich", text: "Betriebe in deiner Nähe, die besser passen" },
       { titel: "Wir rufen dich an", text: "Nur wenn ein Job wirklich passt" }
     ],
-    fakten: ["Kostenlos", "Ohne Lebenslauf", "Vertraulich"],
-    mass: "2 Minuten · ohne Lebenslauf"
+    fakten: ["Kostenlos", "Ohne Lebenslauf", "Dein Chef erfährt nichts"],
+    mass: "2 Minuten · ohne Lebenslauf",
+    foto: "assets/team-ansprechpartner.jpg",
+    fotoAlt: "Ein Berater aus dem Jobbahn-Team",
+    fotoKarte: { titel: "Wir rufen dich an.", text: "Persönlich – kein Callcenter, kein Bot." },
+    fotoMatch: { label: "Neuer Treffer", text: "Zerspaner · 18 km · Tagschicht" },
+    /* Überschrift passend zur Anzeige: ?t=pendeln oder utm_content=1-pendeln */
+    themen: {
+      pendeln: { h1: "Schluss mit ==1 Stunde Stau.==", lead: "Trag dich in 2 Minuten ein. Wir suchen gute Jobs in deiner Nähe – du sagst, wie weit du fahren willst. Passt einer, rufen wir dich an." },
+      gehalt: { h1: "Mehr Erfahrung? ==Dann auch mehr Gehalt.==", lead: "Trag dich in 2 Minuten ein und sag uns, was du verdienen willst. Wir suchen Betriebe in deiner Nähe, die das zahlen – und rufen dich an." },
+      chef: { h1: "Gute Leute verdienen ==einen guten Chef.==", lead: "Trag dich in 2 Minuten ein. Wir suchen den Betrieb, in dem du dich wohlfühlst – und rufen dich an. Dein jetziger Chef erfährt nichts." },
+      montag: { h1: "Wieder Lust ==auf Montag.==", lead: "Trag dich in 2 Minuten ein. Wir suchen einen Job in deiner Nähe, auf den du dich wieder freust. Passt einer, rufen wir dich an." },
+      verantwortung: { h1: "Du kannst mehr. ==Zeig es woanders.==", lead: "Trag dich in 2 Minuten ein. Wir suchen Betriebe, die dir mehr zutrauen – und mehr Verantwortung geben. Passt einer, rufen wir dich an." },
+      trott: { h1: "Zeit für ==was Neues.==", lead: "Trag dich in 2 Minuten ein – ohne Anschreiben, ohne Lebenslauf. Wir suchen den passenden Job in deiner Nähe und rufen dich an." }
+    }
   },
   kennst: {
     eyebrow: "Kennst du das?",
-    h2: "Gute Arbeit. Aber der ==Job passt nicht mehr.==",
+    h2: "Kommt dir davon ==was bekannt vor?==",
     text: "Die meisten, die sich bei uns melden, haben einen Job. Nur eben nicht den richtigen.",
     punkte: [
       { icon: "auto", titel: "Jeden Tag im Stau", text: "Eine Stunde hin, eine zurück – und das fünfmal die Woche." },

@@ -541,3 +541,50 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 }
 :root[data-theme="dark"] .cta-blau { background: #23488F; }
 @media (max-width: 520px) { .hero-dunkel .hero-aktionen .btn { flex: 1 1 100%; } }
+
+/* ---------- Hero mit Foto (v3) ---------- */
+.btn-gross { min-height: 60px; padding: 0 30px; font-size: 18.5px; border-radius: 14px; }
+.hero-dunkel .h1 { font-size: clamp(2.2rem, 5.4vw, 3.9rem); }
+.hero-dunkel .hero-text { gap: 20px; }
+.hero-schritte-box { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+.hs-titel { font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--hellblau-text); }
+.hero-foto { position: relative; margin: 0; min-width: 0; justify-self: center; width: 100%; max-width: 460px; }
+.hero-foto img {
+  display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%;
+  border-radius: 26px; border: 1px solid rgba(127, 162, 240, .35);
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .8);
+}
+.hero-foto::before {
+  content: ""; position: absolute; inset: 22px -22px -22px 22px; border-radius: 26px; border: 2px solid var(--hellblau); opacity: .45; z-index: -0;
+}
+.hero-foto img { position: relative; z-index: 1; }
+.foto-karte {
+  position: absolute; z-index: 2; left: -28px; bottom: 34px; display: flex; gap: 14px; align-items: center;
+  background: #fff; color: var(--nacht); padding: 14px 18px 14px 14px; border-radius: 16px; max-width: 300px;
+  box-shadow: 0 24px 50px -20px rgba(0, 0, 0, .6);
+}
+.fk-icon { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: var(--blau); color: #fff; }
+.fk-icon svg { width: 22px; height: 22px; }
+.foto-karte > span:last-child { display: flex; flex-direction: column; line-height: 1.3; }
+.foto-karte strong { font-size: 17px; }
+.foto-karte span span { font-size: 14px; color: #4A5568; }
+.foto-match {
+  position: absolute; z-index: 2; right: -24px; top: 38px; display: flex; gap: 12px; align-items: center;
+  background: var(--nacht); color: #fff; border: 1px solid rgba(127, 162, 240, .5); padding: 12px 16px; border-radius: 14px;
+  font-weight: 700; font-size: 15px; box-shadow: 0 20px 40px -20px rgba(0, 0, 0, .7);
+}
+.foto-match small { display: block; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--hellblau-text); font-weight: 800; }
+.fm-punkt { width: 10px; height: 10px; border-radius: 50%; background: #5BD69A; box-shadow: 0 0 0 5px rgba(91, 214, 154, .2); flex: none; }
+@media (max-width: 959px) {
+  .hero-foto { max-width: 520px; margin-top: 8px; }
+  .hero-foto img { aspect-ratio: 5 / 4; object-position: 50% 18%; }
+  .hero-foto::before { display: none; }
+  .foto-karte { left: 12px; bottom: 12px; right: 12px; max-width: none; }
+  .foto-match { right: 12px; top: 12px; }
+}
+.hero .h1 .hl { white-space: normal; }
+@media (max-width: 959px) {
+  .hero-foto img { aspect-ratio: 1 / 1; object-position: 50% 30%; }
+  .foto-karte { position: relative; left: auto; right: auto; bottom: auto; margin: -36px 14px 0; }
+  .foto-match { left: 12px; right: auto; top: 12px; padding: 9px 12px; font-size: 13.5px; }
+}

@@ -82,6 +82,7 @@ export function head(m, { titel, beschreibung, pfad, artifact, vorschau, fontsHr
     canonical && !artifact ? `<link rel="canonical" href="${esc(canonical)}">` : "",
     fontsHref ? `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="${esc(fontsHref)}">` : "",
     m.symbol ? `<link rel="icon" href="${esc(m.symbol)}" type="image/svg+xml">` : "",
+    `<script>try{var u=new URLSearchParams(location.search),o={};["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(function(k){if(u.get(k))o[k]=u.get(k)});if(Object.keys(o).length)sessionStorage.setItem("jb_utm",JSON.stringify(o))}catch(e){}</script>`,
     `<link rel="stylesheet" href="assets/marke.css">`,
     `<link rel="stylesheet" href="assets/style.css">`
   ].filter(Boolean).join("\n");
@@ -119,16 +120,23 @@ export function startseite(m, t, a, berufe) {
 <section class="hero hero-dunkel">${bahnen}<div class="wrap hero-raster">
   <div class="hero-text">
     ${eyebrow(h.eyebrow)}
-    <h1 class="h1">${markiert(h.h1)}</h1>
-    <p class="lead">${esc(h.lead)}</p>
-    <ol class="hero-schritte">${h.schritte.map((x, i) => `<li><span class="hs-nr">${i + 1}</span><span class="hs-text"><strong>${esc(x.titel)}</strong><span>${esc(x.text)}</span></span></li>`).join("")}</ol>
+    <h1 class="h1" id="hero-h1">${markiert(h.h1)}</h1>
+    <p class="lead" id="hero-lead">${esc(h.lead)}</p>
+    <script>(function(){try{var T=${JSON.stringify(Object.fromEntries(Object.entries(h.themen).map(([k, v]) => [k, { h1: markiert(v.h1), lead: v.lead }])))};var q=new URLSearchParams(location.search);var w=((q.get("t")||"")+" "+(q.get("utm_content")||"")).toLowerCase();for(var k in T){if(w.indexOf(k)>-1){document.getElementById("hero-h1").innerHTML=T[k].h1;document.getElementById("hero-lead").textContent=T[k].lead;break;}}}catch(e){}})();</script>
     <div class="hero-aktionen">
-      <a class="btn btn-hell" href="profil.html">${esc(h.cta)} ${icon.pfeil}</a>
-      <a class="btn btn-rand-hell" href="#ablauf">${esc(h.cta2)}</a>
+      <a class="btn btn-hell btn-gross" href="profil.html">${esc(h.cta)} ${icon.pfeil}</a>
     </div>
     <ul class="fakten">${h.fakten.map(f => `<li>${icon.check}${esc(f)}</li>`).join("")}</ul>
+    <div class="hero-schritte-box">
+      <p class="hs-titel">${esc(h.schritteTitel)}</p>
+      <ol class="hero-schritte">${h.schritte.map((x, i) => `<li><span class="hs-nr">${i + 1}</span><span class="hs-text"><strong>${esc(x.titel)}</strong><span>${esc(x.text)}</span></span></li>`).join("")}</ol>
+    </div>
   </div>
-  ${matchKarte(t.matchkarte)}
+  <figure class="hero-foto">
+    <img src="${esc(h.foto)}" alt="${esc(h.fotoAlt)}" width="800" height="1000" fetchpriority="high">
+    <figcaption class="foto-karte"><span class="fk-icon">${icon.telefon}</span><span><strong>${esc(h.fotoKarte.titel)}</strong><span>${esc(h.fotoKarte.text)}</span></span></figcaption>
+    <div class="foto-match" aria-hidden="true"><span class="fm-punkt"></span><span><small>${esc(h.fotoMatch.label)}</small>${esc(h.fotoMatch.text)}</span></div>
+  </figure>
 </div></section>
 
 <section class="abschnitt kennst" id="kennst"><div class="wrap">
