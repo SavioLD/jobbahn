@@ -127,7 +127,7 @@ export const startseite = {
       { frage: "Wann meldet ihr euch?", antwort: "Sobald ein Job dabei ist, der zu deinem Profil passt. Das kann schnell gehen oder etwas dauern – je nachdem, was in deinem Beruf und deiner Gegend gerade frei ist. Wir rufen nur an, wenn es passt." },
       { frage: "Was passiert mit meinen Daten?", antwort: "Wir speichern dein Profil, um es mit offenen Stellen abzugleichen. An einen Betrieb geht es erst, wenn wir telefoniert haben und du einverstanden bist. Löschen lassen kannst du es jederzeit." },
       { frage: "Ich weiß nicht genau, wo ich reinpasse.", antwort: "Wähl die Richtung, die am nächsten dran ist. Viele Betriebe suchen nicht den einen Beruf, sondern jemanden, der zu ihnen passt. Den Rest klären wir am Telefon." },
-      { frage: "Wer steckt dahinter?", antwort: "{marke} ist ein Angebot von {betreiber}, einer Recruiting-Agentur." }
+      { frage: "Wer steckt dahinter?", antwort: "{marke} ist ein Angebot von {betreiber} – wir sind Einstellungspartner für Betriebe in ganz Deutschland und bringen sie mit Fachkräften in ihrer Nähe zusammen." }
     ]
   },
   cta: {

@@ -100,7 +100,7 @@ Wir speichern dein Profil, um es mit offenen Stellen abzugleichen. An einen Betr
 Wähl die Richtung, die am nächsten dran ist. Viele Betriebe suchen nicht den einen Beruf, sondern jemanden, der zu ihnen passt. Den Rest klären wir am Telefon.
 
 **Wer steckt dahinter?**  
-Jobbahn ist ein Angebot von Ländle Digital GmbH, einer Recruiting-Agentur.
+Jobbahn ist ein Angebot von Ländle Digital GmbH – wir sind Einstellungspartner für Betriebe in ganz Deutschland und bringen sie mit Fachkräften in ihrer Nähe zusammen.
 
 ### Abschluss
 
