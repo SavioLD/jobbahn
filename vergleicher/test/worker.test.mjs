@@ -278,3 +278,20 @@ test("Lead Table dauerhaft kaputt: höchstens 3 Versuche pro Bewerber", async ()
   globalThis.fetch = echt;
   assert.equal(versuche, 3);
 });
+
+test("Kachel „Matches“: eine Person mit mehreren passenden Stellen kommt nur EINMAL an", async () => {
+  await anfrage("PUT", "/api/intern/einstellungen", { matches_webhook: URL_MATCHES, pool_webhooks: { fallback: URL_POOL } });
+  const vorher = nach(URL_MATCHES).length;
+  const basis = { ...stelleMueller, richtung: "metall", berufe: [], firma: "Dreher A GmbH", titel: "CNC-Dreher" };
+  await anfrage("POST", "/api/intern/stellen", basis);
+  await anfrage("POST", "/api/intern/stellen", { ...basis, firma: "Fräser B GmbH", titel: "CNC-Fräser" });
+  await anfrage("POST", "/api/bewerber", bewerber({ richtung: "metall", berufskategorie: "Metall & Maschinenbau", email: "mehrfach@example.org", telefon: "0170 1111111" }), { passwort: "" });
+  const neu = nach(URL_MATCHES).slice(vorher);
+  assert.equal(neu.length, 1, "nur ein Eintrag für die Person");
+  assert.match(neu[0].daten.match, /^Passt zu \d+ Stellen: /);
+  assert.ok(neu[0].daten.anzahl_treffer >= 2);
+  /* Eine weitere passende Stelle später: kein zweiter Eintrag in der Kachel */
+  await anfrage("POST", "/api/intern/stellen", { ...basis, firma: "Schweiß C GmbH", titel: "Schweißer" });
+  for (let i = 0; i < 3; i++) await wartung(env);
+  assert.equal(nach(URL_MATCHES).slice(vorher).length, 1, "auch bei späteren Treffern nicht doppelt");
+});

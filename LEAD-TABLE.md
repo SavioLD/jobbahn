@@ -34,6 +34,8 @@ Pool · Metall & Maschinenbau · Pool · Elektro & Mechatronik · Pool · Sanit�
 
 Ebenfalls unter „Bewerberpool“. Das ist die **Arbeitsliste des Talent Scouts**: Jede Zeile ist ein Bewerber, der zu einer offenen Stelle passt.
 
+**Jede Person nur einmal:** Passt jemand zu mehreren Stellen, kommt EIN Eintrag mit allen Stellen („Passt zu 3 Stellen: … · … · …“, Feld `anzahl_treffer`). Ist die Person schon in der Kachel, erscheinen spätere Treffer nur im Vergleicher – sonst würde die Lead Table sie doppelt anlegen.
+
 Felder einer Zeile: Name, Telefon, E-Mail · `match` (ein Satz: „Passt zu: Stelle bei Firma in Ort · 12 km entfernt · 2 von 3 Wünschen“) · `passende_firma` · `passende_stelle` · `stellen_ort` · `ueber_die_firma` (1–2 Sätze aus dem Steckbrief, auf Wunsch von der Website gelesen) · `firmen_website` · `entfernung` · `passung` (z. B. „2 von 3 Wünschen“) · `pruefen` (was am Telefon zu klären ist) · `gruende` (✓/✗ je Kriterium) · alle Angaben des Bewerbers · `benefits` der Stelle (fürs Telefonat) · `bearbeiten` (Link zur Stelle im Vergleicher).
 
 ## 4. Firmen anlegen – wie bisher

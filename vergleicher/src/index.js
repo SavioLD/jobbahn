@@ -134,6 +134,26 @@ function matchPayload(b, s, m, basisUrl) {
   };
 }
 
+/* Ein Eintrag pro Person: bei einem Treffer wie bisher, bei mehreren alle Stellen in einem Feld. */
+function matchPayloadPerson(b, treffer, basisUrl) {
+  const erst = matchPayload(b, treffer[0].s, treffer[0].m, basisUrl);
+  if (treffer.length === 1) return erst;
+  const zeile = ({ s, m }) => `${s.titel} bei ${s.firma}${s.ort ? ` in ${s.ort}` : ""} (${m.entfernung_km != null ? m.entfernung_km + " km" : "Entfernung unbekannt"}, ${passungText({ punkte: m.punkte, maxPunkte: m.max_punkte })})`;
+  return {
+    ...erst,
+    match: `Passt zu ${treffer.length} Stellen: ` + treffer.map(zeile).join(" · "),
+    passende_firma: [...new Set(treffer.map(t => t.s.firma))].join(", "),
+    passende_stelle: treffer.map(t => `${t.s.titel} (${t.s.firma})`).join(", "),
+    stellen_ort: treffer.map(t => [t.s.plz, t.s.ort].filter(Boolean).join(" ")).join(", "),
+    entfernung: treffer.map(t => t.m.entfernung_km != null ? `${t.m.entfernung_km} km` : "unbekannt").join(", "),
+    ueber_die_firma: treffer.map(t => `${t.s.firma}: ${t.s.firmen_info || "–"}`).join(" | "),
+    firmen_website: treffer.map(t => t.s.website).filter(Boolean).join(", ") || "–",
+    benefits: "siehe Vergleicher",
+    anzahl_treffer: treffer.length,
+    bearbeiten: basisUrl ? `${basisUrl}/intern` : "–"
+  };
+}
+
 /* Was die Firma bei der Übergabe bekommt – ohne Sperrliste, Einwilligung und Herkunft. */
 function uebergabePayload(b, s, notiz) {
   const d = b.daten;
@@ -225,21 +245,37 @@ async function abgleichStelle(env, s) {
 }
 
 /* Ausstehende Treffer an die Kachel „Matches“ schicken – beste zuerst, begrenzt pro Aufruf. */
+/* Kachel „Matches“: pro Person genau EIN Eintrag. Alle offenen Treffer einer Person gehen
+   zusammen in einer Sendung raus; ist die Person schon in der Kachel, werden neue Treffer
+   nur im Vergleicher angezeigt (sonst legt die Lead Table die Person doppelt an). */
 async function ausgangSenden(env, e, max = MAX_SENDUNGEN) {
   if (!e.matches_webhook) return 0;
   const { results } = await env.DB.prepare(
-    `SELECT m.*, b.daten AS b_daten, b.richtung AS b_richtung, s.daten AS s_daten, s.firma, s.titel, s.plz AS s_plz, s.richtung AS s_richtung, s.status AS s_status
+    `SELECT m.*, b.daten AS b_daten, b.richtung AS b_richtung, b.matches_lt AS b_matches_lt, s.daten AS s_daten, s.firma, s.titel, s.plz AS s_plz, s.richtung AS s_richtung, s.status AS s_status
      FROM matches m JOIN bewerber b ON b.id = m.bewerber_id JOIN stellen s ON s.id = m.stelle_id
      WHERE m.lt_gesendet = 0 AND m.lt_versuche < 3 AND m.status = 'neu' AND s.status = 'offen'
-     ORDER BY m.punkte DESC, m.entfernung_km ASC LIMIT ?`).bind(max).all();
-  let gesendet = 0;
+     ORDER BY m.punkte DESC, m.entfernung_km ASC LIMIT 500`).all();
+  const personen = new Map();
   for (const z of results || []) {
-    const b = { id: z.bewerber_id, richtung: z.b_richtung, daten: JSON.parse(z.b_daten) };
-    const s = { ...JSON.parse(z.s_daten), id: z.stelle_id, firma: z.firma, titel: z.titel, plz: z.s_plz };
-    await env.DB.prepare("UPDATE matches SET lt_versuche = lt_versuche + 1 WHERE id = ?").bind(z.id).run();
-    const ok = await anLeadTable(env, e.matches_webhook, matchPayload(b, s, matchAus(z), e.basis_url), "Treffer an Kachel „Matches“");
+    if (!personen.has(z.bewerber_id)) personen.set(z.bewerber_id, []);
+    personen.get(z.bewerber_id).push(z);
+  }
+  let gesendet = 0;
+  for (const [bid, zeilen] of personen) {
+    const ids = zeilen.map(z => z.id);
+    const platz = ids.map(() => "?").join(",");
+    if (zeilen[0].b_matches_lt) {
+      await env.DB.prepare(`UPDATE matches SET lt_gesendet = 1 WHERE id IN (${platz})`).bind(...ids).run();
+      continue;
+    }
+    if (gesendet >= max) break;
+    const b = { id: bid, richtung: zeilen[0].b_richtung, daten: JSON.parse(zeilen[0].b_daten) };
+    const treffer = zeilen.map(z => ({ s: { ...JSON.parse(z.s_daten), id: z.stelle_id, firma: z.firma, titel: z.titel, plz: z.s_plz }, m: matchAus(z) }));
+    await env.DB.prepare(`UPDATE matches SET lt_versuche = lt_versuche + 1 WHERE id IN (${platz})`).bind(...ids).run();
+    const ok = await anLeadTable(env, e.matches_webhook, matchPayloadPerson(b, treffer, e.basis_url), "Treffer an Kachel „Matches“");
     if (!ok) break;
-    await env.DB.prepare("UPDATE matches SET lt_gesendet = 1 WHERE id = ?").bind(z.id).run();
+    await env.DB.prepare(`UPDATE matches SET lt_gesendet = 1 WHERE id IN (${platz})`).bind(...ids).run();
+    await env.DB.prepare("UPDATE bewerber SET matches_lt = 1 WHERE id = ?").bind(bid).run();
     gesendet++;
   }
   return gesendet;
