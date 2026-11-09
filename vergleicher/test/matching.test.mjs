@@ -118,3 +118,9 @@ test("Sperrliste: Firmenname mit und ohne Umlaut, Rechtsform egal, fremde Firma 
   assert.equal(e.passt, false);
   assert.equal(e.gesperrt, true);
 });
+
+test("Fahrweg „egal“ heißt nicht beliebig weit: bis 75 km, außer die Firma erlaubt mehr", () => {
+  assert.equal(vergleiche(bewerber({ fahrweg: "Egal, wenn der Job passt" }), stelle(), 70).passt, true);
+  assert.equal(vergleiche(bewerber({ fahrweg: "Egal, wenn der Job passt" }), stelle(), 115).passt, false);
+  assert.equal(vergleiche(bewerber({ fahrweg: "Egal, wenn der Job passt" }), stelle({ umkreis: 100 }), 90).passt, true);
+});

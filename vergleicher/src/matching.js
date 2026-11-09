@@ -25,7 +25,10 @@ const ERFAHRUNG = { "Unter 1 Jahr": 0, "1 bis 3 Jahre": 1, "3 bis 5 Jahre": 3, "
 const DEUTSCH = { "Grundkenntnisse": 0, "Gut – im Alltag kein Problem": 1, "Sehr gut": 2, "Muttersprache": 3 };
 export const DEUTSCH_MIN = { "Grundkenntnisse": 0, "Gut": 1, "Sehr gut": 2, "Muttersprache": 3 };
 
-const FAHRWEG = { "Bis 10 km": 10, "Bis 20 km": 20, "Bis 30 km": 30, "Bis 50 km": 50, "Egal, wenn der Job passt": Infinity };
+/* „Egal, wenn der Job passt“ heißt nicht „egal wie weit“: täglich pendeln geht realistisch
+   bis etwa eine Stunde. Hat die Firma selbst einen größeren Umkreis eingetragen, gilt der. */
+export const EGAL_MAX_KM = 75;
+const FAHRWEG = { "Bis 10 km": 10, "Bis 20 km": 20, "Bis 30 km": 30, "Bis 50 km": 50, "Egal, wenn der Job passt": EGAL_MAX_KM };
 
 const GEHALT = {
   "Bis 2.800 €": [0, 2800],
@@ -120,8 +123,9 @@ export function vergleiche(b, s, km) {
   }
 
   /* Entfernung: Grenze des Bewerbers und ggf. Umkreis der Firma */
-  const grenzeBewerber = FAHRWEG[b.fahrweg] ?? Infinity;
   const grenzeFirma = Number(s.umkreis) > 0 ? Number(s.umkreis) : Infinity;
+  const egal = !(b.fahrweg in FAHRWEG) || FAHRWEG[b.fahrweg] === EGAL_MAX_KM;
+  const grenzeBewerber = egal ? (grenzeFirma < Infinity ? grenzeFirma : EGAL_MAX_KM) : FAHRWEG[b.fahrweg];
   const grenze = Math.min(grenzeBewerber, grenzeFirma);
   if (km == null) regel("entfernung", "muss", null, "Entfernung unbekannt – PLZ prüfen");
   else regel("entfernung", "muss", km <= grenze, km <= grenze
