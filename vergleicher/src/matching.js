@@ -141,6 +141,18 @@ export function vergleiche(b, s, km) {
     else regel("beruf", gewicht, false, `Beruf: ${b.beruf || "–"} (gesucht: ${berufe.join(", ")})`);
   }
 
+  /* Tätigkeit: was die Person wirklich macht (an der Maschine, Montage, Projektleitung …).
+     Mindestens eine Tätigkeit der Stelle muss beim Bewerber angekreuzt sein. Ältere Profile
+     ohne Angabe: unklar – am Telefon fragen. */
+  const taet = k.taetigkeit?.werte || [];
+  if (taet.length) {
+    const hat = liste(b.taetigkeit);
+    const gemeinsam = taet.filter(x => hat.includes(x));
+    regel("taetigkeit", k.taetigkeit.gewicht, hat.length ? gemeinsam.length > 0 : null,
+      !hat.length ? `Tätigkeit am Telefon klären (Stelle: ${taet.join(", ")})`
+        : gemeinsam.length ? `Tätigkeit: ${gemeinsam.join(", ")}` : `Tätigkeit passt nicht – Stelle: ${taet.join(", ")} · Bewerber: ${hat.join(", ")}`);
+  }
+
   /* Abschluss */
   if (k.abschluss?.wert && k.abschluss.wert !== "egal") {
     const noetig = ABSCHLUSS_MIN[k.abschluss.wert] ?? 0;

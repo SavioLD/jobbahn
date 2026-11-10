@@ -124,3 +124,12 @@ test("Fahrweg „egal“ heißt nicht beliebig weit: bis 75 km, außer die Firma
   assert.equal(vergleiche(bewerber({ fahrweg: "Egal, wenn der Job passt" }), stelle(), 115).passt, false);
   assert.equal(vergleiche(bewerber({ fahrweg: "Egal, wenn der Job passt" }), stelle({ umkreis: 100 }), 90).passt, true);
 });
+
+test("Tätigkeit: Projektleiter passt nicht auf reine Maschinenstelle, unbekannt = am Telefon klären", () => {
+  const st = stelle({}, { taetigkeit: { werte: ["An der Maschine (bedienen / einrichten)"], gewicht: "muss" } });
+  assert.equal(vergleiche(bewerber({ taetigkeit: "Projekt- oder Teamleitung, Konstruktion / Entwicklung / Planung" }), st, 10).passt, false);
+  assert.equal(vergleiche(bewerber({ taetigkeit: "An der Maschine (bedienen / einrichten), Montage / Zusammenbau" }), st, 10).passt, true);
+  const offen = vergleiche(bewerber({ taetigkeit: "" }), st, 10);
+  assert.equal(offen.passt, true);
+  assert.ok(offen.gruende.some(g => g.feld === "taetigkeit" && g.ok === null));
+});

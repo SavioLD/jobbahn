@@ -365,6 +365,42 @@ window.PORTAL = {
       "pflicht": true
     },
     {
+      "key": "taetigkeit",
+      "typ": "mehrfach",
+      "frage": "Was machst du in deinem Job hauptsächlich?",
+      "kurz": "Tätigkeit",
+      "betrieb": "Was macht die Person in der Stelle hauptsächlich?",
+      "matching": "Muss oder Wunsch – mindestens eine Tätigkeit muss übereinstimmen",
+      "pflicht": true,
+      "hinweis": "Kreuz an, was du jeden Tag wirklich machst. Mehrere Antworten möglich.",
+      "optionen": [
+        "An der Maschine (bedienen / einrichten)",
+        "Montage / Zusammenbau",
+        "Programmieren (CNC / SPS / Roboter)",
+        "Instandhaltung / Wartung / Reparatur",
+        "Qualitätsprüfung / Messtechnik",
+        "Konstruktion / Entwicklung / Planung",
+        "Projekt- oder Teamleitung",
+        "Kundendienst / Service beim Kunden",
+        "Handwerk auf der Baustelle",
+        "Lager / Logistik / Fahren",
+        "Büro / Kaufmännisch / Vertrieb",
+        "IT / Software",
+        "Helfertätigkeiten"
+      ]
+    },
+    {
+      "key": "aufgaben",
+      "typ": "text",
+      "frage": "Beschreib kurz, was du genau machst.",
+      "kurz": "Aufgaben (eigene Worte)",
+      "betrieb": "Aufgaben der Stelle",
+      "matching": "Info fürs Telefonat",
+      "pflicht": false,
+      "platzhalter": "z. B. CNC-Fräse einrichten und programmieren, Serienteile prüfen – oder: Montageprojekte geleitet, Team von 5 Leuten",
+      "hinweis": "Zwei, drei Stichworte reichen. So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst."
+    },
+    {
       "key": "abschluss",
       "typ": "einfach",
       "frage": "Was ist dein höchster Abschluss in dem Beruf?",

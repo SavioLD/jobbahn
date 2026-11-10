@@ -155,6 +155,10 @@ dl.steck dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
   .lf-frei { height: 44px; }
   .lf-kreuz { gap: 2px; }
 }
+.vergleich-aufgaben{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0;padding:10px 12px;border-radius:10px;background:var(--hell,#EAF0FB)}
+.vergleich-aufgaben h4{margin:0 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#234BA8}
+.vergleich-aufgaben p{margin:0 0 4px}
+@media (max-width:640px){.vergleich-aufgaben{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -358,7 +362,7 @@ async function trefferSeite() {
       <thead><tr><th>Bewerber</th><th>Beruf</th><th>Wohnort</th><th>Passt zu</th><th>Entfernung</th><th>Passung</th><th>Status</th></tr></thead>
       <tbody>${t.map(x => `<tr data-stelle="${esc(x.stelle_id)}" tabindex="0">
         <td><b>${esc(x.name)}</b><br><span class="klein leise">${esc(x.telefon)}</span></td>
-        <td>${esc(x.beruf)}</td><td>${esc(x.wohnort)}</td>
+        <td>${esc(x.beruf)}${x.taetigkeit ? `<br><span class="klein leise">${esc(x.taetigkeit)}</span>` : ""}</td><td>${esc(x.wohnort)}</td>
         <td><b>${esc(x.titel)}</b><br><span class="klein leise">${esc(x.firma)} · ${esc(x.ort)}</span></td>
         <td class="zahl">${x.entfernung_km != null ? esc(x.entfernung_km) + " km" : "–"}</td>
         <td>${esc(x.passung)}</td>
@@ -407,6 +411,8 @@ async function formular(id) {
         <div class="feld"><label for="richtung">Richtung *</label>${auswahl("richtung", [""].concat(konfig.richtungen.map(r => r.key)), richtung, ["Bitte wählen"].concat(konfig.richtungen.map(r => r.name)))}</div>
         <div class="feld voll"><span class="label">Welche Berufe kommen in Frage?</span><div id="berufe"></div><small>Nichts angehakt = jeder Beruf dieser Richtung passt.</small></div>
         <div class="kriterium voll"><div class="feld"><span class="label">Wie streng beim Beruf?</span></div>${gewichtWahl("g_beruf", v(() => k.beruf.gewicht, "muss"), true)}</div>
+        <div class="feld voll"><label for="aufgaben">Aufgaben der Stelle – was macht die Person dort konkret?</label><textarea id="aufgaben" name="aufgaben" maxlength="800" placeholder="z. B. CNC-Drehmaschine einrichten und bedienen, Serienteile prüfen. Keine Programmierung, keine Projektleitung.">${esc(s && s.aufgaben)}</textarea><small>Steht beim Treffer, in der Lead Table und im Gesprächsbogen.</small></div>
+        <div class="kriterium voll"><div class="feld"><span class="label">Tätigkeit – was muss der Bewerber hauptsächlich machen?</span>${haken("taetigkeit", konfig.taetigkeit || [], v(() => k.taetigkeit.werte, []))}<small>Der Bewerber muss mindestens eine davon angekreuzt haben. Nichts angehakt = wird nicht geprüft.</small></div>${gewichtWahl("g_taetigkeit", v(() => k.taetigkeit.gewicht, "muss"))}</div>
         <div class="feld"><label for="plz">PLZ Arbeitsort *</label><input type="text" id="plz" name="plz" inputmode="numeric" maxlength="5" value="${esc(s && s.plz)}"></div>
         <div class="feld"><label for="ort">Ort</label><input type="text" id="ort" name="ort" value="${esc(s && s.ort)}"></div>
         <div class="feld"><label for="umkreis">Bewerber höchstens aus …</label>${auswahl("umkreis", ["", 10, 20, 30, 50, 75, 100], s && s.umkreis || "", ["egal – Fahrweg des Bewerbers zählt", "10 km", "20 km", "30 km", "50 km", "75 km", "100 km"])}</div>
@@ -462,7 +468,7 @@ async function formular(id) {
       firma: f.get("firma"), ansprechpartner: f.get("ansprechpartner"), telefon: f.get("telefon"), email: f.get("email"),
       firmen_webhook: f.get("firmen_webhook"), website: f.get("website"), firmen_info: f.get("firmen_info"), titel: f.get("titel"), richtung: f.get("richtung"), berufe: f.getAll("berufe"),
       plz: f.get("plz"), ort: f.get("ort"), umkreis: f.get("umkreis"), anzahl: f.get("anzahl"), start: f.get("start"),
-      benefits: f.get("benefits"), lebenslauf_noetig: !!f.get("lebenslauf_noetig"), notizen: f.get("notizen"),
+      aufgaben: f.get("aufgaben"), benefits: f.get("benefits"), lebenslauf_noetig: !!f.get("lebenslauf_noetig"), notizen: f.get("notizen"),
       kriterien: {
         beruf: { gewicht: gew("beruf") }, start: { gewicht: gew("start") },
         abschluss: { wert: f.get("abschluss"), gewicht: gew("abschluss") },
@@ -470,7 +476,8 @@ async function formular(id) {
         gehalt: { von: f.get("gehalt_von"), bis: f.get("gehalt_bis"), gewicht: gew("gehalt") },
         arbeitszeit: { werte: f.getAll("arbeitszeit"), gewicht: gew("arbeitszeit") },
         fuehrerschein: { werte: f.getAll("fuehrerschein"), gewicht: gew("fuehrerschein") },
-        deutsch: { wert: f.get("deutsch"), gewicht: gew("deutsch") }
+        deutsch: { wert: f.get("deutsch"), gewicht: gew("deutsch") },
+        taetigkeit: { werte: f.getAll("taetigkeit"), gewicht: gew("taetigkeit") }
       }
     };
     const knopf = form.querySelector("button[type=submit]");
@@ -519,9 +526,9 @@ function telefonatPunkte(t, s) {
   if (s.lebenslauf_noetig && !/^ja/i.test(b.lebenslauf || "")) klaeren.push("Die Firma will vorab einen Lebenslauf – anfordern");
   return {
     klaeren,
-    immer: ["Was müsste beim nächsten Job anders sein als jetzt? (Wechselgrund)", "Was verdienen Sie aktuell – ab wann lohnt sich ein Wechsel?", "Kündigungsfrist und frühester Start?"],
+    immer: ["Was machen Sie im Alltag genau – an der Maschine, Montage, Planung, Leitung? (mit den Aufgaben der Stelle abgleichen)", "Was müsste beim nächsten Job anders sein als jetzt? (Wechselgrund)", "Was verdienen Sie aktuell – ab wann lohnt sich ein Wechsel?", "Kündigungsfrist und frühester Start?"],
     fach: (r && r.fragen) || [],
-    verkaufen: [`${s.titel} bei ${s.firma}${s.ort ? " in " + s.ort : ""}${t.entfernung_km != null ? ` – ca. ${t.entfernung_km} km von zu Hause` : ""}`].concat(s.firmen_info ? [s.firmen_info] : [], s.benefits ? [s.benefits] : []),
+    verkaufen: [`${s.titel} bei ${s.firma}${s.ort ? " in " + s.ort : ""}${t.entfernung_km != null ? ` – ca. ${t.entfernung_km} km von zu Hause` : ""}`].concat(s.aufgaben ? ["Aufgaben: " + s.aufgaben] : [], s.firmen_info ? [s.firmen_info] : [], s.benefits ? [s.benefits] : []),
     zustimmung: `Darf ich Sie bei ${s.firma} vorstellen?`
   };
 }
@@ -549,6 +556,7 @@ function trefferKarte(t, s) {
   return `<article class="treffer st-${esc(t.status)}" data-id="${esc(t.id)}">
     <header><h3>${esc(b.vorname)} ${esc(b.nachname)}</h3><span class="pille">${esc(passung)}</span><span class="pille ${esc(t.status)}">${STATUS_TEXT[t.status] || t.status}</span></header>
     <p class="leise">${esc(b.beruf || "–")} · ${esc([b.plz, b.ort].filter(Boolean).join(" "))}${t.entfernung_km != null ? ` · ca. ${t.entfernung_km} km` : ""}${[b.abschluss, b.erfahrung].filter(Boolean).length ? " · " + esc([b.abschluss, b.erfahrung].filter(Boolean).join(", ")) : ""}</p>
+    ${b.taetigkeit || (b.aufgaben && b.aufgaben !== "–") ? `<div class="vergleich-aufgaben"><div><h4>Bewerber macht</h4><p>${esc(b.taetigkeit || "–")}</p>${b.aufgaben && b.aufgaben !== "–" ? `<p class="klein">„${esc(b.aufgaben)}“</p>` : ""}</div><div><h4>Stelle braucht</h4><p>${esc(((s.kriterien || {}).taetigkeit || {}).werte?.join(", ") || "–")}</p>${s.aufgaben ? `<p class="klein">${esc(s.aufgaben)}</p>` : ""}</div></div>` : ""}
     <ul class="gruende">${t.gruende.map(g => `<li class="${klasse(g)}">${esc(g.text)}${g.gewicht === "wunsch" ? " <small>(Wunsch)</small>" : ""}</li>`).join("")}</ul>
     <div class="kontakt"><span>Telefon: <b>${esc(b.telefon)}</b></span><span>E-Mail: ${esc(b.email)}</span><span>Erreichbar: ${esc(b.erreichbarkeit || "–")}</span><span>Verfügbar: ${esc(b.verfuegbarkeit || "–")}</span><span>Gehalt: ${esc(b.gehalt || "–")}</span><span>Lebenslauf: ${esc(b.lebenslauf || "–")}</span>${b.sperrliste && b.sperrliste !== "–" ? `<span>Sperrliste: ${esc(b.sperrliste)}</span>` : ""}</div>
     ${t.status === "gesperrt" ? "" : telefonatKasten(t, s)}
@@ -625,6 +633,8 @@ async function leitfaden(ids) {
         ${linie("Bewerber", b ? `${b.vorname} ${b.nachname}` : "")}
         ${linie("Telefon", b ? b.telefon : "")}
         ${linie("Stelle / Firma", t ? `${s.titel} – ${s.firma}` : "")}
+        ${linie("Bewerber macht", b ? [b.taetigkeit, b.aufgaben && b.aufgaben !== "–" ? b.aufgaben : ""].filter(Boolean).join(" – ") : "")}
+        ${linie("Aufgaben der Stelle", s && s.aufgaben ? s.aufgaben : "")}
         ${linie("Erreichbar", b ? b.erreichbarkeit : "")}
         ${linie("Datum", "")}
         ${linie("Anruf von", "")}

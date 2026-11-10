@@ -124,7 +124,8 @@ function matchPayload(b, s, m, basisUrl) {
     pruefen: unklar.length ? unklar.join(" · ") : "–",
     gruende: gruendeText(m.gruende),
     richtung: (RICHTUNG[b.richtung] || {}).name || b.richtung,
-    beruf: d.beruf, abschluss: d.abschluss, erfahrung: d.erfahrung, plz: d.plz, ort: d.ort,
+    beruf: d.beruf, taetigkeit: d.taetigkeit || "–", aufgaben_bewerber: d.aufgaben || "–", aufgaben_stelle: s.aufgaben || "–",
+    abschluss: d.abschluss, erfahrung: d.erfahrung, plz: d.plz, ort: d.ort,
     fahrweg: d.fahrweg, verfuegbarkeit: d.verfuegbarkeit, gehalt: d.gehalt, schicht: d.schicht,
     fuehrerschein: d.fuehrerschein, deutsch: d.deutsch, lebenslauf: d.lebenslauf,
     sperrliste: d.sperrliste || "–", erreichbarkeit: d.erreichbarkeit || "–",
@@ -159,7 +160,7 @@ function uebergabePayload(b, s, notiz) {
   const d = b.daten;
   return {
     vorname: d.vorname, nachname: d.nachname, telefon: d.telefon, email: d.email,
-    stelle: s.titel, beruf: d.beruf, abschluss: d.abschluss, erfahrung: d.erfahrung,
+    stelle: s.titel, beruf: d.beruf, taetigkeit: d.taetigkeit || "–", aufgaben: d.aufgaben || "–", abschluss: d.abschluss, erfahrung: d.erfahrung,
     wohnort: [d.plz, d.ort].filter(Boolean).join(" "), verfuegbarkeit: d.verfuegbarkeit,
     gehaltswunsch: d.gehalt, arbeitszeit: d.schicht, fuehrerschein: d.fuehrerschein, deutsch: d.deutsch,
     lebenslauf: d.lebenslauf, erreichbarkeit: d.erreichbarkeit || "–",
@@ -318,7 +319,7 @@ function meta_angleichen(p, d) {
 }
 
 /* ---------- Öffentlich: Bewerber annehmen ---------- */
-const BEWERBER_FELDER = ["vorname", "nachname", "telefon", "email", "richtung", "berufskategorie", "beruf", "abschluss", "erfahrung", "plz", "ort", "fahrweg", "verfuegbarkeit", "gehalt", "schicht", "fuehrerschein", "deutsch", "lebenslauf", "sperrliste", "erreichbarkeit", "einwilligung", "datum", "quelle", "seite", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+const BEWERBER_FELDER = ["vorname", "nachname", "telefon", "email", "richtung", "berufskategorie", "beruf", "taetigkeit", "aufgaben", "abschluss", "erfahrung", "plz", "ort", "fahrweg", "verfuegbarkeit", "gehalt", "schicht", "fuehrerschein", "deutsch", "lebenslauf", "sperrliste", "erreichbarkeit", "einwilligung", "datum", "quelle", "seite", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 
 async function bewerberAnnehmen(req, env) {
   const kopf = cors(req, env);
@@ -328,7 +329,7 @@ async function bewerberAnnehmen(req, env) {
   if (p.firma_website) return antwort({ ok: true }, 200, kopf);   /* Honeypot: still beenden */
 
   const daten = {};
-  for (const k of BEWERBER_FELDER) if (p[k] != null && p[k] !== "") daten[k] = String(p[k]).slice(0, k === "sperrliste" ? 400 : 300);
+  for (const k of BEWERBER_FELDER) if (p[k] != null && p[k] !== "") daten[k] = String(p[k]).slice(0, k === "sperrliste" || k === "aufgaben" ? 400 : 300);
   meta_angleichen(p, daten);
   for (const k of ["vorname", "nachname", "telefon", "email", "richtung", "plz"]) {
     if (!daten[k]) return antwort({ ok: false, fehler: `Feld „${k}“ fehlt` }, 400, kopf);
@@ -387,6 +388,7 @@ function steckbriefPruefen(p, env) {
     ort: String(p.ort || "").trim().slice(0, 80),
     umkreis: [10, 20, 30, 50, 75, 100].includes(Number(p.umkreis)) ? Number(p.umkreis) : null,
     benefits: String(p.benefits || "").slice(0, 600),
+    aufgaben: String(p.aufgaben || "").trim().slice(0, 800),
     lebenslauf_noetig: !!p.lebenslauf_noetig,
     notizen: String(p.notizen || "").slice(0, 1000),
     kriterien: {}
@@ -411,6 +413,7 @@ function steckbriefPruefen(p, env) {
   if (bis && von > bis) fehler.push("Gehalt: „von“ ist größer als „bis“");
   s.kriterien.arbeitszeit = { werte: (k.arbeitszeit?.werte || []).filter(x => optionen("schicht").includes(x)), gewicht: g(k.arbeitszeit?.gewicht, "muss") };
   s.kriterien.fuehrerschein = { werte: (k.fuehrerschein?.werte || []).filter(x => optionen("fuehrerschein").includes(x) && x !== "Keinen"), gewicht: g(k.fuehrerschein?.gewicht, "muss") };
+  s.kriterien.taetigkeit = { werte: (k.taetigkeit?.werte || []).filter(x => optionen("taetigkeit").includes(x)), gewicht: g(k.taetigkeit?.gewicht, "muss") };
   s.kriterien.deutsch = { wert: ["egal", ...Object.keys(DEUTSCH_MIN)].includes(k.deutsch?.wert) ? k.deutsch.wert : "egal", gewicht: g(k.deutsch?.gewicht, "muss") };
   return { s, fehler };
 }
@@ -452,6 +455,7 @@ async function intern(req, env, pfad, url) {
     return antwort({
       richtungen: berufe.map(({ key, name, berufe, fragen }) => ({ key, name, berufe, fragen })),
       arbeitszeit: optionen("schicht"),
+      taetigkeit: optionen("taetigkeit"),
       fuehrerschein: optionen("fuehrerschein").filter(x => x !== "Keinen"),
       abschluss: Object.keys(ABSCHLUSS_MIN), deutsch: Object.keys(DEUTSCH_MIN), start: Object.keys(START)
     });
@@ -493,7 +497,7 @@ async function intern(req, env, pfad, url) {
       const b = JSON.parse(z.b_daten), sd = JSON.parse(z.s_daten);
       return { id: z.id, stelle_id: z.stelle_id, status: z.status, entfernung_km: z.entfernung_km, erstellt: z.erstellt,
         passung: passungText({ punkte: z.punkte, maxPunkte: z.max_punkte }), in_lead_table: !!z.lt_gesendet,
-        name: [b.vorname, b.nachname].filter(Boolean).join(" "), telefon: b.telefon || "", beruf: b.beruf || "", wohnort: [b.plz, b.ort].filter(Boolean).join(" "),
+        name: [b.vorname, b.nachname].filter(Boolean).join(" "), telefon: b.telefon || "", beruf: b.beruf || "", taetigkeit: b.taetigkeit || "", wohnort: [b.plz, b.ort].filter(Boolean).join(" "),
         firma: z.firma, titel: z.titel, ort: [z.s_plz, sd.ort].filter(Boolean).join(" "), stelle_status: z.s_status };
     }) });
   }

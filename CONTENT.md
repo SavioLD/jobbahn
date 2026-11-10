@@ -256,6 +256,28 @@ Vorschau-Modus: Das Formular ist noch nicht mit der Lead Table verbunden. Nach d
 
 Die Berufe der gewählten Kategorie, dazu „Anderer Beruf“ mit Textfeld.
 
+### Was machst du in deinem Job hauptsächlich?
+
+_Kreuz an, was du jeden Tag wirklich machst. Mehrere Antworten möglich._
+
+- An der Maschine (bedienen / einrichten)
+- Montage / Zusammenbau
+- Programmieren (CNC / SPS / Roboter)
+- Instandhaltung / Wartung / Reparatur
+- Qualitätsprüfung / Messtechnik
+- Konstruktion / Entwicklung / Planung
+- Projekt- oder Teamleitung
+- Kundendienst / Service beim Kunden
+- Handwerk auf der Baustelle
+- Lager / Logistik / Fahren
+- Büro / Kaufmännisch / Vertrieb
+- IT / Software
+- Helfertätigkeiten
+
+### Beschreib kurz, was du genau machst.
+
+_Zwei, drei Stichworte reichen. So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst._
+
 ### Was ist dein höchster Abschluss in dem Beruf?
 
 - Abgeschlossene Ausbildung

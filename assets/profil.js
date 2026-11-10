@@ -346,6 +346,8 @@
       richtung: kat ? kat.key : "",
       berufskategorie: kat ? kat.name : "",
       beruf: beruf(),
+      taetigkeit: alleGewaehlt("taetigkeit").join(", "),
+      aufgaben: wert("aufgaben") || "–",
       abschluss: gewaehlt("abschluss"),
       erfahrung: gewaehlt("erfahrung"),
       plz: wert("plz"),
