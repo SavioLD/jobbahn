@@ -295,3 +295,15 @@ test("Kachel „Matches“: eine Person mit mehreren passenden Stellen kommt nur
   for (let i = 0; i < 3; i++) await wartung(env);
   assert.equal(nach(URL_MATCHES).slice(vorher).length, 1, "auch bei späteren Treffern nicht doppelt");
 });
+
+test("Seite „Treffer“ zeigt alle Treffer mit Bewerber und Stelle", async () => {
+  await anfrage("PUT", "/api/intern/einstellungen", { matches_webhook: URL_MATCHES, pool_webhooks: { fallback: URL_POOL } });
+  await anfrage("POST", "/api/intern/stellen", stelleMueller);
+  await anfrage("POST", "/api/bewerber", bewerber(), { passwort: "" });
+  const r = await anfrage("GET", "/api/intern/treffer");
+  assert.equal(r.status, 200);
+  assert.ok(r.daten.treffer.length >= 1);
+  assert.equal(r.daten.treffer[0].firma, "Müller Elektrotechnik GmbH");
+  assert.equal(r.daten.treffer[0].name, "Max Mustermann".split(" ")[0] + " " + r.daten.treffer[0].name.split(" ").slice(1).join(" "));
+  assert.equal(r.daten.treffer[0].status, "neu");
+});

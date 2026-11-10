@@ -162,6 +162,7 @@ dl.steck dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
   <a class="marke" href="#stellen"><!--SYMBOL-->Vergleicher</a>
   <nav id="nav" hidden>
     <a href="#stellen" data-nav="stellen">Stellen</a>
+    <a href="#treffer" data-nav="treffer">Treffer</a>
     <a href="#neu" data-nav="neu">Neue Stelle</a>
     <a href="#leitfaden" data-nav="leitfaden">Leitfaden</a>
     <a href="#einstellungen" data-nav="einstellungen">Einstellungen</a>
@@ -248,6 +249,7 @@ async function zeigen() {
     if (h.startsWith("stelle-")) return detail(h.slice(7));
     if (h === "einstellungen") return einstellungen();
     if (h === "import") return importSeite();
+    if (h === "treffer") return trefferSeite();
     if (h === "leitfaden" || h.startsWith("leitfaden-")) return leitfaden(h.slice(10));
     return uebersicht();
   } catch (err) {
@@ -339,6 +341,33 @@ function importSeite() {
       }
       log.insertAdjacentHTML("beforeend", `<div class="hinweis"><b>Fertig:</b> ${ok} Stellen gespeichert, ${treffer} neue Treffer${fehler ? `, ${fehler} mit Fehler (siehe oben)` : ""}. <a href="#stellen">Zur Übersicht</a></div>`);
     });
+  });
+}
+
+
+/* ---------- Alle Treffer auf einen Blick ---------- */
+async function trefferSeite() {
+  const d = await api("GET", "/api/intern/treffer");
+  const t = d.treffer;
+  const anzahl = (st) => t.filter(x => x.status === st).length;
+  app.innerHTML = `
+    <div class="zeile"><h1 style="margin-right:auto">Treffer</h1></div>
+    <p class="leise">Alle passenden Bewerber zu allen Stellen. Zum Bearbeiten (Status, Notiz, Übergeben) auf eine Zeile klicken.</p>
+    <ul class="chips"><li>Neu: ${anzahl("neu")}</li><li>Angerufen: ${anzahl("angerufen")}</li><li>Übergeben: ${anzahl("uebergeben")}</li><li>Kein Interesse / passt nicht: ${anzahl("kein_interesse") + anzahl("passt_nicht")}</li></ul>
+    ${t.length ? `<section class="karte"><div class="tabelle"><table>
+      <thead><tr><th>Bewerber</th><th>Beruf</th><th>Wohnort</th><th>Passt zu</th><th>Entfernung</th><th>Passung</th><th>Status</th></tr></thead>
+      <tbody>${t.map(x => `<tr data-stelle="${esc(x.stelle_id)}" tabindex="0">
+        <td><b>${esc(x.name)}</b><br><span class="klein leise">${esc(x.telefon)}</span></td>
+        <td>${esc(x.beruf)}</td><td>${esc(x.wohnort)}</td>
+        <td><b>${esc(x.titel)}</b><br><span class="klein leise">${esc(x.firma)} · ${esc(x.ort)}</span></td>
+        <td class="zahl">${x.entfernung_km != null ? esc(x.entfernung_km) + " km" : "–"}</td>
+        <td>${esc(x.passung)}</td>
+        <td><span class="pille ${esc(x.status)}">${STATUS_TEXT[x.status] || esc(x.status)}</span></td></tr>`).join("")}</tbody>
+    </table></div></section>` : `<section class="karte"><h2>Noch keine Treffer</h2><p class="leise">Sobald ein Bewerber aus dem Pool zu einer offenen Stelle passt, steht er hier.</p></section>`}`;
+  app.querySelectorAll("tbody tr").forEach(tr => {
+    const los = () => { location.hash = "stelle-" + tr.dataset.stelle; };
+    tr.addEventListener("click", los);
+    tr.addEventListener("keydown", (e) => { if (e.key === "Enter") los(); });
   });
 }
 

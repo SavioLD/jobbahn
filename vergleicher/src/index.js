@@ -481,6 +481,23 @@ async function intern(req, env, pfad, url) {
     });
   }
 
+  if (pfad === "/api/intern/treffer" && req.method === "GET") {
+    /* Alle Treffer auf einen Blick – wie die Kachel „Matches“, aber mit Status aus dem Vergleicher. */
+    const { results } = await env.DB.prepare(
+      `SELECT m.id, m.stelle_id, m.status, m.punkte, m.max_punkte, m.entfernung_km, m.erstellt, m.lt_gesendet,
+              b.daten AS b_daten, s.firma, s.titel, s.plz AS s_plz, s.daten AS s_daten, s.status AS s_status
+       FROM matches m JOIN bewerber b ON b.id = m.bewerber_id JOIN stellen s ON s.id = m.stelle_id
+       WHERE m.status != 'gesperrt'
+       ORDER BY CASE m.status WHEN 'neu' THEN 0 WHEN 'angerufen' THEN 1 WHEN 'uebergeben' THEN 2 ELSE 3 END, m.erstellt DESC LIMIT 500`).all();
+    return antwort({ treffer: (results || []).map(z => {
+      const b = JSON.parse(z.b_daten), sd = JSON.parse(z.s_daten);
+      return { id: z.id, stelle_id: z.stelle_id, status: z.status, entfernung_km: z.entfernung_km, erstellt: z.erstellt,
+        passung: passungText({ punkte: z.punkte, maxPunkte: z.max_punkte }), in_lead_table: !!z.lt_gesendet,
+        name: [b.vorname, b.nachname].filter(Boolean).join(" "), telefon: b.telefon || "", beruf: b.beruf || "", wohnort: [b.plz, b.ort].filter(Boolean).join(" "),
+        firma: z.firma, titel: z.titel, ort: [z.s_plz, sd.ort].filter(Boolean).join(" "), stelle_status: z.s_status };
+    }) });
+  }
+
   if (pfad === "/api/intern/stellen" && req.method === "POST") return stelleSpeichern(env, body);
   if (pfad === "/api/intern/website-info" && req.method === "POST") return antwort(await holeWebsiteInfo(body && body.url));
 
