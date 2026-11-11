@@ -110,7 +110,8 @@ const config = {
   berufe: berufe.map(({ key, name, kurz, aliase, berufe }) => ({ key, name, kurz, aliase, berufe })),
   felder,
   api: webhooks.api || "",
-  webhooks: Object.fromEntries(Object.entries(webhooks).filter(([k]) => !k.startsWith("_") && k !== "api"))
+  apiParallel: webhooks.api_parallel || "",
+  webhooks: Object.fromEntries(Object.entries(webhooks).filter(([k]) => !k.startsWith("_") && k !== "api" && k !== "api_parallel"))
 };
 writeFileSync(join(out, "assets/config.js"), `/* Erzeugt von build.mjs – nicht von Hand ändern. */\nwindow.PORTAL = ${JSON.stringify(config, null, 2)};\n`);
 

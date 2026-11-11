@@ -382,9 +382,17 @@
     sendet = true; btnWeiter.disabled = true; weiterBeschriften();
     var body = JSON.stringify(daten);
     if (api) {
-      /* Über den Vergleicher: er speichert, vergleicht und kopiert in die Lead Table. */
+      /* Über das Recruiting OS (früher: Vergleicher). Im Parallelbetrieb geht danach eine Kopie an den
+         bisherigen Vergleicher (→ Lead Table) – ohne auf die Antwort zu warten. */
+      var parallel = (C.apiParallel || "").replace(/\/+$/, "");
       fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: body })
-        .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); fertig(daten, url); })
+        .then(function (res) {
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          if (parallel) {
+            try { fetch(parallel + "/api/bewerber", { method: "POST", headers: { "Content-Type": "application/json" }, body: body, keepalive: true }).catch(function () {}); } catch (e) { /* egal */ }
+          }
+          fertig(daten, url);
+        })
         .catch(function () {
           sendet = false; btnWeiter.disabled = false; weiterBeschriften();
           fehler(schritte[idx], T.fehler.senden);

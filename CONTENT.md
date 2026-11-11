@@ -409,7 +409,7 @@ Profil löschen lassen: kurze Mail an [E-Mail-Adresse].
 > ENTWURF – Freigabe durch Anwalt. Dieser Text ist ein Arbeitsstand und noch nicht rechtlich geprüft.
 
 **Wer verantwortlich ist**  
-Ländle Digital GmbH (HRB 807018), [Anschrift], [Vertretungsberechtigte Person]. E-Mail: [E-Mail-Adresse], Telefon: [Telefonnummer].
+Ländle Digital GmbH (HRB 807018), Königstr. 26, 78628 Rottweil, [Vertretungsberechtigte Person]. E-Mail: [E-Mail-Adresse], Telefon: [Telefonnummer].
 
 **Welche Daten wir speichern**  
 Die Angaben aus deinem Kurzprofil: Beruf, Abschluss, Erfahrung, Wohnort, Fahrweg, Verfügbarkeit, Gehaltswunsch, Arbeitszeiten, Führerscheine, Deutschkenntnisse, ob du einen Lebenslauf hast, deine Sperrliste und deine Kontaktdaten. Dazu, über welche Seite und welche Anzeige du gekommen bist.
@@ -425,7 +425,7 @@ Deine Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. [Anwalt: prüfen, ob für di
 [x] Monate nach deinem letzten Kontakt mit uns, danach löschen wir dein Profil automatisch. Du kannst es jederzeit früher löschen lassen.
 
 **Wer die Daten sonst verarbeitet**  
-Website und Abgleich mit offenen Stellen: [Anbieter, z. B. Cloudflare]. Bewerberverwaltung: [Anbieter der Lead Table]. Mit beiden besteht ein Vertrag zur Auftragsverarbeitung. [Anwalt: Drittlandübermittlung prüfen.]
+Website: GitHub Pages (GitHub Inc., USA). Bewerberverwaltung und Abgleich mit offenen Stellen: unser Recruiting OS auf Servern der Hetzner Online GmbH (Deutschland), Datenbank bei Supabase Inc. (Speicherort Frankfurt am Main). Übergangsweise außerdem: unser bisheriges Abgleichsprogramm bei Cloudflare Inc. und die Bewerberverwaltung LeadTable. [Prüfen: Mit allen Anbietern besteht ein Vertrag zur Auftragsverarbeitung.] [Anwalt: Drittlandübermittlung prüfen – GitHub, Cloudflare und Supabase sind US-Unternehmen.]
 
 **Automatischer Abgleich**  
 Ein Programm vergleicht dein Profil mit den Anforderungen offener Stellen (Beruf, Entfernung, Gehalt, Arbeitszeit und ähnliches) und schlägt passende Stellen vor. Entschieden wird nicht vom Programm: Ein Mensch prüft jeden Vorschlag und spricht mit dir, bevor etwas passiert.

@@ -14,11 +14,11 @@ const PORT = 4173;
 const BASE = `http://127.0.0.1:${PORT}`;
 const VIEWPORTS = [[360, 640], [375, 667], [390, 844], [414, 896]];
 const FAELLE = [
-  { name: "ohne Deeplink", url: "/profil.html", schritte: 14, kategorie: "Metall & Maschinenbau", beruf: "Schweißer" },
-  { name: "?beruf=zerspanung + UTM", url: "/profil.html?beruf=zerspanung&utm_source=meta&utm_campaign=pool-zerspanung", schritte: 13, kategorie: "Metall & Maschinenbau", utm: true },
-  { name: "?beruf=elektro&als=mechatroniker", url: "/profil.html?beruf=elektro&als=mechatroniker", schritte: 12, kategorie: "Elektro & Mechatronik", beruf: "Mechatroniker" },
-  { name: "Alias ?beruf=cnc", url: "/profil.html?beruf=cnc", schritte: 13, kategorie: "Metall & Maschinenbau" },
-  { name: "Büro ?beruf=buero", url: "/profil.html?beruf=buero", schritte: 13, kategorie: "Büro & Verwaltung" }
+  { name: "ohne Deeplink", url: "/profil.html", schritte: 16, kategorie: "Metall & Maschinenbau", beruf: "Schweißer" },
+  { name: "?beruf=zerspanung + UTM", url: "/profil.html?beruf=zerspanung&utm_source=meta&utm_campaign=pool-zerspanung", schritte: 15, kategorie: "Metall & Maschinenbau", utm: true },
+  { name: "?beruf=elektro&als=mechatroniker", url: "/profil.html?beruf=elektro&als=mechatroniker", schritte: 14, kategorie: "Elektro & Mechatronik", beruf: "Mechatroniker" },
+  { name: "Alias ?beruf=cnc", url: "/profil.html?beruf=cnc", schritte: 15, kategorie: "Metall & Maschinenbau" },
+  { name: "Büro ?beruf=buero", url: "/profil.html?beruf=buero", schritte: 15, kategorie: "Büro & Verwaltung" }
 ];
 
 function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
@@ -38,8 +38,10 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
         page.on("pageerror", e => jsFehler.push(e.message));
         /* Ist ein Vergleicher eingetragen, fängt der Test die Sendung ab, statt sie wirklich zu schicken. */
         let gesendet = null;
+        const sendungen = [];
         await page.route("**/api/bewerber", async route => {
-          gesendet = { url: route.request().url(), body: route.request().postData() };
+          gesendet = gesendet || { url: route.request().url(), body: route.request().postData() };
+          sendungen.push({ url: route.request().url(), body: route.request().postData() });
           await route.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: '{"ok":true}' });
         });
         await page.goto(BASE + fall.url);
@@ -98,8 +100,8 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
             await ausloesen(weiterBtn, key);
           } else if (typ === "text") {
             const label = (await page.textContent("#btn-weiter")).trim();
-            if (label !== "Überspringen") fail(`${w}x${h}: Sperrliste leer, Button heißt „${label}“`);
-            await page.fill("#sperrliste", "Muster GmbH");
+            if (label !== "Überspringen") fail(`${w}x${h}: ${key} leer, Button heißt „${label}“`);
+            await s.locator("textarea, input[type=text]").first().fill(key === "sperrliste" ? "Muster GmbH" : "Schweißen nach Zeichnung");
             await ausloesen(weiterBtn, key);
           } else if (typ === "kontakt") {
             await page.fill("#vorname", "Max");
@@ -122,7 +124,15 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
           throw new Error(`${w}x${h} ${fall.name}: kein Danke – hängt bei „${aktiv}“ (${f})`);
         });
         const api = await page.evaluate(() => (window.PORTAL && window.PORTAL.api || "").replace(/\/+$/, ""));
-        if (api && (!gesendet || gesendet.url !== api + "/api/bewerber")) fail(`${w}x${h} ${fall.name}: nicht an den Vergleicher gesendet (${gesendet && gesendet.url})`);
+        if (api && (!gesendet || gesendet.url !== api + "/api/bewerber")) fail(`${w}x${h} ${fall.name}: nicht an das Recruiting OS gesendet (${gesendet && gesendet.url})`);
+        /* Parallelbetrieb: danach dieselbe Bewerbung an den bisherigen Vergleicher */
+        const parallel = await page.evaluate(() => (window.PORTAL && window.PORTAL.apiParallel || "").replace(/\/+$/, ""));
+        if (parallel) {
+          await page.waitForTimeout(300);
+          const kopie = sendungen.find((x) => x.url === parallel + "/api/bewerber");
+          if (!kopie) fail(`${w}x${h} ${fall.name}: keine Kopie an den Vergleicher (${sendungen.map((x) => x.url).join(", ")})`);
+          else if (kopie.body !== gesendet.body) fail(`${w}x${h} ${fall.name}: Kopie an den Vergleicher weicht ab`);
+        }
         const payload = JSON.parse(gesendet ? gesendet.body : await page.textContent("#danke pre"));
         const pflicht = ["vorname", "nachname", "telefon", "email", "berufskategorie", "beruf", "abschluss", "erfahrung", "plz", "ort", "fahrweg", "verfuegbarkeit", "gehalt", "schicht", "fuehrerschein", "deutsch", "lebenslauf", "sperrliste", "erreichbarkeit", "einwilligung", "datum", "quelle", "seite"];
         for (const k of pflicht) if (!payload[k]) fail(`${w}x${h} ${fall.name}: Payload-Feld „${k}“ leer`);

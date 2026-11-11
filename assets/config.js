@@ -614,7 +614,8 @@ window.PORTAL = {
       ]
     }
   ],
-  "api": "https://passtjob-vergleicher.savio-roeckle.workers.dev",
+  "api": "https://recruiting.laendle-digital.com",
+  "apiParallel": "https://passtjob-vergleicher.savio-roeckle.workers.dev",
   "webhooks": {
     "fallback": "",
     "metall": "",
