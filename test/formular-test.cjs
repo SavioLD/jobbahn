@@ -100,8 +100,16 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
             await ausloesen(weiterBtn, key);
           } else if (typ === "text") {
             const label = (await page.textContent("#btn-weiter")).trim();
-            if (label !== "Überspringen") fail(`${w}x${h}: ${key} leer, Button heißt „${label}“`);
-            await s.locator("textarea, input[type=text]").first().fill(key === "sperrliste" ? "Muster GmbH" : "Schweißen nach Zeichnung");
+            const pflicht = await s.getAttribute("data-pflicht");
+            if (!pflicht && label !== "Überspringen") fail(`${w}x${h}: ${key} leer, Button heißt „${label}“`);
+            if (pflicht) {
+              if (label === "Überspringen") fail(`${w}x${h}: ${key} ist Pflicht, Button heißt trotzdem „Überspringen“`);
+              await s.locator("textarea").first().fill("Montage");
+              await ausloesen(weiterBtn, key);
+              const kurz = await page.textContent(".schritt.ist-aktiv [data-fehler]");
+              if (!kurz) fail(`${w}x${h}: ${key} – zu kurze Beschreibung wurde nicht abgelehnt`);
+            }
+            await s.locator("textarea, input[type=text]").first().fill(key === "sperrliste" ? "Muster GmbH" : "Schweißen nach Zeichnung, Serienteile prüfen");
             await ausloesen(weiterBtn, key);
           } else if (typ === "kontakt") {
             await page.fill("#vorname", "Max");

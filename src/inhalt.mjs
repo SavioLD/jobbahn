@@ -181,6 +181,7 @@ export const profil = {
     auswahl: "Bitte wähl eine Antwort aus.",
     mehrfach: "Bitte wähl mindestens eine Antwort aus.",
     beruf: "Bitte schreib deinen Beruf kurz dazu.",
+    aufgaben: "Bitte beschreib kurz, was du in deinem Job machst – ein, zwei Sätze reichen.",
     plz: "Bitte gib eine Postleitzahl mit fünf Ziffern ein.",
     ort: "Bitte gib deinen Wohnort ein.",
     vorname: "Bitte gib deinen Vornamen ein.",

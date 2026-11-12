@@ -276,7 +276,7 @@ _Kreuz an, was du jeden Tag wirklich machst. Mehrere Antworten möglich._
 
 ### Beschreib kurz, was du genau machst.
 
-_Zwei, drei Stichworte reichen. So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst._
+_Ein, zwei Sätze oder ein paar Stichworte: Was machst du an einem normalen Arbeitstag? So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst._
 
 ### Was ist dein höchster Abschluss in dem Beruf?
 
@@ -385,6 +385,7 @@ _Wir rufen nur an, wenn ein Job passt._
 - Bitte wähl eine Antwort aus.
 - Bitte wähl mindestens eine Antwort aus.
 - Bitte schreib deinen Beruf kurz dazu.
+- Bitte beschreib kurz, was du in deinem Job machst – ein, zwei Sätze reichen.
 - Bitte gib eine Postleitzahl mit fünf Ziffern ein.
 - Bitte gib deinen Wohnort ein.
 - Bitte gib deinen Vornamen ein.

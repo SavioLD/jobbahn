@@ -26,6 +26,7 @@ window.PORTAL = {
       "auswahl": "Bitte wähl eine Antwort aus.",
       "mehrfach": "Bitte wähl mindestens eine Antwort aus.",
       "beruf": "Bitte schreib deinen Beruf kurz dazu.",
+      "aufgaben": "Bitte beschreib kurz, was du in deinem Job machst – ein, zwei Sätze reichen.",
       "plz": "Bitte gib eine Postleitzahl mit fünf Ziffern ein.",
       "ort": "Bitte gib deinen Wohnort ein.",
       "vorname": "Bitte gib deinen Vornamen ein.",
@@ -396,9 +397,10 @@ window.PORTAL = {
       "kurz": "Aufgaben (eigene Worte)",
       "betrieb": "Aufgaben der Stelle",
       "matching": "Info fürs Telefonat",
-      "pflicht": false,
+      "pflicht": true,
+      "minzeichen": 20,
       "platzhalter": "z. B. CNC-Fräse einrichten und programmieren, Serienteile prüfen – oder: Montageprojekte geleitet, Team von 5 Leuten",
-      "hinweis": "Zwei, drei Stichworte reichen. So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst."
+      "hinweis": "Ein, zwei Sätze oder ein paar Stichworte: Was machst du an einem normalen Arbeitstag? So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst."
     },
     {
       "key": "abschluss",

@@ -134,7 +134,7 @@
         '<div class="honig" aria-hidden="true"><label for="firma_website">Website</label><input type="text" id="firma_website" name="firma_website" tabindex="-1" autocomplete="off"></div>';
     }
 
-    return '<fieldset class="schritt" data-key="' + f.key + '" data-typ="' + f.typ + '" data-index="' + i + '">' +
+    return '<fieldset class="schritt" data-key="' + f.key + '" data-typ="' + f.typ + '" data-index="' + i + '"' + (f.pflicht ? ' data-pflicht="' + (f.minzeichen || 1) + '"' : "") + '>' +
       kopf + inner + '<p class="fehler" role="alert" data-fehler></p></fieldset>';
   }
 
@@ -244,7 +244,11 @@
       if (wert("ort").length < 2) return fehler(s, f.ort, "ort");
       return fehler(s, "");
     }
-    if (typ === "text") return fehler(s, "");
+    if (typ === "text") {
+      var min = parseInt(s.getAttribute("data-pflicht") || "0", 10);
+      if (min && wert(key).replace(/\s+/g, " ").length < min) return fehler(s, f.aufgaben || f.mehrfach, key);
+      return fehler(s, "");
+    }
     if (typ === "kontakt") {
       if (!wert("vorname")) return fehler(s, f.vorname, "vorname");
       if (!wert("nachname")) return fehler(s, f.nachname, "nachname");
@@ -274,7 +278,7 @@
   function weiterBeschriften() {
     var s = schritte[idx], typ = s.getAttribute("data-typ");
     if (typ === "kontakt") btnWeiter.textContent = sendet ? T.sendet : T.senden;
-    else if (typ === "text" && !wert(s.getAttribute("data-key"))) btnWeiter.textContent = T.ueberspringen;
+    else if (typ === "text" && !s.hasAttribute("data-pflicht") && !wert(s.getAttribute("data-key"))) btnWeiter.textContent = T.ueberspringen;
     else btnWeiter.textContent = T.weiter;
   }
 

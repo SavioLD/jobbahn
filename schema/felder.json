@@ -49,9 +49,10 @@
     "kurz": "Aufgaben (eigene Worte)",
     "betrieb": "Aufgaben der Stelle",
     "matching": "Info fürs Telefonat",
-    "pflicht": false,
+    "pflicht": true,
+    "minzeichen": 20,
     "platzhalter": "z. B. CNC-Fräse einrichten und programmieren, Serienteile prüfen – oder: Montageprojekte geleitet, Team von 5 Leuten",
-    "hinweis": "Zwei, drei Stichworte reichen. So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst."
+    "hinweis": "Ein, zwei Sätze oder ein paar Stichworte: Was machst du an einem normalen Arbeitstag? So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst."
   },
   {
     "key": "abschluss",
