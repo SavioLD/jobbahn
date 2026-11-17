@@ -403,6 +403,42 @@ window.PORTAL = {
       "hinweis": "Ein, zwei Sätze oder ein paar Stichworte: Was machst du an einem normalen Arbeitstag? So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst."
     },
     {
+      "key": "wunsch_taetigkeit",
+      "typ": "mehrfach",
+      "frage": "Was willst du im neuen Job unbedingt machen?",
+      "kurz": "Wunsch-Tätigkeit",
+      "betrieb": "Was macht die Person in der Stelle hauptsächlich?",
+      "matching": "Muss – mindestens eine Tätigkeit der Stelle muss die Person machen wollen",
+      "pflicht": true,
+      "hinweis": "Kreuz an, was du im neuen Job machen willst – auch Neues, das du dir zutraust. Was du nicht mehr machen willst, lass einfach weg.",
+      "optionen": [
+        "An der Maschine (bedienen / einrichten)",
+        "Montage / Zusammenbau",
+        "Programmieren (CNC / SPS / Roboter)",
+        "Instandhaltung / Wartung / Reparatur",
+        "Qualitätsprüfung / Messtechnik",
+        "Konstruktion / Entwicklung / Planung",
+        "Projekt- oder Teamleitung",
+        "Kundendienst / Service beim Kunden",
+        "Handwerk auf der Baustelle",
+        "Lager / Logistik / Fahren",
+        "Büro / Kaufmännisch / Vertrieb",
+        "IT / Software",
+        "Helfertätigkeiten"
+      ]
+    },
+    {
+      "key": "wunsch_aufgaben",
+      "typ": "text",
+      "frage": "Welche Aufgabe oder Position willst du neu übernehmen?",
+      "kurz": "Wunsch (eigene Worte)",
+      "betrieb": "–",
+      "matching": "Info fürs Telefonat",
+      "pflicht": false,
+      "platzhalter": "z. B. Schichtführer werden, selbst programmieren, ein Team leiten – oder: weiter das Gleiche, nur in einem besseren Betrieb",
+      "hinweis": "Freiwillig, hilft uns aber sehr: Was soll im neuen Job neu oder anders sein?"
+    },
+    {
       "key": "abschluss",
       "typ": "einfach",
       "frage": "Was ist dein höchster Abschluss in dem Beruf?",

@@ -14,11 +14,11 @@ const PORT = 4173;
 const BASE = `http://127.0.0.1:${PORT}`;
 const VIEWPORTS = [[360, 640], [375, 667], [390, 844], [414, 896]];
 const FAELLE = [
-  { name: "ohne Deeplink", url: "/profil.html", schritte: 16, kategorie: "Metall & Maschinenbau", beruf: "Schweißer" },
-  { name: "?beruf=zerspanung + UTM", url: "/profil.html?beruf=zerspanung&utm_source=meta&utm_campaign=pool-zerspanung", schritte: 15, kategorie: "Metall & Maschinenbau", utm: true },
-  { name: "?beruf=elektro&als=mechatroniker", url: "/profil.html?beruf=elektro&als=mechatroniker", schritte: 14, kategorie: "Elektro & Mechatronik", beruf: "Mechatroniker" },
-  { name: "Alias ?beruf=cnc", url: "/profil.html?beruf=cnc", schritte: 15, kategorie: "Metall & Maschinenbau" },
-  { name: "Büro ?beruf=buero", url: "/profil.html?beruf=buero", schritte: 15, kategorie: "Büro & Verwaltung" }
+  { name: "ohne Deeplink", url: "/profil.html", schritte: 18, kategorie: "Metall & Maschinenbau", beruf: "Schweißer" },
+  { name: "?beruf=zerspanung + UTM", url: "/profil.html?beruf=zerspanung&utm_source=meta&utm_campaign=pool-zerspanung", schritte: 17, kategorie: "Metall & Maschinenbau", utm: true },
+  { name: "?beruf=elektro&als=mechatroniker", url: "/profil.html?beruf=elektro&als=mechatroniker", schritte: 16, kategorie: "Elektro & Mechatronik", beruf: "Mechatroniker" },
+  { name: "Alias ?beruf=cnc", url: "/profil.html?beruf=cnc", schritte: 17, kategorie: "Metall & Maschinenbau" },
+  { name: "Büro ?beruf=buero", url: "/profil.html?beruf=buero", schritte: 17, kategorie: "Büro & Verwaltung" }
 ];
 
 function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }

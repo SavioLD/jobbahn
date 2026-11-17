@@ -352,6 +352,8 @@
       beruf: beruf(),
       taetigkeit: alleGewaehlt("taetigkeit").join(", "),
       aufgaben: wert("aufgaben") || "–",
+      wunsch_taetigkeit: alleGewaehlt("wunsch_taetigkeit").join(", "),
+      wunsch_aufgaben: wert("wunsch_aufgaben") || "–",
       abschluss: gewaehlt("abschluss"),
       erfahrung: gewaehlt("erfahrung"),
       plz: wert("plz"),

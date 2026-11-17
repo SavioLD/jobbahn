@@ -141,16 +141,27 @@ export function vergleiche(b, s, km) {
     else regel("beruf", gewicht, false, `Beruf: ${b.beruf || "–"} (gesucht: ${berufe.join(", ")})`);
   }
 
-  /* Tätigkeit: was die Person wirklich macht (an der Maschine, Montage, Projektleitung …).
-     Mindestens eine Tätigkeit der Stelle muss beim Bewerber angekreuzt sein. Ältere Profile
-     ohne Angabe: unklar – am Telefon fragen. */
+  /* Tätigkeit: Was die Person im neuen Job machen WILL (Wunsch-Tätigkeit) muss zur Stelle passen.
+     – Stelle verlangt etwas, das die Person nicht machen will → kein Treffer.
+     – Sie will es und macht es schon → passt.
+     – Sie will es, macht es aber noch nicht → Treffer, aber „am Telefon klären“ (traut es sich zu).
+     Ältere Profile ohne Wunsch: wie bisher nach der aktuellen Tätigkeit; ohne beides → am Telefon klären. */
   const taet = k.taetigkeit?.werte || [];
   if (taet.length) {
-    const hat = liste(b.taetigkeit);
-    const gemeinsam = taet.filter(x => hat.includes(x));
-    regel("taetigkeit", k.taetigkeit.gewicht, hat.length ? gemeinsam.length > 0 : null,
-      !hat.length ? `Tätigkeit am Telefon klären (Stelle: ${taet.join(", ")})`
-        : gemeinsam.length ? `Tätigkeit: ${gemeinsam.join(", ")}` : `Tätigkeit passt nicht – Stelle: ${taet.join(", ")} · Bewerber: ${hat.join(", ")}`);
+    const macht = liste(b.taetigkeit);
+    const will = liste(b.wunsch_taetigkeit);
+    if (will.length) {
+      const gewollt = taet.filter(x => will.includes(x));
+      const gekonnt = gewollt.filter(x => macht.includes(x));
+      if (!gewollt.length) regel("taetigkeit", k.taetigkeit.gewicht, false, `Tätigkeit passt nicht zum Wunsch – Stelle: ${taet.join(", ")} · Bewerber will: ${will.join(", ")}`);
+      else if (gekonnt.length) regel("taetigkeit", k.taetigkeit.gewicht, true, `Tätigkeit: ${gekonnt.join(", ")} (macht er und will er)`);
+      else regel("taetigkeit", k.taetigkeit.gewicht, null, `Will neu: ${gewollt.join(", ")} – Erfahrung am Telefon klären`);
+    } else {
+      const gemeinsam = taet.filter(x => macht.includes(x));
+      regel("taetigkeit", k.taetigkeit.gewicht, macht.length ? gemeinsam.length > 0 : null,
+        !macht.length ? `Tätigkeit am Telefon klären (Stelle: ${taet.join(", ")})`
+          : gemeinsam.length ? `Tätigkeit: ${gemeinsam.join(", ")}` : `Tätigkeit passt nicht – Stelle: ${taet.join(", ")} · Bewerber: ${macht.join(", ")}`);
+    }
   }
 
   /* Abschluss */

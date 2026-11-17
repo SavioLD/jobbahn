@@ -362,7 +362,7 @@ async function trefferSeite() {
       <thead><tr><th>Bewerber</th><th>Beruf</th><th>Wohnort</th><th>Passt zu</th><th>Entfernung</th><th>Passung</th><th>Status</th></tr></thead>
       <tbody>${t.map(x => `<tr data-stelle="${esc(x.stelle_id)}" tabindex="0">
         <td><b>${esc(x.name)}</b><br><span class="klein leise">${esc(x.telefon)}</span></td>
-        <td>${esc(x.beruf)}${x.taetigkeit ? `<br><span class="klein leise">${esc(x.taetigkeit)}</span>` : ""}</td><td>${esc(x.wohnort)}</td>
+        <td>${esc(x.beruf)}${x.taetigkeit ? `<br><span class="klein leise">macht: ${esc(x.taetigkeit)}</span>` : ""}${x.wunsch_taetigkeit ? `<br><span class="klein leise">will: ${esc(x.wunsch_taetigkeit)}</span>` : ""}</td><td>${esc(x.wohnort)}</td>
         <td><b>${esc(x.titel)}</b><br><span class="klein leise">${esc(x.firma)} · ${esc(x.ort)}</span></td>
         <td class="zahl">${x.entfernung_km != null ? esc(x.entfernung_km) + " km" : "–"}</td>
         <td>${esc(x.passung)}</td>
@@ -556,7 +556,7 @@ function trefferKarte(t, s) {
   return `<article class="treffer st-${esc(t.status)}" data-id="${esc(t.id)}">
     <header><h3>${esc(b.vorname)} ${esc(b.nachname)}</h3><span class="pille">${esc(passung)}</span><span class="pille ${esc(t.status)}">${STATUS_TEXT[t.status] || t.status}</span></header>
     <p class="leise">${esc(b.beruf || "–")} · ${esc([b.plz, b.ort].filter(Boolean).join(" "))}${t.entfernung_km != null ? ` · ca. ${t.entfernung_km} km` : ""}${[b.abschluss, b.erfahrung].filter(Boolean).length ? " · " + esc([b.abschluss, b.erfahrung].filter(Boolean).join(", ")) : ""}</p>
-    ${b.taetigkeit || (b.aufgaben && b.aufgaben !== "–") ? `<div class="vergleich-aufgaben"><div><h4>Bewerber macht</h4><p>${esc(b.taetigkeit || "–")}</p>${b.aufgaben && b.aufgaben !== "–" ? `<p class="klein">„${esc(b.aufgaben)}“</p>` : ""}</div><div><h4>Stelle braucht</h4><p>${esc(((s.kriterien || {}).taetigkeit || {}).werte?.join(", ") || "–")}</p>${s.aufgaben ? `<p class="klein">${esc(s.aufgaben)}</p>` : ""}</div></div>` : ""}
+    ${b.taetigkeit || (b.aufgaben && b.aufgaben !== "–") ? `<div class="vergleich-aufgaben"><div><h4>Bewerber macht</h4><p>${esc(b.taetigkeit || "–")}</p>${b.aufgaben && b.aufgaben !== "–" ? `<p class="klein">„${esc(b.aufgaben)}“</p>` : ""}${b.wunsch_taetigkeit ? `<h4>Bewerber will</h4><p>${esc(b.wunsch_taetigkeit)}</p>` : ""}${b.wunsch_aufgaben && b.wunsch_aufgaben !== "–" ? `<p class="klein">„${esc(b.wunsch_aufgaben)}“</p>` : ""}</div><div><h4>Stelle braucht</h4><p>${esc(((s.kriterien || {}).taetigkeit || {}).werte?.join(", ") || "–")}</p>${s.aufgaben ? `<p class="klein">${esc(s.aufgaben)}</p>` : ""}</div></div>` : ""}
     <ul class="gruende">${t.gruende.map(g => `<li class="${klasse(g)}">${esc(g.text)}${g.gewicht === "wunsch" ? " <small>(Wunsch)</small>" : ""}</li>`).join("")}</ul>
     <div class="kontakt"><span>Telefon: <b>${esc(b.telefon)}</b></span><span>E-Mail: ${esc(b.email)}</span><span>Erreichbar: ${esc(b.erreichbarkeit || "–")}</span><span>Verfügbar: ${esc(b.verfuegbarkeit || "–")}</span><span>Gehalt: ${esc(b.gehalt || "–")}</span><span>Lebenslauf: ${esc(b.lebenslauf || "–")}</span>${b.sperrliste && b.sperrliste !== "–" ? `<span>Sperrliste: ${esc(b.sperrliste)}</span>` : ""}</div>
     ${t.status === "gesperrt" ? "" : telefonatKasten(t, s)}
@@ -634,6 +634,7 @@ async function leitfaden(ids) {
         ${linie("Telefon", b ? b.telefon : "")}
         ${linie("Stelle / Firma", t ? `${s.titel} – ${s.firma}` : "")}
         ${linie("Bewerber macht", b ? [b.taetigkeit, b.aufgaben && b.aufgaben !== "–" ? b.aufgaben : ""].filter(Boolean).join(" – ") : "")}
+        ${linie("Bewerber will", b ? [b.wunsch_taetigkeit, b.wunsch_aufgaben && b.wunsch_aufgaben !== "–" ? b.wunsch_aufgaben : ""].filter(Boolean).join(" – ") : "")}
         ${linie("Aufgaben der Stelle", s && s.aufgaben ? s.aufgaben : "")}
         ${linie("Erreichbar", b ? b.erreichbarkeit : "")}
         ${linie("Datum", "")}

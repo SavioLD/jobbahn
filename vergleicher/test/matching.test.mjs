@@ -133,3 +133,18 @@ test("Tätigkeit: Projektleiter passt nicht auf reine Maschinenstelle, unbekannt
   assert.equal(offen.passt, true);
   assert.ok(offen.gruende.some(g => g.feld === "taetigkeit" && g.ok === null));
 });
+
+test("Wunsch-Tätigkeit: zählt vor der aktuellen Tätigkeit", () => {
+  const st = stelle({}, { taetigkeit: { werte: ["An der Maschine (bedienen / einrichten)"], gewicht: "muss" } });
+  const M = "An der Maschine (bedienen / einrichten)", P = "Projekt- oder Teamleitung";
+  /* steht heute an der Maschine, will aber nur noch Projektleitung → kein Treffer */
+  assert.equal(vergleiche(bewerber({ taetigkeit: M, wunsch_taetigkeit: P }), st, 10).passt, false);
+  /* macht es und will es → passt, ohne Rückfrage */
+  const ok = vergleiche(bewerber({ taetigkeit: M, wunsch_taetigkeit: `${M}, ${P}` }), st, 10);
+  assert.equal(ok.passt, true);
+  assert.ok(ok.gruende.some(g => g.feld === "taetigkeit" && g.ok === true));
+  /* will es neu machen, macht es noch nicht → Treffer, aber am Telefon klären */
+  const neu = vergleiche(bewerber({ taetigkeit: P, wunsch_taetigkeit: M }), st, 10);
+  assert.equal(neu.passt, true);
+  assert.ok(neu.gruende.some(g => g.feld === "taetigkeit" && g.ok === null));
+});

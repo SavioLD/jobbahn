@@ -125,6 +125,7 @@ function matchPayload(b, s, m, basisUrl) {
     gruende: gruendeText(m.gruende),
     richtung: (RICHTUNG[b.richtung] || {}).name || b.richtung,
     beruf: d.beruf, taetigkeit: d.taetigkeit || "–", aufgaben_bewerber: d.aufgaben || "–", aufgaben_stelle: s.aufgaben || "–",
+    wunsch_taetigkeit: d.wunsch_taetigkeit || "–", wunsch_aufgaben: d.wunsch_aufgaben || "–",
     abschluss: d.abschluss, erfahrung: d.erfahrung, plz: d.plz, ort: d.ort,
     fahrweg: d.fahrweg, verfuegbarkeit: d.verfuegbarkeit, gehalt: d.gehalt, schicht: d.schicht,
     fuehrerschein: d.fuehrerschein, deutsch: d.deutsch, lebenslauf: d.lebenslauf,
@@ -160,7 +161,8 @@ function uebergabePayload(b, s, notiz) {
   const d = b.daten;
   return {
     vorname: d.vorname, nachname: d.nachname, telefon: d.telefon, email: d.email,
-    stelle: s.titel, beruf: d.beruf, taetigkeit: d.taetigkeit || "–", aufgaben: d.aufgaben || "–", abschluss: d.abschluss, erfahrung: d.erfahrung,
+    stelle: s.titel, beruf: d.beruf, taetigkeit: d.taetigkeit || "–", aufgaben: d.aufgaben || "–",
+    wunsch_taetigkeit: d.wunsch_taetigkeit || "–", wunsch_aufgaben: d.wunsch_aufgaben || "–", abschluss: d.abschluss, erfahrung: d.erfahrung,
     wohnort: [d.plz, d.ort].filter(Boolean).join(" "), verfuegbarkeit: d.verfuegbarkeit,
     gehaltswunsch: d.gehalt, arbeitszeit: d.schicht, fuehrerschein: d.fuehrerschein, deutsch: d.deutsch,
     lebenslauf: d.lebenslauf, erreichbarkeit: d.erreichbarkeit || "–",
@@ -319,7 +321,7 @@ function meta_angleichen(p, d) {
 }
 
 /* ---------- Öffentlich: Bewerber annehmen ---------- */
-const BEWERBER_FELDER = ["vorname", "nachname", "telefon", "email", "richtung", "berufskategorie", "beruf", "taetigkeit", "aufgaben", "abschluss", "erfahrung", "plz", "ort", "fahrweg", "verfuegbarkeit", "gehalt", "schicht", "fuehrerschein", "deutsch", "lebenslauf", "sperrliste", "erreichbarkeit", "einwilligung", "datum", "quelle", "seite", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+const BEWERBER_FELDER = ["vorname", "nachname", "telefon", "email", "richtung", "berufskategorie", "beruf", "taetigkeit", "aufgaben", "wunsch_taetigkeit", "wunsch_aufgaben", "abschluss", "erfahrung", "plz", "ort", "fahrweg", "verfuegbarkeit", "gehalt", "schicht", "fuehrerschein", "deutsch", "lebenslauf", "sperrliste", "erreichbarkeit", "einwilligung", "datum", "quelle", "seite", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 
 async function bewerberAnnehmen(req, env) {
   const kopf = cors(req, env);
@@ -329,7 +331,7 @@ async function bewerberAnnehmen(req, env) {
   if (p.firma_website) return antwort({ ok: true }, 200, kopf);   /* Honeypot: still beenden */
 
   const daten = {};
-  for (const k of BEWERBER_FELDER) if (p[k] != null && p[k] !== "") daten[k] = String(p[k]).slice(0, k === "sperrliste" || k === "aufgaben" ? 400 : 300);
+  for (const k of BEWERBER_FELDER) if (p[k] != null && p[k] !== "") daten[k] = String(p[k]).slice(0, k === "sperrliste" || k === "aufgaben" || k === "wunsch_aufgaben" ? 400 : 300);
   meta_angleichen(p, daten);
   for (const k of ["vorname", "nachname", "telefon", "email", "richtung", "plz"]) {
     if (!daten[k]) return antwort({ ok: false, fehler: `Feld „${k}“ fehlt` }, 400, kopf);
@@ -497,7 +499,7 @@ async function intern(req, env, pfad, url) {
       const b = JSON.parse(z.b_daten), sd = JSON.parse(z.s_daten);
       return { id: z.id, stelle_id: z.stelle_id, status: z.status, entfernung_km: z.entfernung_km, erstellt: z.erstellt,
         passung: passungText({ punkte: z.punkte, maxPunkte: z.max_punkte }), in_lead_table: !!z.lt_gesendet,
-        name: [b.vorname, b.nachname].filter(Boolean).join(" "), telefon: b.telefon || "", beruf: b.beruf || "", taetigkeit: b.taetigkeit || "", wohnort: [b.plz, b.ort].filter(Boolean).join(" "),
+        name: [b.vorname, b.nachname].filter(Boolean).join(" "), telefon: b.telefon || "", beruf: b.beruf || "", taetigkeit: b.taetigkeit || "", wunsch_taetigkeit: b.wunsch_taetigkeit || "", wohnort: [b.plz, b.ort].filter(Boolean).join(" "),
         firma: z.firma, titel: z.titel, ort: [z.s_plz, sd.ort].filter(Boolean).join(" "), stelle_status: z.s_status };
     }) });
   }

@@ -278,6 +278,28 @@ _Kreuz an, was du jeden Tag wirklich machst. Mehrere Antworten möglich._
 
 _Ein, zwei Sätze oder ein paar Stichworte: Was machst du an einem normalen Arbeitstag? So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst._
 
+### Was willst du im neuen Job unbedingt machen?
+
+_Kreuz an, was du im neuen Job machen willst – auch Neues, das du dir zutraust. Was du nicht mehr machen willst, lass einfach weg._
+
+- An der Maschine (bedienen / einrichten)
+- Montage / Zusammenbau
+- Programmieren (CNC / SPS / Roboter)
+- Instandhaltung / Wartung / Reparatur
+- Qualitätsprüfung / Messtechnik
+- Konstruktion / Entwicklung / Planung
+- Projekt- oder Teamleitung
+- Kundendienst / Service beim Kunden
+- Handwerk auf der Baustelle
+- Lager / Logistik / Fahren
+- Büro / Kaufmännisch / Vertrieb
+- IT / Software
+- Helfertätigkeiten
+
+### Welche Aufgabe oder Position willst du neu übernehmen?
+
+_Freiwillig, hilft uns aber sehr: Was soll im neuen Job neu oder anders sein?_
+
 ### Was ist dein höchster Abschluss in dem Beruf?
 
 - Abgeschlossene Ausbildung
