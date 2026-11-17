@@ -210,7 +210,6 @@ export const profil = {
 
 export const datenschutz = {
   meta: { titel: "Datenschutz – {marke}", beschreibung: "Datenschutzhinweise für das Bewerberportal {marke}." },
-  hinweis: "ENTWURF – Freigabe durch Anwalt. Dieser Text ist ein Arbeitsstand und noch nicht rechtlich geprüft.",
   h1: "Datenschutz",
   abschnitte: [
     { h: "Wer verantwortlich ist", t: ["{betreiber} (HRB 807018), Königstr. 26, 78628 Rottweil, [Vertretungsberechtigte Person]. E-Mail: {email}, Telefon: {telefon}."] },

@@ -407,7 +407,7 @@ Profil löschen lassen: kurze Mail an [E-Mail-Adresse].
 
 ## Datenschutz (Entwurf)
 
-> ENTWURF – Freigabe durch Anwalt. Dieser Text ist ein Arbeitsstand und noch nicht rechtlich geprüft.
+> undefined
 
 **Wer verantwortlich ist**  
 Ländle Digital GmbH (HRB 807018), Königstr. 26, 78628 Rottweil, [Vertretungsberechtigte Person]. E-Mail: [E-Mail-Adresse], Telefon: [Telefonnummer].

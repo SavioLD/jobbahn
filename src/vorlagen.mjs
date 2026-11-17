@@ -257,7 +257,7 @@ export function profilseite(m, t, a) {
 export function datenschutzseite(m, t, a, einwilligung) {
   return `${kopf(m, a)}
 <main class="abschnitt"><div class="wrap recht">
-  <p class="entwurf">${esc(t.hinweis)}</p>
+  ${t.hinweis ? `<p class="entwurf">${esc(t.hinweis)}</p>` : ""}
   <h1 class="h2">${esc(t.h1)}</h1>
   ${t.abschnitte.map(s => `<section><h2 class="h3">${esc(s.h)}</h2>${s.t.map(p => `<p>${esc(p)}</p>`).join("")}</section>`).join("")}
   <section id="einwilligung"><h2 class="h3">${esc(t.einwilligungH)}</h2><p>„${esc(einwilligung)}“</p></section>
