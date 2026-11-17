@@ -191,15 +191,15 @@ export const profil = {
     einwilligung: "Ohne dein Okay dürfen wir dein Profil nicht speichern.",
     senden: "Das hat nicht geklappt. Bitte prüf deine Verbindung und tipp noch mal auf „Profil absenden“."
   },
-  einwilligung: "Ich bin einverstanden, dass {betreiber} mein Profil speichert, mit offenen Stellen abgleicht und mich dazu anruft oder anschreibt. An einen Betrieb geht mein Profil erst, wenn wir telefoniert haben und ich zugestimmt habe. Ich kann das jederzeit widerrufen.",
+  einwilligung: "Ich bin einverstanden, dass {betreiber} mein Profil speichert, in den Bewerberpool aufnimmt und mit offenen Stellen abgleicht – auch mit anderen passenden Stellen als der, über die ich gekommen bin. {betreiber} darf mich dazu anrufen oder anschreiben und mein Profil an passende Betriebe weitergeben. Bevor ein Betrieb mein Profil bekommt, spricht {betreiber} mit mir. Betriebe auf meiner Sperrliste bekommen es nie. Ich kann das jederzeit widerrufen.",
   einwilligungLink: "Datenschutz",
-  einwilligungVersion: "ENTWURF 2026-10",
+  einwilligungVersion: "2026-11",
   danke: {
     h1: "Danke, {vorname}. Dein Profil ist angelegt.",
     schritte: [
+      "Dein Profil ist jetzt in unserem Bewerberpool – so können wir dich auch für andere passende Stellen vorschlagen, nicht nur für eine.",
       "Wir gleichen dein Profil mit offenen Stellen in deiner Nähe ab.",
-      "Passt ein Job, rufen wir dich an{erreichbarkeit}.",
-      "Erst wenn du einverstanden bist, erfährt ein Betrieb von dir."
+      "Passt ein Job, rufen wir dich an{erreichbarkeit}. Bevor ein Betrieb dein Profil bekommt, sprechen wir mit dir."
     ],
     loeschen: "Profil löschen lassen: kurze Mail an {email}.",
     vorschauH: "Vorschau-Modus: Das käme in der Lead Table an",
@@ -214,7 +214,7 @@ export const datenschutz = {
   abschnitte: [
     { h: "Wer verantwortlich ist", t: ["{betreiber} (HRB 807018), Königstr. 26, 78628 Rottweil, [Vertretungsberechtigte Person]. E-Mail: {email}, Telefon: {telefon}."] },
     { h: "Welche Daten wir speichern", t: ["Die Angaben aus deinem Kurzprofil: Beruf, Abschluss, Erfahrung, Wohnort, Fahrweg, Verfügbarkeit, Gehaltswunsch, Arbeitszeiten, Führerscheine, Deutschkenntnisse, ob du einen Lebenslauf hast, deine Sperrliste und deine Kontaktdaten. Dazu, über welche Seite und welche Anzeige du gekommen bist."] },
-    { h: "Wofür wir sie nutzen", t: ["Wir gleichen dein Profil mit offenen Stellen unserer Kundenbetriebe ab und melden uns bei dir, wenn ein Job passt.", "An einen Betrieb geben wir dein Profil erst weiter, nachdem wir mit dir telefoniert haben und du zugestimmt hast. Betriebe auf deiner Sperrliste bekommen es nie."] },
+    { h: "Wofür wir sie nutzen", t: ["Wir gleichen dein Profil mit offenen Stellen unserer Kundenbetriebe ab und melden uns bei dir, wenn ein Job passt.", "Dein Profil landet in unserem Bewerberpool. Wir nutzen es nicht nur für die Stelle oder Anzeige, über die du gekommen bist, sondern auch für andere passende Stellen – damit wir dich weitervermitteln können, falls die erste Stelle nicht passt oder später eine bessere frei wird.", "Passt dein Profil zu einer Stelle, geben wir es an den Betrieb weiter. Vorher sprechen wir mit dir. Betriebe auf deiner Sperrliste bekommen es nie."] },
     { h: "Rechtsgrundlage", t: ["Deine Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. [Anwalt: prüfen, ob für die Weitergabe an den Betrieb eine gesonderte, dokumentierte Einwilligung nötig ist.]"] },
     { h: "Wie lange wir sie speichern", t: ["[x] Monate nach deinem letzten Kontakt mit uns, danach löschen wir dein Profil automatisch. Du kannst es jederzeit früher löschen lassen."] },
     { h: "Wer die Daten sonst verarbeitet", t: ["Website: GitHub Pages (GitHub Inc., USA). Bewerberverwaltung und Abgleich mit offenen Stellen: unser Recruiting OS auf Servern der Hetzner Online GmbH (Deutschland), Datenbank bei Supabase Inc. (Speicherort Frankfurt am Main). Übergangsweise außerdem: unser bisheriges Abgleichsprogramm bei Cloudflare Inc. und die Bewerberverwaltung LeadTable. [Prüfen: Mit allen Anbietern besteht ein Vertrag zur Auftragsverarbeitung.] [Anwalt: Drittlandübermittlung prüfen – GitHub, Cloudflare und Supabase sind US-Unternehmen.]"] },

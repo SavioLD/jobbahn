@@ -378,7 +378,7 @@ _Wir rufen nur an, wenn ein Job passt._
 - E-Mail
 - Wann erreichen wir dich am besten? Vormittags · Mittags · Nachmittags · Abends
 
-**Einwilligung (ENTWURF 2026-10):** Ich bin einverstanden, dass Ländle Digital GmbH mein Profil speichert, mit offenen Stellen abgleicht und mich dazu anruft oder anschreibt. An einen Betrieb geht mein Profil erst, wenn wir telefoniert haben und ich zugestimmt habe. Ich kann das jederzeit widerrufen.
+**Einwilligung (2026-11):** Ich bin einverstanden, dass Ländle Digital GmbH mein Profil speichert, in den Bewerberpool aufnimmt und mit offenen Stellen abgleicht – auch mit anderen passenden Stellen als der, über die ich gekommen bin. Ländle Digital GmbH darf mich dazu anrufen oder anschreiben und mein Profil an passende Betriebe weitergeben. Bevor ein Betrieb mein Profil bekommt, spricht Ländle Digital GmbH mit mir. Betriebe auf meiner Sperrliste bekommen es nie. Ich kann das jederzeit widerrufen.
 
 ### Fehlermeldungen
 
@@ -399,9 +399,9 @@ _Wir rufen nur an, wenn ein Job passt._
 
 **Danke, {vorname}. Dein Profil ist angelegt.**
 
-1. Wir gleichen dein Profil mit offenen Stellen in deiner Nähe ab.
-2. Passt ein Job, rufen wir dich an{erreichbarkeit}.
-3. Erst wenn du einverstanden bist, erfährt ein Betrieb von dir.
+1. Dein Profil ist jetzt in unserem Bewerberpool – so können wir dich auch für andere passende Stellen vorschlagen, nicht nur für eine.
+2. Wir gleichen dein Profil mit offenen Stellen in deiner Nähe ab.
+3. Passt ein Job, rufen wir dich an{erreichbarkeit}. Bevor ein Betrieb dein Profil bekommt, sprechen wir mit dir.
 
 Profil löschen lassen: kurze Mail an [E-Mail-Adresse].
 
@@ -417,7 +417,8 @@ Die Angaben aus deinem Kurzprofil: Beruf, Abschluss, Erfahrung, Wohnort, Fahrweg
 
 **Wofür wir sie nutzen**  
 Wir gleichen dein Profil mit offenen Stellen unserer Kundenbetriebe ab und melden uns bei dir, wenn ein Job passt.
-An einen Betrieb geben wir dein Profil erst weiter, nachdem wir mit dir telefoniert haben und du zugestimmt hast. Betriebe auf deiner Sperrliste bekommen es nie.
+Dein Profil landet in unserem Bewerberpool. Wir nutzen es nicht nur für die Stelle oder Anzeige, über die du gekommen bist, sondern auch für andere passende Stellen – damit wir dich weitervermitteln können, falls die erste Stelle nicht passt oder später eine bessere frei wird.
+Passt dein Profil zu einer Stelle, geben wir es an den Betrieb weiter. Vorher sprechen wir mit dir. Betriebe auf deiner Sperrliste bekommen es nie.
 
 **Rechtsgrundlage**  
 Deine Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. [Anwalt: prüfen, ob für die Weitergabe an den Betrieb eine gesonderte, dokumentierte Einwilligung nötig ist.]
