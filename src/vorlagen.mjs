@@ -33,7 +33,8 @@ export const icon = {
 
 /* Wortmarke-Symbol: ein Planet auf seiner Umlaufbahn. Platzhalter,
    bis ein Logo in config/marke.json eingetragen ist. */
-const bahnSymbol = `<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="12.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="currentColor"/><circle class="punkt" cx="24.8" cy="7.2" r="3.6"/></svg>`;
+/* Zeichen: Kompass in Ländle-Gelb (wie „Ländle Kompass“) */
+const bahnSymbol = `<svg class="logo-zeichen" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect x="2" y="2" width="60" height="60" rx="16" fill="#ffc91f"/><circle cx="32" cy="32" r="21" fill="none" stroke="#0F1B2D" stroke-width="4"/><polygon points="32,15 38,32 32,29 26,32" fill="#0F1B2D"/><polygon points="32,49 26,32 32,35 38,32" fill="#ffffff" stroke="#0F1B2D" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="32" r="2.6" fill="#ffc91f" stroke="#0F1B2D" stroke-width="1.6"/></svg>`;
 
 /* Dezente Umlaufbahnen hinter dem Hero – reine Dekoration. */
 const bahnen = `<svg class="hero-bahnen" viewBox="0 0 800 800" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1"><circle cx="400" cy="400" r="170"/><circle cx="400" cy="400" r="270"/><circle cx="400" cy="400" r="375"/></g><circle class="punkt" cx="591" cy="209" r="9"/><circle cx="139" cy="470" r="5" fill="currentColor"/></svg>`;

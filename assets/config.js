@@ -1,11 +1,11 @@
 /* Erzeugt von build.mjs – nicht von Hand ändern. */
 window.PORTAL = {
   "marke": {
-    "name": "Jobbahn"
+    "name": "Ländle Jobkompass"
   },
   "texte": {
     "meta": {
-      "titel": "Kurzprofil anlegen – Jobbahn",
+      "titel": "Kurzprofil anlegen – Ländle Jobkompass",
       "beschreibung": "Leg in zwei Minuten dein Kurzprofil an. Kostenlos, vertraulich, ohne Lebenslauf."
     },
     "kopf": "Kurzprofil",

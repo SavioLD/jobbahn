@@ -1,6 +1,6 @@
 {
-  "_hinweis": "Alles Markenbezogene steht in dieser einen Datei. Name, Farben, Schriften, Logo und Figur hier ändern, dann `node build.mjs --pages` – die ganze Seite zieht nach. Stil: schlicht, Nachtblau mit ruhigem Blau, Umlaufbahn als Motiv.",
-  "name": "Jobbahn",
+  "_hinweis": "Alles Markenbezogene steht in dieser einen Datei. Name, Farben, Schriften, Logo und Figur hier ändern, dann `node build.mjs --pages` – die ganze Seite zieht nach. Stil: schlicht, Nachtblau mit ruhigem Blau; Zeichen: Kompass in Ländle-Gelb (Familie mit „Ländle Kompass“).",
+  "name": "Ländle Jobkompass",
   "claim": "Dein nächster Job. In deiner Nähe.",
   "domain": "jobbahn.com",
   "betreiber": "Ländle Digital GmbH",
@@ -9,7 +9,7 @@
     "email": "[E-Mail-Adresse]",
     "telefon": "[Telefonnummer]"
   },
-  "logo": "assets/jobbahn-logo.svg",
+  "logo": null,
   "figur": null,
   "schriften": {
     "display": {
@@ -88,6 +88,6 @@
       "fehler": "#F28B82"
     }
   },
-  "symbol": "assets/favicon.svg",
+  "symbol": "assets/jobkompass-symbol.svg",
   "impressumUrl": "https://laendle-digital.com/impressum/"
 }
