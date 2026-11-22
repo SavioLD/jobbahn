@@ -40,7 +40,7 @@ const bahnen = `<svg class="hero-bahnen" viewBox="0 0 800 800" aria-hidden="true
 
 export function logo(m, href = "./") {
   const inner = m.logoSymbol
-    ? `<svg class="logo-bild" viewBox="0 0 ${m.logoViewBox.split(/\s+/).slice(2).join(" ")}" aria-hidden="true" focusable="false"><use href="#jobbahn-logo"/></svg>`
+    ? `<svg class="logo-bild" viewBox="0 0 ${m.logoViewBox.split(/\s+/).slice(2).join(" ")}" aria-hidden="true" focusable="false"><use href="#marken-logo"/></svg>`
     : m.logo
     ? `<img src="${esc(m.logo)}" alt="${esc(m.name)}">`
     : `${bahnSymbol}<span class="logo-wort">${esc(m.name)}</span>`;

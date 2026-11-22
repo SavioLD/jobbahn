@@ -19,7 +19,7 @@ Nicht direkt Meta → Lead Table verbinden: Dann sieht der Vergleicher den Lead 
 | E-Mail | vorausgefüllte Standardfrage |
 | Postleitzahl | vorausgefüllte Standardfrage |
 
-**Jobrichtung:** ein Formular pro Richtung (z. B. „Jobbahn Metall“). Die Richtung steht dann fest in Make, nicht im Formular.
+**Jobrichtung:** ein Formular pro Richtung (z. B. „Fachkräfte Kompass Metall“). Die Richtung steht dann fest in Make, nicht im Formular.
 
 **Empfohlen** (Mehrfachauswahl, Antworten **genau so** schreiben, sonst kann der Vergleicher sie nicht vergleichen):
 

@@ -65,7 +65,7 @@ export async function holeWebsiteInfo(eingabe) {
   try {
     const res = await fetch(url, {
       redirect: "follow",
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; Jobbahn-Vergleicher)", "Accept": "text/html", "Accept-Language": "de" },
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; FachkraefteKompass-Vergleicher)", "Accept": "text/html", "Accept-Language": "de" },
       signal: AbortSignal.timeout(7000)
     });
     if (!res.ok) return { ok: false, url, fehler: `Website antwortet mit HTTP ${res.status}` };

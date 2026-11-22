@@ -1,11 +1,11 @@
-# Inhalte – Jobbahn
+# Inhalte – Fachkräfte Kompass
 
 > Erzeugt von `build.mjs` aus `src/inhalt.mjs`, `config/berufe.json` und `schema/felder.json`. Änderungen bitte dort machen, nicht hier. Platzhalter in [eckigen Klammern] sind offene Fakten.
 
 ## Startseite
 
-**Seitentitel:** Jobbahn – Jobs in deiner Nähe  
-**Beschreibung:** Leg in zwei Minuten ein Kurzprofil an. Jobbahn sucht passende Jobs in deiner Nähe – im Handwerk, in der Industrie und im Büro – und ruft dich an, wenn einer passt. Kostenlos und vertraulich.
+**Seitentitel:** Fachkräfte Kompass – Jobs in deiner Nähe  
+**Beschreibung:** Leg in zwei Minuten ein Kurzprofil an. Fachkräfte Kompass sucht passende Jobs in deiner Nähe – im Handwerk, in der Industrie und im Büro – und ruft dich an, wenn einer passt. Kostenlos und vertraulich.
 
 ### Hero
 
@@ -64,7 +64,7 @@ Viele, die sich bei uns melden, haben einen Job. Sie wollen nur wissen, ob es wo
 
 **Bewerben wie immer – oder einmal Profil anlegen.**
 
-| | Klassisch bewerben | Mit Jobbahn |
+| | Klassisch bewerben | Mit Fachkräfte Kompass |
 |---|---|---|
 | Aufwand | Anschreiben und Lebenslauf für jede Stelle | Ein Kurzprofil, zwei Minuten |
 | Gehalt und Schicht | Erfährst du oft erst im Vorstellungsgespräch | Gleichen wir vorher mit deinen Wünschen ab |
@@ -82,7 +82,7 @@ Von der Werkstatt über die Baustelle bis ins Büro. Wähl die Richtung, die am 
 **Was du wissen willst.**
 
 **Kostet mich das was?**  
-Nein. Für dich ist Jobbahn kostenlos. Bezahlt werden wir von den Betrieben.
+Nein. Für dich ist Fachkräfte Kompass kostenlos. Bezahlt werden wir von den Betrieben.
 
 **Erfährt mein jetziger Chef davon?**  
 Nein. Dein Profil ist nicht öffentlich, und du kannst Betriebe ausschließen. Bevor wir dich irgendwo vorstellen, sprechen wir mit dir.
@@ -100,7 +100,7 @@ Wir speichern dein Profil, um es mit offenen Stellen abzugleichen. An einen Betr
 Wähl die Richtung, die am nächsten dran ist. Viele Betriebe suchen nicht den einen Beruf, sondern jemanden, der zu ihnen passt. Den Rest klären wir am Telefon.
 
 **Wer steckt dahinter?**  
-Jobbahn ist ein Angebot von Ländle Digital GmbH – wir sind Einstellungspartner für Betriebe in ganz Deutschland und bringen sie mit Fachkräften in ihrer Nähe zusammen.
+Fachkräfte Kompass ist ein Angebot von Ländle Digital GmbH – wir sind Einstellungspartner für Betriebe in ganz Deutschland und bringen sie mit Fachkräften in ihrer Nähe zusammen.
 
 ### Abschluss
 
@@ -462,7 +462,7 @@ Diese Seite setzt derzeit keine Cookies und lädt keine Inhalte von fremden Serv
 
 ## Impressum
 
-Jobbahn ist ein Angebot von:  
+Fachkräfte Kompass ist ein Angebot von:  
 Ländle Digital GmbH  
 [Anschrift]  
 [Vertretungsberechtigte Person]  

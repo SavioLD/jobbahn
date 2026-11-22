@@ -32,6 +32,6 @@ Mehrfachantworten kommen kommagetrennt in einem Feld an. Leere freiwillige Felde
 | `richtung` | Key der Jobrichtung, z. B. `buero` (für den Vergleicher) |
 | `berufskategorie` | Name der Jobrichtung (bestimmt auch die Lead-Table-Kachel) |
 | `datum` | TT.MM.JJJJ |
-| `quelle` | „Bewerberportal Jobbahn“ |
+| `quelle` | „Bewerberportal Fachkräfte Kompass“ |
 | `seite` | URL, über die das Profil abgeschickt wurde |
 | `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term` | nur wenn in der URL vorhanden |

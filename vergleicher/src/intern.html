@@ -7,7 +7,7 @@
 <title>Vergleicher</title>
 <!--FAVICON-->
 <style>
-/* Interne Oberfläche im Stil von Jobbahn (Nachtblau, ruhiges Blau). Bewusst nur helles Erscheinungsbild. */
+/* Interne Oberfläche im Stil von Fachkräfte Kompass (Nachtblau, ruhiges Blau). Bewusst nur helles Erscheinungsbild. */
 :root {
   --bg: #F6F7F9; --flaeche: #FFFFFF; --flaeche-2: #EDF0F4; --text: #0F1B2D; --text-2: #4A5568; --linie: #DDE2E9;
   --akzent: #2B59C3; --auf-akzent: #FFFFFF; --akzent-text: #234BA8; --akzent-hell: #EAF0FB; --ok: #1F7A4D; --ok-hell: #E3F3E9; --nein: #B3261E; --nein-hell: #FBE9E6;
@@ -628,7 +628,7 @@ async function leitfaden(ids) {
       <button class="btn btn-gelb btn-klein" type="button" id="drucken" style="margin-left:auto">Drucken</button>
     </div>
     <article class="karte bogen">
-      <header class="lf-kopf"><h1>Gesprächsleitfaden</h1><span class="leise">Jobbahn · Telefonat mit Bewerber · ca. 10–15 Min.</span></header>
+      <header class="lf-kopf"><h1>Gesprächsleitfaden</h1><span class="leise">Fachkräfte Kompass · Telefonat mit Bewerber · ca. 10–15 Min.</span></header>
       <section class="lf-block lf-zwei">
         ${linie("Bewerber", b ? `${b.vorname} ${b.nachname}` : "")}
         ${linie("Telefon", b ? b.telefon : "")}
@@ -641,7 +641,7 @@ async function leitfaden(ids) {
         ${linie("Anruf von", "")}
       </section>
       <section class="lf-block"><h2>1 · Vorstellen</h2>
-        ${kreuz(["Name und Jobbahn genannt, gefragt, ob es gerade passt", "„Ihr jetziger Arbeitgeber erfährt nichts.“"])}
+        ${kreuz(["Name und Fachkräfte Kompass genannt, gefragt, ob es gerade passt", "„Ihr jetziger Arbeitgeber erfährt nichts.“"])}
       </section>
       <section class="lf-block"><h2>2 · Wechselgrund</h2>
         <p class="leise">Was müsste beim nächsten Job anders sein als jetzt? Was stört am meisten?</p>

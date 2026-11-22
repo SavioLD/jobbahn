@@ -1,10 +1,10 @@
-# Jobbahn – Bewerberportal
+# Fachkräfte Kompass – Bewerberportal
 
 Bewerberseite des neuen Modells von Ländle Digital: Bewerber aus Handwerk, Industrie und Büro legen in zwei Minuten ein Kurzprofil an, das Profil landet im Bewerberpool (Lead Table), ein Talent Scout ruft bei einem Match an. Keine Regionsgrenze – gesucht wird „in deiner Nähe“, abgeglichen über PLZ und Fahrweg.
 
 Design: schlicht und ruhig für Erwachsene (30–45) – Nachtblau, ruhiges Blau als Akzent, helle Flächen, feine Umlaufbahnen als einziges Schmuckelement; Schrift Plus Jakarta Sans. Keine Farben von Ländle Digital.
 
-**„Jobbahn“ ist der Arbeitsname (vorher „Passtjob“), Marke und Domain sind noch nicht geprüft.** Alles Markenbezogene steht in `config/marke.json` und lässt sich dort in einer Zeile tauschen. Technische Namen (Worker `passtjob-vergleicher`, Datenbank `passtjob-eu`) bleiben bewusst, damit nichts kaputtgeht. Besucher sehen sie nicht.
+**„Fachkräfte Kompass“ ist der Name (vorher „Jobbahn“, davor „Passtjob“), Marke und Domain sind noch nicht geprüft.** Alles Markenbezogene steht in `config/marke.json` und lässt sich dort in einer Zeile tauschen. Technische Namen (Worker `passtjob-vergleicher`, Datenbank `passtjob-eu`) bleiben bewusst, damit nichts kaputtgeht. Besucher sehen sie nicht.
 
 ## Inhalt
 
@@ -179,7 +179,7 @@ Die URL kommt aus `config/webhooks.json`: zuerst die Kachel der gewählten Richt
   "erreichbarkeit": "Abends",
   "einwilligung": "Ja (ENTWURF 2026-10, 22.10.2026 14:05)",
   "datum": "22.10.2026",
-  "quelle": "Bewerberportal Jobbahn",
+  "quelle": "Bewerberportal Fachkräfte Kompass",
   "seite": "https://jobbahn.de/profil?beruf=metall&utm_source=meta",
   "utm_source": "meta"
 }

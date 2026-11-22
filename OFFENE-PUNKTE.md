@@ -2,7 +2,7 @@
 
 ## Entscheiden
 
-- [ ] **Name.** „Jobbahn“ ist der neue Arbeitsname (Stil: schlicht, Nachtblau, Umlaufbahn als Motiv, für 30- bis 45-Jährige). Marke beim DPMA prüfen (Anwalt), Domain: jobbahn.com bei Strato (DNS: A 185.199.108.153, AAAA 2606:50c0:8000::153, www → CNAME saviold.github.io), Website unter https://www.jobbahn.com. Austausch: eine Zeile in `config/marke.json`.
+- [ ] **Name.** „Fachkräfte Kompass“ ist der neue Name (vorher „Jobbahn“; Stil: schlicht, Nachtblau, Kompass als Motiv, für 30- bis 45-Jährige). Marke beim DPMA prüfen (Anwalt), Domain: jobbahn.com bei Strato (DNS: A 185.199.108.153, AAAA 2606:50c0:8000::153, www → CNAME saviold.github.io), Website unter https://www.jobbahn.com. Austausch: eine Zeile in `config/marke.json`.
 - [ ] **Logo und Figur.** Aktuell Platzhalter-Symbol (Welle in der Bohrung = Passung). Logo-Datei und später die Figur in `config/marke.json` eintragen (`logo`, `figur`, Pfad z. B. `assets/figur.png`). Die Figur erscheint dann im Hero hinter der Beispiel-Karte (Hochformat, freigestellt, ca. 4:5). Der Bild-Slot ist gebaut, aber mangels Bild noch nicht im Browser geprüft.
 - [ ] **15 Jobrichtungen.** Richtungen und Unterberufe sind ein Vorschlag. Kürzen, ergänzen oder umbenennen in `config/berufe.json`.
 - [ ] **Gehaltsspannen.** Die fünf Spannen im Formular (bis 2.800 € bis über 4.300 €) sind gesetzt, nicht recherchiert. Mit echten Stellen abgleichen.
