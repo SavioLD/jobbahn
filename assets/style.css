@@ -103,8 +103,10 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .logo .punkt { fill: var(--akzent); }
 .logo-wort { font-family: var(--f-display); font-weight: var(--w-display); font-size: 21px; letter-spacing: -.02em; line-height: 1; }
 .logo img { height: 34px; width: auto; }
-.logo .logo-bild { height: 44px; width: auto; color: var(--text); --logo-planet: #2B59C3; --logo-mond: #7FA2F0; }
-.fuss .logo .logo-bild { height: 40px; }
+.logo .logo-bild { height: 28px; width: auto; color: var(--text); --logo-planet: #2B59C3; --logo-mond: #7FA2F0; }
+.fuss .logo .logo-bild { height: 26px; }
+.kopf-innen .btn { white-space: nowrap; }
+@media (max-width: 420px) { .logo .logo-bild { height: 18px; } .kopf-innen { gap: 12px; } }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .logo .logo-bild { --logo-planet: #5A85E6; } }
 :root[data-theme="dark"] .logo .logo-bild { --logo-planet: #5A85E6; }
 .nav { display: none; gap: 28px; }
