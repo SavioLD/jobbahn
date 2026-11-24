@@ -36,9 +36,9 @@ window.PORTAL = {
       "einwilligung": "Ohne dein Okay dürfen wir dein Profil nicht speichern.",
       "senden": "Das hat nicht geklappt. Bitte prüf deine Verbindung und tipp noch mal auf „Profil absenden“."
     },
-    "einwilligung": "Ich bin einverstanden, dass Ländle Digital GmbH mein Profil speichert, in den Bewerberpool aufnimmt und mit offenen Stellen abgleicht – auch mit anderen passenden Stellen als der, über die ich gekommen bin. Ländle Digital GmbH darf mich dazu anrufen oder anschreiben und mein Profil an passende Betriebe weitergeben. Bevor ein Betrieb mein Profil bekommt, spricht Ländle Digital GmbH mit mir. Betriebe auf meiner Sperrliste bekommen es nie. Ich kann das jederzeit widerrufen.",
+    "einwilligung": "Ich bin einverstanden, dass Ländle Digital GmbH mein Profil speichert, in den Bewerberpool aufnimmt und mit offenen Stellen abgleicht – auch mit anderen passenden Stellen als der, über die ich gekommen bin. Ländle Digital GmbH darf mich dazu per Telefon, E-Mail, SMS oder WhatsApp kontaktieren und mein Profil an passende Betriebe weitergeben. Bevor ein Betrieb mein Profil bekommt, spricht Ländle Digital GmbH mit mir. Betriebe auf meiner Sperrliste bekommen es nie. Ich kann das jederzeit widerrufen.",
     "einwilligungLink": "Datenschutz",
-    "einwilligungVersion": "2026-11",
+    "einwilligungVersion": "2026-11b",
     "danke": {
       "h1": "Danke, {vorname}. Dein Profil ist angelegt.",
       "schritte": [

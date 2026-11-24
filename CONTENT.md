@@ -400,7 +400,7 @@ _Wir rufen nur an, wenn ein Job passt._
 - E-Mail
 - Wann erreichen wir dich am besten? Vormittags · Mittags · Nachmittags · Abends
 
-**Einwilligung (2026-11):** Ich bin einverstanden, dass Ländle Digital GmbH mein Profil speichert, in den Bewerberpool aufnimmt und mit offenen Stellen abgleicht – auch mit anderen passenden Stellen als der, über die ich gekommen bin. Ländle Digital GmbH darf mich dazu anrufen oder anschreiben und mein Profil an passende Betriebe weitergeben. Bevor ein Betrieb mein Profil bekommt, spricht Ländle Digital GmbH mit mir. Betriebe auf meiner Sperrliste bekommen es nie. Ich kann das jederzeit widerrufen.
+**Einwilligung (2026-11b):** Ich bin einverstanden, dass Ländle Digital GmbH mein Profil speichert, in den Bewerberpool aufnimmt und mit offenen Stellen abgleicht – auch mit anderen passenden Stellen als der, über die ich gekommen bin. Ländle Digital GmbH darf mich dazu per Telefon, E-Mail, SMS oder WhatsApp kontaktieren und mein Profil an passende Betriebe weitergeben. Bevor ein Betrieb mein Profil bekommt, spricht Ländle Digital GmbH mit mir. Betriebe auf meiner Sperrliste bekommen es nie. Ich kann das jederzeit widerrufen.
 
 ### Fehlermeldungen
 
@@ -438,7 +438,7 @@ Ländle Digital GmbH (HRB 807018), Königstr. 26, 78628 Rottweil, [Vertretungsbe
 Die Angaben aus deinem Kurzprofil: Beruf, Abschluss, Erfahrung, Wohnort, Fahrweg, Verfügbarkeit, Gehaltswunsch, Arbeitszeiten, Führerscheine, Deutschkenntnisse, ob du einen Lebenslauf hast, deine Sperrliste und deine Kontaktdaten. Dazu, über welche Seite und welche Anzeige du gekommen bist.
 
 **Wofür wir sie nutzen**  
-Wir gleichen dein Profil mit offenen Stellen unserer Kundenbetriebe ab und melden uns bei dir, wenn ein Job passt.
+Wir gleichen dein Profil mit offenen Stellen unserer Kundenbetriebe ab und melden uns bei dir, wenn ein Job passt – per Telefon, E-Mail, SMS oder WhatsApp.
 Dein Profil landet in unserem Bewerberpool. Wir nutzen es nicht nur für die Stelle oder Anzeige, über die du gekommen bist, sondern auch für andere passende Stellen – damit wir dich weitervermitteln können, falls die erste Stelle nicht passt oder später eine bessere frei wird.
 Passt dein Profil zu einer Stelle, geben wir es an den Betrieb weiter. Vorher sprechen wir mit dir. Betriebe auf deiner Sperrliste bekommen es nie.
 
@@ -449,7 +449,7 @@ Deine Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. [Anwalt: prüfen, ob für di
 [x] Monate nach deinem letzten Kontakt mit uns, danach löschen wir dein Profil automatisch. Du kannst es jederzeit früher löschen lassen.
 
 **Wer die Daten sonst verarbeitet**  
-Website: GitHub Pages (GitHub Inc., USA). Bewerberverwaltung und Abgleich mit offenen Stellen: unser Recruiting OS auf Servern der Hetzner Online GmbH (Deutschland), Datenbank bei Supabase Inc. (Speicherort Frankfurt am Main). Übergangsweise außerdem: unser bisheriges Abgleichsprogramm bei Cloudflare Inc. und die Bewerberverwaltung LeadTable. [Prüfen: Mit allen Anbietern besteht ein Vertrag zur Auftragsverarbeitung.] [Anwalt: Drittlandübermittlung prüfen – GitHub, Cloudflare und Supabase sind US-Unternehmen.]
+Website: GitHub Pages (GitHub Inc., USA). Bewerberverwaltung und Abgleich mit offenen Stellen: unser Recruiting OS auf Servern der Hetzner Online GmbH (Deutschland), Datenbank bei Supabase Inc. (Speicherort Frankfurt am Main). Übergangsweise außerdem: unser bisheriges Abgleichsprogramm bei Cloudflare Inc. und die Bewerberverwaltung LeadTable. Wenn wir dir per WhatsApp schreiben, läuft das über WhatsApp (Meta Platforms Ireland Ltd.); dabei verarbeitet WhatsApp deine Telefonnummer und die Nachrichten. [Prüfen: Mit allen Anbietern besteht ein Vertrag zur Auftragsverarbeitung.] [Anwalt: Drittlandübermittlung prüfen – GitHub, Cloudflare und Supabase sind US-Unternehmen.]
 
 **Automatischer Abgleich**  
 Ein Programm vergleicht dein Profil mit den Anforderungen offener Stellen (Beruf, Entfernung, Gehalt, Arbeitszeit und ähnliches) und schlägt passende Stellen vor. Entschieden wird nicht vom Programm: Ein Mensch prüft jeden Vorschlag und spricht mit dir, bevor etwas passiert.
