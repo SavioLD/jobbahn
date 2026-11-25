@@ -233,7 +233,7 @@ ${fuss(m, a)}`;
 
 export function profilseite(m, t, a) {
   const rechts = `<a class="btn btn-leise btn-klein" href="./">${esc(t.abbrechen)}</a>`;
-  return `${kopf(m, a, { minimal: true, rechts })}
+  return `${kopf(m, a, { minimal: true, rechts, dunkel: true })}
 <main class="profil-haupt"><div class="wrap">
   <form class="formular-karte" id="profil-form" novalidate>
     <p class="vorschau-hinweis" id="vorschau-hinweis" hidden>${esc(t.vorschau)}</p>

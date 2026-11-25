@@ -640,3 +640,55 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 @media (min-width: 560px) {
   .felder-kontakt .feld-telefon, .felder-kontakt .feld-email { grid-column: auto; }
 }
+
+/* =====================================================================
+   Kurzprofil im Look der Website: Nachtblau oben, darauf eine helle
+   Karte mit viel Luft. Auf dem Handy genauso wie am PC, nur schmaler.
+   ===================================================================== */
+.seite-profil {
+  background:
+    linear-gradient(180deg, #0F1B2D 0, #0F1B2D 150px, transparent 150px),
+    radial-gradient(120% 60% at 80% 0%, rgba(43, 89, 195, .35), transparent 60%) no-repeat,
+    var(--akzent-hell);
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+.seite-profil .kopf { border-bottom: 0; }
+.kopf-dunkel .btn-leise { color: #C9D3E3; }
+.kopf-dunkel .btn-leise:hover { color: #fff; }
+.profil-haupt { padding-block: 22px 64px; }
+.formular-karte,
+.formular-karte:is(*) {
+  max-width: 640px; margin-inline: auto;
+  background: var(--flaeche); border: 1px solid var(--linie); border-radius: 22px;
+  padding: 26px 20px 24px; gap: 22px;
+  box-shadow: 0 24px 60px -20px var(--schatten-stark), 0 2px 6px var(--schatten);
+}
+@media (min-width: 560px) { .formular-karte { padding: 36px 36px 32px; } }
+@media (max-width: 520px) {
+  .formular-karte { border: 1px solid var(--linie); border-radius: 22px; padding: 26px 18px 22px; background: var(--flaeche); --nav-bg: transparent; }
+}
+.fortschritt { gap: 10px; }
+.fortschritt-text { font-size: 13px; font-weight: 700; letter-spacing: .02em; }
+.fortschritt-text span:first-child { color: var(--akzent-text); text-transform: uppercase; letter-spacing: .1em; font-size: 12px; }
+.fortschritt-balken { height: 8px; }
+
+.schritt.ist-aktiv { gap: 22px; }
+.frage { font-size: clamp(1.45rem, 5.4vw, 1.8rem); line-height: 1.22; }
+.schritt legend + .hinweis, .schritt .hinweis { margin-top: -8px; font-size: 15.5px; }
+.optionen { gap: 12px; }
+.optionen-raster { gap: 12px; }
+.option-flaeche { min-height: 58px; padding: 14px 18px; border-radius: 14px; font-size: 16.5px; }
+.optionen-raster .option-flaeche { min-height: 66px; padding: 12px 16px; font-size: 15.5px; }
+.option-flaeche:active { transform: scale(.99); }
+.feld { gap: 8px; }
+.feld input, .feld textarea { min-height: 56px; padding: 14px 16px; border-radius: 14px; }
+.feld textarea { min-height: 140px; }
+.felder-kontakt { gap: 18px 12px; }
+.felder-2 { gap: 12px; }
+.einwilligung { padding: 16px; border-radius: 14px; }
+
+.formular-nav { padding-top: 8px; gap: 14px; }
+.formular-nav .btn { min-height: 56px; border-radius: 14px; }
+.formular-nav .btn-primaer { max-width: none; box-shadow: 0 10px 24px -10px rgba(43, 89, 195, .7); }
+.danke { gap: 22px; }
