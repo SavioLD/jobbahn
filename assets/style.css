@@ -692,3 +692,6 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .formular-nav .btn { min-height: 56px; border-radius: 14px; }
 .formular-nav .btn-primaer { max-width: none; box-shadow: 0 10px 24px -10px rgba(43, 89, 195, .7); }
 .danke { gap: 22px; }
+/* Mehr Luft zwischen Frage und Antworten */
+.schritt > .optionen, .schritt > .felder-2, .schritt > .feld, .schritt > .felder-kontakt { margin-top: 16px; }
+.schritt > .hinweis { margin-top: -6px; }
