@@ -138,7 +138,7 @@ Gemeinsame Texte: Eyebrow „Jobs · {kategorie}“, Abschnitte „Diese Berufe 
 
 - H1: **Bau & Ausbau: Jobs, die passen.**
 - Text: Ob Maurer, Zimmerer, Dachdecker, Maler oder Fliesenleger: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
-- Berufe: Maurer / Betonbauer · Zimmerer / Dachdecker · Maler und Lackierer · Fliesenleger / Bodenleger · Trockenbauer
+- Berufe: Maurer / Betonbauer · Zimmerer / Dachdecker · Maler (Gebäude / Innenausbau) · Fliesenleger / Bodenleger · Trockenbauer
 - Am Telefon fragen wir: Neubau, Sanierung oder Innenausbau? / Baustellen in der Nähe oder auch auswärts? / Bist du schon Vorarbeiter oder willst du dahin?
 - Deeplink: `profil.html?beruf=bau` · Aliase: maurer, zimmerer, dachdecker, maler, trockenbau, fliesenleger, baustelle
 
@@ -162,7 +162,7 @@ Gemeinsame Texte: Eyebrow „Jobs · {kategorie}“, Abschnitte „Diese Berufe 
 
 - H1: **Produktion & Montage: Jobs, die passen.**
 - Text: Ob an der Anlage, in der Produktion oder in der Montage: Sag uns, was du kannst und was du willst. Wir suchen den passenden Job in deiner Nähe.
-- Berufe: Maschinen- und Anlagenführer · Produktionsmitarbeiter · Montagemitarbeiter · Verfahrensmechaniker Kunststoff · Qualitätsprüfer
+- Berufe: Maschinen- und Anlagenführer · Produktionsmitarbeiter · Montagemitarbeiter · Verfahrensmechaniker Kunststoff · Qualitätsprüfer · Lackierer Industrie / Beschichtung
 - Am Telefon fragen wir: Welche Schichten gehen für dich? / An welchen Anlagen hast du schon gearbeitet? / Einrichten oder bedienen?
 - Deeplink: `profil.html?beruf=produktion` · Aliase: produktion-logistik, montage, anlagenfuehrer, fertigung
 
@@ -258,7 +258,7 @@ Die Berufe der gewählten Kategorie, dazu „Anderer Beruf“ mit Textfeld.
 
 ### Was machst du in deinem Job hauptsächlich?
 
-_Kreuz an, was du jeden Tag wirklich machst. Mehrere Antworten möglich._
+_Kreuz bis zu 3 Sachen an, die du jeden Tag wirklich machst._
 
 - An der Maschine (bedienen / einrichten)
 - Montage / Zusammenbau
@@ -280,7 +280,7 @@ _Ein, zwei Sätze oder Stichworte reichen._
 
 ### Was willst du im neuen Job unbedingt machen?
 
-_Kreuz an, was du im neuen Job machen willst – auch Neues, das du dir zutraust. Was du nicht mehr machen willst, lass einfach weg._
+_Nimm die bis zu 3 wichtigsten – auch Neues, das du dir zutraust._
 
 - An der Maschine (bedienen / einrichten)
 - Montage / Zusammenbau
@@ -331,6 +331,7 @@ _Wir schreiben dir zuerst kurz per WhatsApp._
 
 - Bitte wähl eine Antwort aus.
 - Bitte wähl mindestens eine Antwort aus.
+- Bitte höchstens {max} – nimm die wichtigsten.
 - Bitte schreib deinen Beruf kurz dazu.
 - Bitte beschreib kurz, was du in deinem Job machst – ein, zwei Sätze reichen.
 - Bitte gib eine Postleitzahl mit fünf Ziffern ein.

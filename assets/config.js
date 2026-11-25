@@ -24,6 +24,7 @@ window.PORTAL = {
     "fehler": {
       "auswahl": "Bitte wähl eine Antwort aus.",
       "mehrfach": "Bitte wähl mindestens eine Antwort aus.",
+      "max": "Bitte höchstens {max} – nimm die wichtigsten.",
       "beruf": "Bitte schreib deinen Beruf kurz dazu.",
       "aufgaben": "Bitte beschreib kurz, was du in deinem Job machst – ein, zwei Sätze reichen.",
       "plz": "Bitte gib eine Postleitzahl mit fünf Ziffern ein.",
@@ -129,7 +130,7 @@ window.PORTAL = {
       "berufe": [
         "Maurer / Betonbauer",
         "Zimmerer / Dachdecker",
-        "Maler und Lackierer",
+        "Maler (Gebäude / Innenausbau)",
         "Fliesenleger / Bodenleger",
         "Trockenbauer"
       ]
@@ -187,7 +188,8 @@ window.PORTAL = {
         "Produktionsmitarbeiter",
         "Montagemitarbeiter",
         "Verfahrensmechaniker Kunststoff",
-        "Qualitätsprüfer"
+        "Qualitätsprüfer",
+        "Lackierer Industrie / Beschichtung"
       ]
     },
     {
@@ -372,7 +374,7 @@ window.PORTAL = {
       "betrieb": "Was macht die Person in der Stelle hauptsächlich?",
       "matching": "Muss oder Wunsch – mindestens eine Tätigkeit muss übereinstimmen",
       "pflicht": true,
-      "hinweis": "Kreuz an, was du jeden Tag wirklich machst. Mehrere Antworten möglich.",
+      "hinweis": "Kreuz bis zu 3 Sachen an, die du jeden Tag wirklich machst.",
       "optionen": [
         "An der Maschine (bedienen / einrichten)",
         "Montage / Zusammenbau",
@@ -387,7 +389,8 @@ window.PORTAL = {
         "Büro / Kaufmännisch / Vertrieb",
         "IT / Software",
         "Helfertätigkeiten"
-      ]
+      ],
+      "max": 3
     },
     {
       "key": "aufgaben",
@@ -409,7 +412,7 @@ window.PORTAL = {
       "betrieb": "Was macht die Person in der Stelle hauptsächlich?",
       "matching": "Muss – mindestens eine Tätigkeit der Stelle muss die Person machen wollen",
       "pflicht": true,
-      "hinweis": "Kreuz an, was du im neuen Job machen willst – auch Neues, das du dir zutraust. Was du nicht mehr machen willst, lass einfach weg.",
+      "hinweis": "Nimm die bis zu 3 wichtigsten – auch Neues, das du dir zutraust.",
       "optionen": [
         "An der Maschine (bedienen / einrichten)",
         "Montage / Zusammenbau",
@@ -424,7 +427,8 @@ window.PORTAL = {
         "Büro / Kaufmännisch / Vertrieb",
         "IT / Software",
         "Helfertätigkeiten"
-      ]
+      ],
+      "max": 3
     },
     {
       "key": "wunsch_aufgaben",

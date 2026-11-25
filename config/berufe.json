@@ -44,7 +44,7 @@
     "kurz": "Maurer, Zimmerer, Dachdecker, Maler, Fliesenleger",
     "ob": "Maurer, Zimmerer, Dachdecker, Maler oder Fliesenleger",
     "aliase": ["maurer", "zimmerer", "dachdecker", "maler", "trockenbau", "fliesenleger", "baustelle"],
-    "berufe": ["Maurer / Betonbauer", "Zimmerer / Dachdecker", "Maler und Lackierer", "Fliesenleger / Bodenleger", "Trockenbauer"],
+    "berufe": ["Maurer / Betonbauer", "Zimmerer / Dachdecker", "Maler (Gebäude / Innenausbau)", "Fliesenleger / Bodenleger", "Trockenbauer"],
     "fragen": [
       "Neubau, Sanierung oder Innenausbau?",
       "Baustellen in der Nähe oder auch auswärts?",
@@ -83,7 +83,7 @@
     "kurz": "Anlagenführer, Produktion, Montage",
     "ob": "an der Anlage, in der Produktion oder in der Montage",
     "aliase": ["produktion-logistik", "montage", "anlagenfuehrer", "fertigung"],
-    "berufe": ["Maschinen- und Anlagenführer", "Produktionsmitarbeiter", "Montagemitarbeiter", "Verfahrensmechaniker Kunststoff", "Qualitätsprüfer"],
+    "berufe": ["Maschinen- und Anlagenführer", "Produktionsmitarbeiter", "Montagemitarbeiter", "Verfahrensmechaniker Kunststoff", "Qualitätsprüfer", "Lackierer Industrie / Beschichtung"],
     "fragen": [
       "Welche Schichten gehen für dich?",
       "An welchen Anlagen hast du schon gearbeitet?",

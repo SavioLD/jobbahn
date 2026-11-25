@@ -162,3 +162,18 @@ test("Schlankes Formular: fehlende Angaben schließen nie aus, sondern heißen �
     assert.equal(m.gruende.find(g => g.feld === f)?.ok, null, f);
   }
 });
+
+test("Alter Sammelberuf „Maler und Lackierer“: Fachrichtung aus der Beschreibung", () => {
+  const maler = stelle({ richtung: "bau", berufe: ["Maler und Lackierer"], alleBerufe: ["Maler (Gebäude / Innenausbau)"] });
+  const industrie = bewerber({ beruf: "Maler und Lackierer", aufgaben: "Lackieren von Baumaschinen" });
+  const gebaeude = bewerber({ beruf: "Maler und Lackierer", aufgaben: "Wände streichen, tapezieren, Fassaden" });
+  const unklar = bewerber({ beruf: "Maler und Lackierer", aufgaben: "–" });
+  assert.equal(vergleiche(industrie, maler, 10).passt, false, "Industrielackierer ist kein Gebäudemaler");
+  assert.equal(vergleiche(gebaeude, maler, 10).gruende.find(g => g.feld === "beruf").ok, true);
+  assert.equal(vergleiche(unklar, maler, 10).gruende.find(g => g.feld === "beruf").ok, null);
+});
+
+test("Stelle ohne Tätigkeit: Hinweis statt stiller Treffer", () => {
+  const m = vergleiche(bewerber(), stelle(), 10);
+  assert.equal(m.gruende.find(g => g.feld === "taetigkeit")?.ok, null);
+});

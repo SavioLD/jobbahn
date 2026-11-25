@@ -75,6 +75,9 @@
   var vorBeruf = null;
   if (vorKat && params.get("als")) {
     var als = slug(params.get("als"));
+    /* Alte Links aus Anzeigen auf umbenannte Berufe */
+    var ALT = { "maler-und-lackierer": "maler-gebaeude-innenausbau" };
+    if (ALT[als]) als = ALT[als];
     vorKat.berufe.forEach(function (b) { if (slug(b) === als) vorBeruf = b; });
   }
   var utm = {};
@@ -275,6 +278,11 @@
 
     if (typ === "mehrfach") {
       var f = felder.filter(function (x) { return x.key === s.getAttribute("data-key"); })[0];
+      if (f && f.max && el.checked && alleGewaehlt(f.key).length > f.max) {
+        el.checked = false;
+        fehler(s, fuelle(T.fehler.max, { max: f.max }));
+        return;
+      }
       if (f && f.exklusiv && el.checked) {
         Array.prototype.forEach.call(s.querySelectorAll("input"), function (x) {
           if (x !== el && (el.value === f.exklusiv || x.value === f.exklusiv)) x.checked = false;

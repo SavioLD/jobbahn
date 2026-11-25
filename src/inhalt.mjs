@@ -179,6 +179,7 @@ export const profil = {
   fehler: {
     auswahl: "Bitte wähl eine Antwort aus.",
     mehrfach: "Bitte wähl mindestens eine Antwort aus.",
+    max: "Bitte höchstens {max} – nimm die wichtigsten.",
     beruf: "Bitte schreib deinen Beruf kurz dazu.",
     aufgaben: "Bitte beschreib kurz, was du in deinem Job machst – ein, zwei Sätze reichen.",
     plz: "Bitte gib eine Postleitzahl mit fünf Ziffern ein.",

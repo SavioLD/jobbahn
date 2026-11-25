@@ -104,6 +104,15 @@ export function aufSperrliste(firma, sperrliste) {
  * @param {number|null} km  geschätzte Entfernung Wohnort → Arbeitsort
  * @returns {{passt:boolean, gesperrt:boolean, punkte:number, maxPunkte:number, gruende:Array}}
  */
+/* Umbenannte Berufe: alte Werte in Stellen auf den neuen Namen abbilden. */
+export const BERUF_NEU = { "Maler und Lackierer": "Maler (Gebäude / Innenausbau)" };
+/* Alte Sammelberufe bei Bewerbern: aus der eigenen Beschreibung die Fachrichtung erraten (oder null = unklar). */
+const INDUSTRIE_LACK = /maschin|fahrzeug|kfz|\bauto|lkw|industri|metall|pulver|bauteil|serie|lackieranlage|lackierkabine|spritzlack|beschicht|nasslack|karosser/i;
+const GEBAEUDE_MALER = /wand|wände|fassade|tapez|innenr|raum|gebäude|haus|baustelle|spachtel|putz|anstrich|bodenbel|trockenbau/i;
+export const BERUF_ALT = {
+  "Maler und Lackierer": (t) => INDUSTRIE_LACK.test(t) ? "Lackierer Industrie / Beschichtung" : GEBAEUDE_MALER.test(t) ? "Maler (Gebäude / Innenausbau)" : null
+};
+
 export function vergleiche(b, s, km) {
   const gruende = [];
   let passt = true, punkte = 0, maxPunkte = 0;
@@ -133,10 +142,19 @@ export function vergleiche(b, s, km) {
     : `${km} km Fahrweg – zu weit (Grenze ${grenze} km)`);
 
   /* Beruf: leer = jeder Beruf der Richtung */
-  const berufe = s.berufe || [];
+  const berufe = (s.berufe || []).map(x => BERUF_NEU[x] || x);
   if (berufe.length) {
     const gewicht = k.beruf?.gewicht || "muss";
-    if (berufe.includes(b.beruf)) regel("beruf", gewicht, true, `Beruf: ${b.beruf}`);
+    const alt = BERUF_ALT[b.beruf];
+    if (alt) {
+      /* Altes Profil mit Sammelberuf (z. B. „Maler und Lackierer“): Fachrichtung aus der Beschreibung lesen. */
+      const geraten = alt(b.aufgaben || "");
+      if (!geraten) regel("beruf", gewicht, null, `Fachrichtung am Telefon klären: „${b.beruf}“ – Gebäude oder Industrie/Fahrzeug?`);
+      else regel("beruf", gewicht, berufe.includes(geraten), berufe.includes(geraten)
+        ? `Beruf: ${geraten} (aus der Beschreibung)`
+        : `Beruf: ${geraten} laut Beschreibung „${b.aufgaben}“ (gesucht: ${berufe.join(", ")})`);
+    }
+    else if (berufe.includes(b.beruf)) regel("beruf", gewicht, true, `Beruf: ${b.beruf}`);
     else if (b.beruf && !(s.alleBerufe || []).includes(b.beruf)) regel("beruf", gewicht, null, `Beruf prüfen: „${b.beruf}“ (eigene Angabe)`);
     else regel("beruf", gewicht, false, `Beruf: ${b.beruf || "–"} (gesucht: ${berufe.join(", ")})`);
   }
@@ -147,6 +165,7 @@ export function vergleiche(b, s, km) {
      – Sie will es, macht es aber noch nicht → Treffer, aber „am Telefon klären“ (traut es sich zu).
      Ältere Profile ohne Wunsch: wie bisher nach der aktuellen Tätigkeit; ohne beides → am Telefon klären. */
   const taet = k.taetigkeit?.werte || [];
+  if (!taet.length) regel("taetigkeit", "muss", null, "Stelle hat keine Tätigkeit hinterlegt – bitte im Steckbrief ankreuzen, sonst wird das nicht geprüft");
   if (taet.length) {
     const macht = liste(b.taetigkeit);
     const will = liste(b.wunsch_taetigkeit);

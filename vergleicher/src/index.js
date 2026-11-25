@@ -19,7 +19,7 @@
 import berufe from "../../config/berufe.json" with { type: "json" };
 import { holeWebsiteInfo, websiteAdresse } from "./website.js";
 import felder from "../../schema/felder.json" with { type: "json" };
-import { vergleiche, koordinaten, entfernungKm, gruendeText, passungText, ABSCHLUSS_MIN, DEUTSCH_MIN, START } from "./matching.js";
+import { vergleiche, koordinaten, entfernungKm, gruendeText, passungText, ABSCHLUSS_MIN, DEUTSCH_MIN, START, BERUF_NEU } from "./matching.js";
 import internSeite from "./intern-seite.js";
 
 const RICHTUNG = Object.fromEntries(berufe.map(b => [b.key, b]));
@@ -173,6 +173,7 @@ function uebergabePayload(b, s, notiz) {
 /* ---------- Zeilen ↔ Objekte ---------- */
 function stelleAus(z) {
   const d = JSON.parse(z.daten);
+  if (Array.isArray(d.berufe)) d.berufe = d.berufe.map(x => BERUF_NEU[x] || x);
   return { ...d, id: z.id, status: z.status, firma: z.firma, titel: z.titel, richtung: z.richtung, plz: z.plz, lat: z.lat, lon: z.lon, erstellt: z.erstellt, aktualisiert: z.aktualisiert, alleBerufe: (RICHTUNG[z.richtung] || {}).berufe || [] };
 }
 function bewerberAus(z) {
@@ -402,7 +403,7 @@ function steckbriefPruefen(p, env) {
   if (s.firmen_webhook && !zielOk(s.firmen_webhook, env)) fehler.push("Webhook der Firmen-Kachel muss mit https:// beginnen");
   else if (kachelPruefung(s.firmen_webhook, env) === "browserlink") fehler.push("Die Adresse bei „Lead-Table-Kachel der Firma“ " + BROWSERLINK_TEXT);
   if (String(p.website || "").trim() && !s.website) fehler.push("Website der Firma ist keine gültige Adresse");
-  if (RICHTUNG[s.richtung]) s.berufe = (Array.isArray(p.berufe) ? p.berufe : []).filter(x => RICHTUNG[s.richtung].berufe.includes(x));
+  if (RICHTUNG[s.richtung]) s.berufe = (Array.isArray(p.berufe) ? p.berufe : []).map(x => BERUF_NEU[x] || x).filter(x => RICHTUNG[s.richtung].berufe.includes(x));
 
   const k = p.kriterien || {};
   const g = (x, standard) => GEWICHTE.includes(x) ? x : standard;
