@@ -618,3 +618,25 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .beruf-foto-wrap { margin-top: -24px; }
 .beruf-foto { display: block; width: 100%; height: auto; max-height: 420px; aspect-ratio: 21 / 9; object-fit: cover; border-radius: 22px; }
 @media (max-width: 719px) { .beruf-foto { aspect-ratio: 4 / 3; border-radius: 16px; } }
+
+/* =====================================================================
+   Kurzprofil, ruhige Handy-Version
+   Keine feste Mindesthöhe und keine klebende Leiste mehr. Der Weiter-Button
+   steht direkt unter der Frage und springt nicht, wenn die Tastatur aufgeht.
+   ===================================================================== */
+.schritte { min-height: 0; }
+.schritt.ist-aktiv { gap: 16px; }
+.formular-nav { position: static; border-top: 0; padding-block: 4px 0; background: transparent; }
+.formular-nav .btn-primaer { min-width: 0; flex: 1 1 auto; max-width: 260px; margin-left: auto; }
+.fehler { min-height: 0; }
+.fehler:empty { display: none; }
+.feld textarea { min-height: 132px; line-height: 1.45; }
+.felder-kontakt { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
+.felder-kontakt .feld-telefon, .felder-kontakt .feld-email { grid-column: 1 / -1; }
+.einwilligung {
+  padding: 14px; border-radius: var(--radius-klein); background: var(--flaeche-2);
+  font-size: 13.5px; line-height: 1.5;
+}
+@media (min-width: 560px) {
+  .felder-kontakt .feld-telefon, .felder-kontakt .feld-email { grid-column: auto; }
+}

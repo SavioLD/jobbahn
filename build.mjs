@@ -175,13 +175,13 @@ for (const b of berufe) {
   md.push(`### ${b.name} (\`${b.key}.html\`)`, "", `- H1: **${ohneMarke(tb.h1)}**`, `- Text: ${tb.hook}`, `- Berufe: ${b.berufe.join(" · ")}`, `- Am Telefon fragen wir: ${b.fragen.join(" / ")}`, `- Deeplink: \`profil.html?beruf=${b.key}\` · Aliase: ${b.aliase.join(", ")}`, "");
 }
 md.push("## Kurzprofil", "", T.profil.vorschau, "");
-for (const f of felder) {
+for (const f of felder.filter(x => x.formular !== false)) {
   md.push(`### ${f.frage}`, "");
   if (f.hinweis) md.push(`_${ersetze(f.hinweis)}_`, "");
   if (f.optionen) md.push(f.optionen.map(o => `- ${o}`).join("\n"), "");
   if (f.typ === "kategorie") md.push(berufe.map(b => `- ${b.name} (${b.kurz})`).join("\n"), "");
   if (f.typ === "beruf") md.push(`Die Berufe der gewählten Kategorie, dazu „${T.profil.andererBeruf}“ mit Textfeld.`, "");
-  if (f.typ === "kontakt") md.push(f.felder.map(k => `- ${k.label}`).join("\n"), `- ${T.profil.erreichbarkeitLabel} ${f.erreichbarkeit.join(" · ")}`, "", `**Einwilligung (${T.profil.einwilligungVersion}):** ${T.profil.einwilligung}`, "");
+  if (f.typ === "kontakt") md.push(f.felder.map(k => `- ${k.label}`).join("\n"), "", `**Einwilligung (${T.profil.einwilligungVersion}):** ${T.profil.einwilligung}`, "");
 }
 md.push("### Fehlermeldungen", "", ...Object.values(T.profil.fehler).map(x => `- ${x}`), "");
 md.push("### Danke", "", `**${T.profil.danke.h1}**`, "", ...T.profil.danke.schritte.map((x, i) => `${i + 1}. ${x}`), "", T.profil.danke.loeschen, "");
@@ -199,9 +199,9 @@ felder.forEach((f, i) => {
     : f.typ === "beruf" ? "Berufe der Kategorie · Anderer Beruf"
     : f.typ === "plz-ort" ? "PLZ (5 Ziffern) + Ort"
     : f.typ === "text" ? "Freitext, freiwillig"
-    : f.typ === "kontakt" ? f.felder.map(k => k.label).join(" · ") + " · Erreichbarkeit · Einwilligung" : "";
-  const key = f.typ === "plz-ort" ? "`plz`, `ort`" : f.typ === "kontakt" ? "`vorname`, `nachname`, `telefon`, `email`, `erreichbarkeit`, `einwilligung`" : `\`${f.key}\``;
-  sm.push(`| ${i + 1} | ${key} | ${f.frage} | ${ant} | ${f.betrieb} | ${f.matching} |`);
+    : f.typ === "kontakt" ? f.felder.map(k => k.label).join(" · ") + " · Einwilligung" : "";
+  const key = f.typ === "plz-ort" ? "`plz`, `ort`" : f.typ === "kontakt" ? "`vorname`, `nachname`, `telefon`, `email`, `einwilligung`" : `\`${f.key}\``;
+  sm.push(`| ${i + 1} | ${key} | ${f.frage} | ${ant} | ${f.betrieb} | ${f.matching}${f.formular === false ? " · nicht im Formular – per WhatsApp/Telefon" : ""} |`);
 });
 sm.push("", "Mehrfachantworten kommen kommagetrennt in einem Feld an. Leere freiwillige Felder werden als `–` gesendet.", "");
 sm.push("## Zusatzfelder im Payload", "", "| Feld | Inhalt |", "|---|---|",

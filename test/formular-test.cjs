@@ -14,11 +14,11 @@ const PORT = 4173;
 const BASE = `http://127.0.0.1:${PORT}`;
 const VIEWPORTS = [[360, 640], [375, 667], [390, 844], [414, 896]];
 const FAELLE = [
-  { name: "ohne Deeplink", url: "/profil.html", schritte: 18, kategorie: "Metall & Maschinenbau", beruf: "Schweißer" },
-  { name: "?beruf=zerspanung + UTM", url: "/profil.html?beruf=zerspanung&utm_source=meta&utm_campaign=pool-zerspanung", schritte: 17, kategorie: "Metall & Maschinenbau", utm: true },
-  { name: "?beruf=elektro&als=mechatroniker", url: "/profil.html?beruf=elektro&als=mechatroniker", schritte: 16, kategorie: "Elektro & Mechatronik", beruf: "Mechatroniker" },
-  { name: "Alias ?beruf=cnc", url: "/profil.html?beruf=cnc", schritte: 17, kategorie: "Metall & Maschinenbau" },
-  { name: "Büro ?beruf=buero", url: "/profil.html?beruf=buero", schritte: 17, kategorie: "Büro & Verwaltung" }
+  { name: "ohne Deeplink", url: "/profil.html", schritte: 9, kategorie: "Metall & Maschinenbau", beruf: "Schweißer" },
+  { name: "?beruf=zerspanung + UTM", url: "/profil.html?beruf=zerspanung&utm_source=meta&utm_campaign=pool-zerspanung", schritte: 8, kategorie: "Metall & Maschinenbau", utm: true },
+  { name: "?beruf=elektro&als=mechatroniker", url: "/profil.html?beruf=elektro&als=mechatroniker", schritte: 7, kategorie: "Elektro & Mechatronik", beruf: "Mechatroniker" },
+  { name: "Alias ?beruf=cnc", url: "/profil.html?beruf=cnc", schritte: 8, kategorie: "Metall & Maschinenbau" },
+  { name: "Büro ?beruf=buero", url: "/profil.html?beruf=buero", schritte: 8, kategorie: "Büro & Verwaltung" }
 ];
 
 function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
@@ -74,9 +74,9 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
           const key = await s.getAttribute("data-key");
           const typ = await s.getAttribute("data-typ");
           const box = await page.locator("#schritte").boundingBox();
-          /* Weiter-Button muss ohne Scrollen sichtbar sein (klebt unten am Bildschirm) */
-          const imBild = await page.evaluate(() => { const r = document.getElementById("btn-weiter").getBoundingClientRect(); return r.top >= 0 && r.bottom <= window.innerHeight + 1; });
-          if (!imBild) buttonY.add(key);
+          /* Die Frage muss oben sichtbar sein – auch nach einem langen Schritt, bei dem man runtergescrollt hat. */
+          const imBild = await page.evaluate(() => { const r = document.querySelector(".schritt.ist-aktiv legend").getBoundingClientRect(); return r.top >= 0 && r.top <= window.innerHeight * 0.5; });
+          if (!imBild && i > 0) buttonY.add(key);   /* Schritt 1: dort hat der Test vorher absichtlich leer auf „Weiter“ getippt */
           if (typ !== "kontakt") hoehen.add(Math.round(box.height));
           else kontaktHoehe = Math.round(box.height);
 
@@ -116,7 +116,6 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
             await page.fill("#nachname", "Mustermann");
             await page.fill("#telefon", "0151 23456789");
             await page.fill("#email", "max@beispiel.de");
-            await s.locator(".option", { hasText: "Abends" }).click();
             await page.click("#btn-weiter");
             const ew = await page.textContent(".schritt.ist-aktiv [data-fehler]");
             if (!ew.includes("Okay")) fail(`${w}x${h}: Einwilligung nicht erzwungen`);
@@ -142,7 +141,7 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
           else if (kopie.body !== gesendet.body) fail(`${w}x${h} ${fall.name}: Kopie an den Vergleicher weicht ab`);
         }
         const payload = JSON.parse(gesendet ? gesendet.body : await page.textContent("#danke pre"));
-        const pflicht = ["vorname", "nachname", "telefon", "email", "berufskategorie", "beruf", "abschluss", "erfahrung", "plz", "ort", "fahrweg", "verfuegbarkeit", "gehalt", "schicht", "fuehrerschein", "deutsch", "lebenslauf", "sperrliste", "erreichbarkeit", "einwilligung", "datum", "quelle", "seite"];
+        const pflicht = ["vorname", "nachname", "telefon", "email", "berufskategorie", "beruf", "taetigkeit", "aufgaben", "wunsch_taetigkeit", "erfahrung", "plz", "ort", "fahrweg", "einwilligung", "datum", "quelle", "seite"];
         for (const k of pflicht) if (!payload[k]) fail(`${w}x${h} ${fall.name}: Payload-Feld „${k}“ leer`);
         if (payload.berufskategorie !== fall.kategorie) fail(`${w}x${h} ${fall.name}: Kategorie ${payload.berufskategorie}`);
         if (fall.beruf && payload.beruf !== fall.beruf) fail(`${w}x${h} ${fall.name}: Beruf ${payload.beruf}`);
@@ -152,11 +151,11 @@ function fail(msg) { console.error("FEHLER: " + msg); process.exitCode = 1; }
         if ("name" in payload || "fullname" in payload) fail("kombiniertes Namensfeld im Payload");
         if (jsFehler.length) fail(`${w}x${h} ${fall.name}: JS-Fehler ${jsFehler.join("; ")}`);
 
-        ergebnisse.push({ viewport: `${w} × ${h}`, fall: fall.name, schritte: gesamt, spruenge: spruenge.length, hoehe: [...hoehen].join("/"), weiterImBild: buttonY.size ? "nein" : "ja", kontakt: kontaktHoehe });
-        if (spruenge.length) fail(`${w}x${h} ${fall.name}: Seite springt (${spruenge.join(", ")})`);
-        const spanne = (set) => Math.max(...set) - Math.min(...set);   /* 1 px Rundung ist erlaubt */
-        if (spanne(hoehen) > 1) fail(`${w}x${h} ${fall.name}: Fragenschritte unterschiedlich hoch (${[...hoehen].join(", ")})`);
-        if (buttonY.size) fail(`${w}x${h} ${fall.name}: Weiter-Button nicht im Bild bei ${[...buttonY].join(", ")}`);
+        ergebnisse.push({ viewport: `${w} × ${h}`, fall: fall.name, schritte: gesamt, spruenge: spruenge.length, hoehe: [...hoehen].join("/"), frageImBild: buttonY.size ? "nein" : "ja", kontakt: kontaktHoehe });
+        /* Nach unten darf die Seite beim Schrittwechsel nie springen (nach oben zur neuen Frage schon). */
+        const runter = spruenge.filter(x => { const m = /(\d+)→(\d+)/.exec(x); return m && +m[2] > +m[1]; });
+        if (runter.length) fail(`${w}x${h} ${fall.name}: Seite springt nach unten (${runter.join(", ")})`);
+        if (buttonY.size) fail(`${w}x${h} ${fall.name}: Frage nicht oben im Bild bei ${[...buttonY].join(", ")}`);
         await ctx.close();
       }
     }

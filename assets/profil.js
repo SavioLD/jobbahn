@@ -3,8 +3,12 @@
    assets/config.js) und schickt das fertige Profil an die Lead Table.
 
    Mobile Laufruhe: Beim Schrittwechsel wird nur eine Klasse gewechselt.
-   Kein scrollTo, kein scrollIntoView, kein focus(), kein Reload. Der
-   Schrittbereich hat eine feste Mindesthöhe (--form-min in style.css).
+   Kein focus(), kein Reload, keine klebende Leiste (die springt auf dem
+   Handy, sobald die Tastatur aufgeht). Der Weiter-Button steht direkt
+   unter der Frage. Nur wenn der Frageanfang oben aus dem Bild gerutscht
+   ist, springt die Seite einmal ohne Animation zurück nach oben.
+   Fragen mit "formular": false (schema/felder.json) stellen wir nicht im
+   Formular, sondern danach per WhatsApp oder am Telefon.
    ===================================================================== */
 (function () {
   "use strict";
@@ -85,6 +89,7 @@
 
   /* ---------- Schritte bauen ---------- */
   var felder = C.felder.filter(function (f) {
+    if (f.formular === false) return false;
     if (f.key === "berufskategorie" && vorKat) return false;
     if (f.key === "beruf" && vorBeruf) return false;
     return true;
@@ -115,20 +120,17 @@
       }).join("") + "</div>";
     } else if (f.typ === "plz-ort") {
       inner = '<div class="felder-2">' +
-        '<div class="feld"><label for="plz">' + esc(T.plzLabel) + '</label><input type="text" id="plz" name="plz" inputmode="numeric" autocomplete="postal-code"></div>' +
-        '<div class="feld"><label for="ort">' + esc(T.ortLabel) + '</label><input type="text" id="ort" name="ort" maxlength="60" autocomplete="address-level2"></div></div>';
+        '<div class="feld"><label for="plz">' + esc(T.plzLabel) + '</label><input type="text" id="plz" name="plz" inputmode="numeric" pattern="[0-9]*" autocomplete="postal-code" enterkeyhint="next"></div>' +
+        '<div class="feld"><label for="ort">' + esc(T.ortLabel) + '</label><input type="text" id="ort" name="ort" maxlength="60" autocomplete="address-level2" autocapitalize="words" enterkeyhint="next"></div></div>';
     } else if (f.typ === "text") {
       inner = '<div class="feld"><label class="nur-sr" for="' + f.key + '">' + esc(f.frage) + '</label>' +
         '<textarea id="' + f.key + '" name="' + f.key + '" maxlength="400" placeholder="' + esc(f.platzhalter || "") + '"></textarea></div>';
     } else if (f.typ === "kontakt") {
-      inner = '<div class="felder-kontakt">' + f.felder.map(function (k) {
-        var mode = k.typ === "tel" ? ' inputmode="tel"' : k.typ === "email" ? ' inputmode="email"' : "";
-        return '<div class="feld"><label for="' + k.key + '">' + esc(k.label) + '</label><input type="' + k.typ + '" id="' + k.key + '" name="' + k.key + '" autocomplete="' + k.autocomplete + '" maxlength="80"' + mode + "></div>";
+      inner = '<div class="felder-kontakt">' + f.felder.map(function (k, j) {
+        var mode = k.typ === "tel" ? ' inputmode="tel"' : k.typ === "email" ? ' inputmode="email" autocapitalize="off" spellcheck="false"' : ' autocapitalize="words"';
+        var hint = j < f.felder.length - 1 ? "next" : "done";
+        return '<div class="feld feld-' + k.key + '"><label for="' + k.key + '">' + esc(k.label) + '</label><input type="' + k.typ + '" id="' + k.key + '" name="' + k.key + '" autocomplete="' + k.autocomplete + '" maxlength="80" enterkeyhint="' + hint + '"' + mode + "></div>";
       }).join("") + "</div>" +
-        '<div class="feld"><span class="feld-label" id="erreichbarkeit-label">' + esc(T.erreichbarkeitLabel) + '</span>' +
-        '<div class="chips-klein" role="group" aria-labelledby="erreichbarkeit-label">' + f.erreichbarkeit.map(function (e, j) {
-          return optionHtml("checkbox", "erreichbarkeit", e, esc(e), "erreichbarkeit-" + j);
-        }).join("") + "</div></div>" +
         '<label class="einwilligung" for="einwilligung"><input type="checkbox" id="einwilligung" name="einwilligung">' +
         "<span>" + esc(T.einwilligung) + ' <a href="datenschutz.html#einwilligung" target="_blank" rel="noopener">' + esc(T.einwilligungLink) + "</a></span></label>" +
         '<div class="honig" aria-hidden="true"><label for="firma_website">Website</label><input type="text" id="firma_website" name="firma_website" tabindex="-1" autocomplete="off"></div>';
@@ -156,47 +158,8 @@
     opts.push(optionHtml("radio", "beruf", ANDERER, esc(T.andererBeruf), "beruf-anderer-option"));
     box.innerHTML = opts.join("");
     s.querySelector("[data-anderer]").hidden = true;
-    hoeheFestlegen();
   }
 
-  /* Feste Mindesthöhe = höchster Fragenschritt bei der aktuellen Breite.
-     So steht der Weiter-Button in jedem Fragenschritt an derselben Stelle
-     und die Seite kann beim Wechsel nicht springen. Der Kontaktschritt
-     (der letzte) darf höher sein. */
-  function hoeheFestlegen() {
-    var max = 0;
-    function miss(s) {
-      s.classList.add("ist-messen");
-      max = Math.max(max, s.offsetHeight);
-      s.classList.remove("ist-messen");
-    }
-    schritte.forEach(function (s) {
-      if (s.getAttribute("data-typ") === "kontakt") return;
-      var anderer = s.querySelector("[data-anderer]"), warVersteckt = anderer && anderer.hidden;
-      if (anderer) anderer.hidden = false;
-      var box = s.querySelector("[data-berufe]");
-      if (box && !vorKat) {
-        /* Der Berufsschritt ist je nach Kategorie unterschiedlich lang – die längste Liste zählt. */
-        var vorher = box.innerHTML, gewaehlt = (box.querySelector("input:checked") || {}).value;
-        C.berufe.forEach(function (k) {
-          box.innerHTML = k.berufe.concat([T.andererBeruf]).map(function (b, j) { return optionHtml("radio", "messen", b, esc(b), "messen-" + j); }).join("");
-          miss(s);
-        });
-        box.innerHTML = vorher;
-        if (gewaehlt) { var el = box.querySelector('input[value="' + gewaehlt.replace(/"/g, '\\"') + '"]'); if (el) el.checked = true; }
-      } else {
-        miss(s);
-      }
-      if (anderer) anderer.hidden = warVersteckt;
-    });
-    if (max) schritteEl.style.minHeight = max + "px";
-  }
-  var letzteBreite = 0;
-  window.addEventListener("resize", function () {
-    if (window.innerWidth === letzteBreite) return; /* Tastatur auf/zu ändert nur die Höhe */
-    letzteBreite = window.innerWidth;
-    hoeheFestlegen();
-  });
   if (vorKat) berufeRendern(vorKat.key);
 
   /* ---------- Werte lesen ---------- */
@@ -272,6 +235,8 @@
     fortschrittBalken.style.width = Math.round((idx / gesamt) * 100) + "%";
     if (idx === 0) btnZurueck.setAttribute("data-versteckt", ""); else btnZurueck.removeAttribute("data-versteckt");
     weiterBeschriften();
+    var oben = form.getBoundingClientRect().top;
+    if (oben < 0) window.scrollTo(0, Math.max(0, window.pageYOffset + oben - 12));
     ansage.textContent = fuelle(T.schritt, { n: idx + 1, gesamt: gesamt }) + ": " + s.querySelector("legend").textContent;
   }
 
@@ -295,11 +260,14 @@
     var el = e.target, s = el.closest(".schritt");
     if (!s) return;
     var typ = s.getAttribute("data-typ");
-    fehler(s, "");
+    /* Textfelder räumen ihre Fehlermeldung schon beim Tippen weg („input“). Hier nicht noch mal:
+       „change“ kommt erst beim Verlassen des Feldes – also genau beim Tipp auf „Weiter“ –
+       und die verschwindende Meldung würde den Button unter dem Finger wegziehen. */
+    if (el.type === "radio" || el.type === "checkbox") fehler(s, "");
 
     if (typ === "kategorie") berufeRendern(el.value);
 
-    if (typ === "beruf") {
+    if (typ === "beruf" && el.type === "radio") {
       var anderer = el.value === ANDERER;
       s.querySelector("[data-anderer]").hidden = !anderer;
       if (anderer) return;
@@ -324,8 +292,19 @@
 
   form.addEventListener("input", function (e) {
     var s = e.target.closest(".schritt");
+    if (s && s.querySelector("[data-fehler]").textContent) fehler(s, "");
     if (s && s.getAttribute("data-typ") === "text") weiterBeschriften();
     if (e.target.id === "plz") e.target.value = e.target.value.replace(/\D/g, "").slice(0, 5);
+  });
+
+  /* Enter/„Weiter“ auf der Handytastatur springt ins nächste Feld statt abzuschicken. */
+  form.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" || e.target.tagName !== "INPUT" || e.target.type === "checkbox" || e.target.type === "radio") return;
+    var s = e.target.closest(".schritt");
+    if (!s) return;
+    var felderHier = Array.prototype.slice.call(s.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"]')).filter(function (x) { return !x.closest("[hidden]"); });
+    var i = felderHier.indexOf(e.target);
+    if (i > -1 && i < felderHier.length - 1) { e.preventDefault(); felderHier[i + 1].focus(); }
   });
 
   form.addEventListener("submit", function (e) {
@@ -341,7 +320,6 @@
   /* ---------- Absenden ---------- */
   function sammle() {
     var kat = kategorie(katKey());
-    var erreichbar = alleGewaehlt("erreichbarkeit");
     var daten = {
       vorname: wert("vorname"),
       nachname: wert("nachname"),
@@ -366,7 +344,7 @@
       deutsch: gewaehlt("deutsch"),
       lebenslauf: gewaehlt("lebenslauf"),
       sperrliste: wert("sperrliste") || "–",
-      erreichbarkeit: erreichbar.length ? erreichbar.join(", ") : "–",
+      erreichbarkeit: "–",
       einwilligung: "Ja (" + T.einwilligungVersion + ", " + zeitstempel() + ")",
       datum: heute(),
       quelle: "Bewerberportal " + C.marke.name,
@@ -446,8 +424,5 @@
   /* ---------- Start ---------- */
   var irgendeineUrl = !!C.api || Object.keys(C.webhooks).some(function (k) { return C.webhooks[k]; });
   if (!irgendeineUrl) vorschauHinweis.hidden = false;
-  letzteBreite = window.innerWidth;
-  hoeheFestlegen();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(hoeheFestlegen);
   zeige(0);
 })();

@@ -21,7 +21,6 @@ window.PORTAL = {
     "andererBerufLabel": "Welcher Beruf?",
     "plzLabel": "Postleitzahl",
     "ortLabel": "Ort",
-    "erreichbarkeitLabel": "Wann erreichen wir dich am besten?",
     "fehler": {
       "auswahl": "Bitte wähl eine Antwort aus.",
       "mehrfach": "Bitte wähl mindestens eine Antwort aus.",
@@ -44,7 +43,7 @@ window.PORTAL = {
       "schritte": [
         "Dein Profil ist jetzt in unserem Bewerberpool – so können wir dich auch für andere passende Stellen vorschlagen, nicht nur für eine.",
         "Wir gleichen dein Profil mit offenen Stellen in deiner Nähe ab.",
-        "Passt ein Job, rufen wir dich an{erreichbarkeit}. Bevor ein Betrieb dein Profil bekommt, sprechen wir mit dir."
+        "Wir schreiben dir gleich per WhatsApp – ein paar kurze Fragen, dauert etwa 2 Minuten. Bitte antworte kurz, dann rufen wir dich an, wenn ein Job passt. Bevor ein Betrieb dein Profil bekommt, sprechen wir mit dir."
       ],
       "loeschen": "Profil löschen lassen: kurze Mail an loreen.dietmann@laendle-digital.com.",
       "vorschauH": "Vorschau-Modus: Das käme in der Lead Table an",
@@ -399,8 +398,8 @@ window.PORTAL = {
       "matching": "Info fürs Telefonat",
       "pflicht": true,
       "minzeichen": 20,
-      "platzhalter": "z. B. CNC-Fräse einrichten und programmieren, Serienteile prüfen – oder: Montageprojekte geleitet, Team von 5 Leuten",
-      "hinweis": "Ein, zwei Sätze oder ein paar Stichworte: Was machst du an einem normalen Arbeitstag? So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst."
+      "platzhalter": "z. B. CNC-Fräse einrichten und programmieren, Teile prüfen",
+      "hinweis": "Ein, zwei Sätze oder Stichworte reichen."
     },
     {
       "key": "wunsch_taetigkeit",
@@ -436,7 +435,9 @@ window.PORTAL = {
       "matching": "Info fürs Telefonat",
       "pflicht": false,
       "platzhalter": "z. B. Schichtführer werden, selbst programmieren, ein Team leiten – oder: weiter das Gleiche, nur in einem besseren Betrieb",
-      "hinweis": "Freiwillig, hilft uns aber sehr: Was soll im neuen Job neu oder anders sein?"
+      "hinweis": "Freiwillig, hilft uns aber sehr: Was soll im neuen Job neu oder anders sein?",
+      "formular": false,
+      "nachfrage": "WhatsApp-Vorqualifizierung / Telefon"
     },
     {
       "key": "abschluss",
@@ -453,7 +454,9 @@ window.PORTAL = {
         "Studium",
         "Kein Abschluss, aber Berufserfahrung",
         "Noch in Ausbildung"
-      ]
+      ],
+      "formular": false,
+      "nachfrage": "WhatsApp-Vorqualifizierung / Telefon"
     },
     {
       "key": "erfahrung",
@@ -512,7 +515,9 @@ window.PORTAL = {
         "In 2 bis 3 Monaten",
         "Später als 3 Monate",
         "Weiß ich noch nicht"
-      ]
+      ],
+      "formular": false,
+      "nachfrage": "WhatsApp-Vorqualifizierung / Telefon"
     },
     {
       "key": "gehalt",
@@ -530,7 +535,9 @@ window.PORTAL = {
         "3.800 bis 4.300 €",
         "Über 4.300 €",
         "Lieber am Telefon"
-      ]
+      ],
+      "formular": false,
+      "nachfrage": "WhatsApp-Vorqualifizierung / Telefon"
     },
     {
       "key": "schicht",
@@ -548,7 +555,9 @@ window.PORTAL = {
         "3-Schicht",
         "Wochenende okay",
         "Montage / auswärts okay"
-      ]
+      ],
+      "formular": false,
+      "nachfrage": "WhatsApp-Vorqualifizierung / Telefon"
     },
     {
       "key": "fuehrerschein",
@@ -566,7 +575,9 @@ window.PORTAL = {
         "Klasse C / CE",
         "Staplerschein"
       ],
-      "exklusiv": "Keinen"
+      "exklusiv": "Keinen",
+      "formular": false,
+      "nachfrage": "WhatsApp-Vorqualifizierung / Telefon"
     },
     {
       "key": "deutsch",
@@ -581,7 +592,9 @@ window.PORTAL = {
         "Sehr gut",
         "Gut – im Alltag kein Problem",
         "Grundkenntnisse"
-      ]
+      ],
+      "formular": false,
+      "nachfrage": "WhatsApp-Vorqualifizierung / Telefon"
     },
     {
       "key": "lebenslauf",
@@ -596,7 +609,9 @@ window.PORTAL = {
         "Ja",
         "Nein",
         "Kann ich schnell machen"
-      ]
+      ],
+      "formular": false,
+      "nachfrage": "WhatsApp-Vorqualifizierung / Telefon"
     },
     {
       "key": "sperrliste",
@@ -607,7 +622,9 @@ window.PORTAL = {
       "matching": "Ausschluss – dort nie vorschlagen",
       "pflicht": false,
       "platzhalter": "z. B. dein jetziger Arbeitgeber",
-      "hinweis": "Freiwillig. Bei diesen Betrieben taucht dein Profil nie auf."
+      "hinweis": "Freiwillig. Bei diesen Betrieben taucht dein Profil nie auf.",
+      "formular": false,
+      "nachfrage": "WhatsApp-Vorqualifizierung / Telefon"
     },
     {
       "key": "kontakt",
@@ -617,7 +634,7 @@ window.PORTAL = {
       "betrieb": "–",
       "matching": "–",
       "pflicht": true,
-      "hinweis": "Wir rufen nur an, wenn ein Job passt.",
+      "hinweis": "Wir schreiben dir zuerst kurz per WhatsApp.",
       "felder": [
         {
           "key": "vorname",
@@ -633,7 +650,7 @@ window.PORTAL = {
         },
         {
           "key": "telefon",
-          "label": "Handynummer",
+          "label": "Handynummer (für WhatsApp)",
           "typ": "tel",
           "autocomplete": "tel"
         },
@@ -643,12 +660,6 @@ window.PORTAL = {
           "typ": "email",
           "autocomplete": "email"
         }
-      ],
-      "erreichbarkeit": [
-        "Vormittags",
-        "Mittags",
-        "Nachmittags",
-        "Abends"
       ]
     }
   ],

@@ -201,8 +201,8 @@ export function vergleiche(b, s, km) {
   if (scheine.length) {
     const hat = liste(b.fuehrerschein);
     const fehlt = scheine.filter(x => !hat.includes(x));
-    regel("fuehrerschein", k.fuehrerschein.gewicht, !fehlt.length,
-      fehlt.length ? `Führerschein fehlt: ${fehlt.join(", ")}` : `Führerschein: ${scheine.join(", ")}`);
+    regel("fuehrerschein", k.fuehrerschein.gewicht, !hat.length ? null : !fehlt.length,
+      !hat.length ? `Führerschein am Telefon klären (Stelle: ${scheine.join(", ")})` : fehlt.length ? `Führerschein fehlt: ${fehlt.join(", ")}` : `Führerschein: ${scheine.join(", ")}`);
   }
 
   /* Deutsch */

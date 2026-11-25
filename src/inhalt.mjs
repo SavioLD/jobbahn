@@ -84,7 +84,7 @@ export const startseite = {
     eyebrow: "So läuft’s",
     h2: "Den ersten Schritt machst du. Den Rest wir.",
     schritte: [
-      { titel: "Kurzprofil anlegen", text: "Beruf, Erfahrung, Wohnort, Wunschgehalt. Zwei Minuten, kein Anschreiben, kein Lebenslauf." },
+      { titel: "Kurzprofil anlegen", text: "Beruf, Tätigkeit, Wohnort. Zwei Minuten, kein Anschreiben, kein Lebenslauf." },
       { titel: "Wir gleichen ab", text: "Wir legen dein Profil neben offene Stellen in deiner Nähe: Fahrweg, Schicht, Gehalt, Start." },
       { titel: "Wir rufen dich an", text: "Passt ein Job, sprechen wir zuerst mit dir. Du erfährst, um welchen Betrieb es geht und was er bietet." },
       { titel: "Du entscheidest", text: "Willst du, stellen wir dich vor und machen den Termin mit dem Betrieb aus. Willst du nicht, passiert nichts." }
@@ -176,7 +176,6 @@ export const profil = {
   andererBerufLabel: "Welcher Beruf?",
   plzLabel: "Postleitzahl",
   ortLabel: "Ort",
-  erreichbarkeitLabel: "Wann erreichen wir dich am besten?",
   fehler: {
     auswahl: "Bitte wähl eine Antwort aus.",
     mehrfach: "Bitte wähl mindestens eine Antwort aus.",
@@ -199,7 +198,7 @@ export const profil = {
     schritte: [
       "Dein Profil ist jetzt in unserem Bewerberpool – so können wir dich auch für andere passende Stellen vorschlagen, nicht nur für eine.",
       "Wir gleichen dein Profil mit offenen Stellen in deiner Nähe ab.",
-      "Passt ein Job, rufen wir dich an{erreichbarkeit}. Bevor ein Betrieb dein Profil bekommt, sprechen wir mit dir."
+      "Wir schreiben dir gleich per WhatsApp – ein paar kurze Fragen, dauert etwa 2 Minuten. Bitte antworte kurz, dann rufen wir dich an, wenn ein Job passt. Bevor ein Betrieb dein Profil bekommt, sprechen wir mit dir."
     ],
     loeschen: "Profil löschen lassen: kurze Mail an {email}.",
     vorschauH: "Vorschau-Modus: Das käme in der Lead Table an",

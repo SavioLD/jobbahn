@@ -44,7 +44,7 @@ Trifft eins davon zu? Dann suchen wir den Betrieb, der besser passt.
 
 **Den ersten Schritt machst du. Den Rest wir.**
 
-1. **Kurzprofil anlegen** – Beruf, Erfahrung, Wohnort, Wunschgehalt. Zwei Minuten, kein Anschreiben, kein Lebenslauf.
+1. **Kurzprofil anlegen** – Beruf, Tätigkeit, Wohnort. Zwei Minuten, kein Anschreiben, kein Lebenslauf.
 2. **Wir gleichen ab** – Wir legen dein Profil neben offene Stellen in deiner Nähe: Fahrweg, Schicht, Gehalt, Start.
 3. **Wir rufen dich an** – Passt ein Job, sprechen wir zuerst mit dir. Du erfährst, um welchen Betrieb es geht und was er bietet.
 4. **Du entscheidest** – Willst du, stellen wir dich vor und machen den Termin mit dem Betrieb aus. Willst du nicht, passiert nichts.
@@ -276,7 +276,7 @@ _Kreuz an, was du jeden Tag wirklich machst. Mehrere Antworten möglich._
 
 ### Beschreib kurz, was du genau machst.
 
-_Ein, zwei Sätze oder ein paar Stichworte: Was machst du an einem normalen Arbeitstag? So rufen wir dich nur an, wenn eine Stelle wirklich zu dem passt, was du machst._
+_Ein, zwei Sätze oder Stichworte reichen._
 
 ### Was willst du im neuen Job unbedingt machen?
 
@@ -295,19 +295,6 @@ _Kreuz an, was du im neuen Job machen willst – auch Neues, das du dir zutraust
 - Büro / Kaufmännisch / Vertrieb
 - IT / Software
 - Helfertätigkeiten
-
-### Welche Aufgabe oder Position willst du neu übernehmen?
-
-_Freiwillig, hilft uns aber sehr: Was soll im neuen Job neu oder anders sein?_
-
-### Was ist dein höchster Abschluss in dem Beruf?
-
-- Abgeschlossene Ausbildung
-- Meister
-- Techniker
-- Studium
-- Kein Abschluss, aber Berufserfahrung
-- Noch in Ausbildung
 
 ### Wie viele Jahre Berufserfahrung hast du?
 
@@ -329,76 +316,14 @@ _Damit wir nur Jobs in deiner Nähe vorschlagen._
 - Bis 50 km
 - Egal, wenn der Job passt
 
-### Ab wann könntest du anfangen?
-
-_Denk an deine Kündigungsfrist._
-
-- Sofort
-- In 1 Monat
-- In 2 bis 3 Monaten
-- Später als 3 Monate
-- Weiß ich noch nicht
-
-### Was willst du im Monat verdienen?
-
-_Brutto pro Monat in Vollzeit. Gib ehrlich an, was du willst – dann kommen nur Jobs, die sich für dich lohnen._
-
-- Bis 2.800 €
-- 2.800 bis 3.300 €
-- 3.300 bis 3.800 €
-- 3.800 bis 4.300 €
-- Über 4.300 €
-- Lieber am Telefon
-
-### Welche Arbeitszeiten gehen für dich?
-
-_Mehrere Antworten möglich._
-
-- Vollzeit tagsüber
-- Teilzeit
-- 2-Schicht
-- 3-Schicht
-- Wochenende okay
-- Montage / auswärts okay
-
-### Welche Führerscheine hast du?
-
-_Mehrere Antworten möglich._
-
-- Keinen
-- Klasse B
-- Klasse BE
-- Klasse C / CE
-- Staplerschein
-
-### Wie gut sprichst du Deutsch?
-
-- Muttersprache
-- Sehr gut
-- Gut – im Alltag kein Problem
-- Grundkenntnisse
-
-### Hast du einen Lebenslauf, den du nachreichen könntest?
-
-_Fürs Profil brauchst du keinen. Will ein Betrieb vor dem Gespräch einen sehen, sagen wir dir Bescheid._
-
-- Ja
-- Nein
-- Kann ich schnell machen
-
-### Gibt es Betriebe, bei denen wir dich nicht vorstellen sollen?
-
-_Freiwillig. Bei diesen Betrieben taucht dein Profil nie auf._
-
 ### Wie erreichen wir dich?
 
-_Wir rufen nur an, wenn ein Job passt._
+_Wir schreiben dir zuerst kurz per WhatsApp._
 
 - Vorname
 - Nachname
-- Handynummer
+- Handynummer (für WhatsApp)
 - E-Mail
-- Wann erreichen wir dich am besten? Vormittags · Mittags · Nachmittags · Abends
 
 **Einwilligung (2026-11b):** Ich bin einverstanden, dass Ländle Digital GmbH mein Profil speichert, in den Bewerberpool aufnimmt und mit offenen Stellen abgleicht – auch mit anderen passenden Stellen als der, über die ich gekommen bin. Ländle Digital GmbH darf mich dazu per Telefon, E-Mail, SMS oder WhatsApp kontaktieren und mein Profil an passende Betriebe weitergeben. Bevor ein Betrieb mein Profil bekommt, spricht Ländle Digital GmbH mit mir. Betriebe auf meiner Sperrliste bekommen es nie. Ich kann das jederzeit widerrufen.
 
@@ -423,7 +348,7 @@ _Wir rufen nur an, wenn ein Job passt._
 
 1. Dein Profil ist jetzt in unserem Bewerberpool – so können wir dich auch für andere passende Stellen vorschlagen, nicht nur für eine.
 2. Wir gleichen dein Profil mit offenen Stellen in deiner Nähe ab.
-3. Passt ein Job, rufen wir dich an{erreichbarkeit}. Bevor ein Betrieb dein Profil bekommt, sprechen wir mit dir.
+3. Wir schreiben dir gleich per WhatsApp – ein paar kurze Fragen, dauert etwa 2 Minuten. Bitte antworte kurz, dann rufen wir dich an, wenn ein Job passt. Bevor ein Betrieb dein Profil bekommt, sprechen wir mit dir.
 
 Profil löschen lassen: kurze Mail an loreen.dietmann@laendle-digital.com.
 

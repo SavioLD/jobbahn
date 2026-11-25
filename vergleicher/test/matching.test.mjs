@@ -148,3 +148,17 @@ test("Wunsch-Tätigkeit: zählt vor der aktuellen Tätigkeit", () => {
   assert.equal(neu.passt, true);
   assert.ok(neu.gruende.some(g => g.feld === "taetigkeit" && g.ok === null));
 });
+
+test("Schlankes Formular: fehlende Angaben schließen nie aus, sondern heißen „am Telefon klären“", () => {
+  const b = bewerber({ abschluss: "", verfuegbarkeit: "", gehalt: "", schicht: "", fuehrerschein: "", deutsch: "", sperrliste: "–" });
+  const s = stelle({}, {
+    abschluss: { wert: "Abgeschlossene Ausbildung", gewicht: "muss" }, gehalt: { von: 3000, bis: 3800, gewicht: "muss" },
+    arbeitszeit: { werte: ["Vollzeit tagsüber"], gewicht: "muss" }, fuehrerschein: { werte: ["Klasse B"], gewicht: "muss" },
+    deutsch: { wert: "Gut", gewicht: "muss" }
+  });
+  const m = vergleiche(b, s, 12);
+  assert.equal(m.passt, true);
+  for (const f of ["abschluss", "gehalt", "arbeitszeit", "fuehrerschein", "deutsch"]) {
+    assert.equal(m.gruende.find(g => g.feld === f)?.ok, null, f);
+  }
+});
