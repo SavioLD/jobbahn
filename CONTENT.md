@@ -425,14 +425,14 @@ _Wir rufen nur an, wenn ein Job passt._
 2. Wir gleichen dein Profil mit offenen Stellen in deiner Nähe ab.
 3. Passt ein Job, rufen wir dich an{erreichbarkeit}. Bevor ein Betrieb dein Profil bekommt, sprechen wir mit dir.
 
-Profil löschen lassen: kurze Mail an [E-Mail-Adresse].
+Profil löschen lassen: kurze Mail an loreen.dietmann@laendle-digital.com.
 
 ## Datenschutz (Entwurf)
 
 > undefined
 
 **Wer verantwortlich ist**  
-Ländle Digital GmbH (HRB 807018), Königstr. 26, 78628 Rottweil, [Vertretungsberechtigte Person]. E-Mail: [E-Mail-Adresse], Telefon: [Telefonnummer].
+Ländle Digital GmbH (HRB 807018), Königstr. 26, 78628 Rottweil, [Vertretungsberechtigte Person]. E-Mail: loreen.dietmann@laendle-digital.com, Telefon: [Telefonnummer].
 
 **Welche Daten wir speichern**  
 Die Angaben aus deinem Kurzprofil: Beruf, Abschluss, Erfahrung, Wohnort, Fahrweg, Verfügbarkeit, Gehaltswunsch, Arbeitszeiten, Führerscheine, Deutschkenntnisse, ob du einen Lebenslauf hast, deine Sperrliste und deine Kontaktdaten. Dazu, über welche Seite und welche Anzeige du gekommen bist.
@@ -455,7 +455,7 @@ Website: GitHub Pages (GitHub Inc., USA). Bewerberverwaltung und Abgleich mit of
 Ein Programm vergleicht dein Profil mit den Anforderungen offener Stellen (Beruf, Entfernung, Gehalt, Arbeitszeit und ähnliches) und schlägt passende Stellen vor. Entschieden wird nicht vom Programm: Ein Mensch prüft jeden Vorschlag und spricht mit dir, bevor etwas passiert.
 
 **Deine Rechte**  
-Du kannst Auskunft verlangen, Angaben berichtigen oder löschen lassen und deine Einwilligung jederzeit widerrufen. Eine kurze Mail an [E-Mail-Adresse] genügt. Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel beim Landesbeauftragten für den Datenschutz Baden-Württemberg.
+Du kannst Auskunft verlangen, Angaben berichtigen oder löschen lassen und deine Einwilligung jederzeit widerrufen. Eine kurze Mail an loreen.dietmann@laendle-digital.com genügt. Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel beim Landesbeauftragten für den Datenschutz Baden-Württemberg.
 
 **Cookies und Statistik**  
 Diese Seite setzt derzeit keine Cookies und lädt keine Inhalte von fremden Servern. [Werden später Meta-Pixel oder Statistik eingebunden, hier ergänzen und vorher ein Einwilligungs-Banner einbauen.]
@@ -466,7 +466,7 @@ Fachkräfte Kompass ist ein Angebot von:
 Ländle Digital GmbH  
 [Anschrift]  
 [Vertretungsberechtigte Person]  
-E-Mail: [E-Mail-Adresse]  
+E-Mail: loreen.dietmann@laendle-digital.com  
 Telefon: [Telefonnummer]  
 Handelsregister: HRB 807018, [Registergericht]  
 USt-IdNr.: [USt-IdNr.]  

@@ -46,7 +46,7 @@ window.PORTAL = {
         "Wir gleichen dein Profil mit offenen Stellen in deiner Nähe ab.",
         "Passt ein Job, rufen wir dich an{erreichbarkeit}. Bevor ein Betrieb dein Profil bekommt, sprechen wir mit dir."
       ],
-      "loeschen": "Profil löschen lassen: kurze Mail an [E-Mail-Adresse].",
+      "loeschen": "Profil löschen lassen: kurze Mail an loreen.dietmann@laendle-digital.com.",
       "vorschauH": "Vorschau-Modus: Das käme in der Lead Table an",
       "vorschauText": "Kachel: {kachel}",
       "nochmal": "Weiteres Profil anlegen"
