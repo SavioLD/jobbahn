@@ -8,3 +8,4 @@ vergleicher/.dev.vars
 vergleicher/.wrangler/
 vergleicher/lokal.sqlite*
 vergleicher/node_modules/
+werbung/**/*.zip
