@@ -13,7 +13,7 @@ for (const o of Object.values(ORDNER)) fs.mkdirSync(path.join(OUT, o), { recursi
 const MOTIVE = {
   samstag:    { fokus: 70, h: ["Samstag?", "==Schon wieder.=="], sub: "Es gibt Betriebe, da gehört dein Wochenende dir." },
   gehalt:     { fokus: 62, h: ["Mehr Arbeit.", "==Gleicher Lohn?=="], sub: "Dein Können ist woanders mehr wert. Wir zeigen dir, wo." },
-  chef:       { fokus: 15, storyVersatz: 230, h: ["Du verdienst", "==einen besseren Chef.=="], sub: "Wir finden Betriebe, in denen man dich respektiert." },
+  chef:       { fokus: 40, storyVersatz: 150, h: ["Du verdienst", "==einen besseren Chef.=="], sub: "Wir finden Betriebe, in denen man dich respektiert." },
   stau:       { fokus: 70, h: ["Jeden Tag", "==1 Stunde Stau?=="], sub: "Wir finden gute Jobs in deiner Nähe." },
   hamsterrad: { fokus: 68, h: ["Rennen. Rennen.", "==Nicht vorankommen.=="], sub: "Zeit, aus dem Hamsterrad rauszukommen." },
   ausbruch:   { fokus: 30, storyVersatz: 300, h: ["Dein Job passt nicht mehr?", "==Wir finden einen besseren.=="], sub: "Kostenlos, ohne Lebenslauf – und dein Chef erfährt nichts." }
