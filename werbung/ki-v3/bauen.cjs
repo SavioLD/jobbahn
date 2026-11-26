@@ -11,12 +11,12 @@ const ORDNER = { insta: "0-instagram-post-3x4", story: "1-story-reels-9x16", pos
 for (const o of Object.values(ORDNER)) fs.mkdirSync(path.join(OUT, o), { recursive: true });
 // fokus: vertikale Bildposition beim Zuschneiden (0 = oben, 100 = unten)
 const MOTIVE = {
-  samstag:    { fokus: 70, h: ["Samstag?", "==Schon wieder.=="], sub: "Es gibt Betriebe, da gehört dein Wochenende dir." },
+  samstag:    { fokus: 50, fokusQuadrat: 30, h: ["Samstag?", "==Schon wieder.=="], sub: "Es gibt Betriebe, da gehört dein Wochenende dir." },
   gehalt:     { fokus: 62, h: ["Mehr Arbeit.", "==Gleicher Lohn?=="], sub: "Dein Können ist woanders mehr wert. Wir zeigen dir, wo." },
-  chef:       { fokus: 40, storyVersatz: 150, h: ["Du verdienst", "==einen besseren Chef.=="], sub: "Wir finden Betriebe, in denen man dich respektiert." },
+  chef:       { fokus: 40, fokusQuadrat: 8, querPos: "right top", storyVersatz: 150, h: ["Du verdienst", "==einen besseren Chef.=="], sub: "Wir finden Betriebe, in denen man dich respektiert." },
   stau:       { fokus: 70, h: ["Jeden Tag", "==1 Stunde Stau?=="], sub: "Wir finden gute Jobs in deiner Nähe." },
   hamsterrad: { fokus: 68, h: ["Rennen. Rennen.", "==Nicht vorankommen.=="], sub: "Zeit, aus dem Hamsterrad rauszukommen." },
-  ausbruch:   { fokus: 30, storyVersatz: 300, h: ["Dein Job passt nicht mehr?", "==Wir finden einen besseren.=="], sub: "Kostenlos, ohne Lebenslauf – und dein Chef erfährt nichts." }
+  ausbruch:   { fokus: 8, fokusQuadrat: 5, storyVersatz: 300, h: ["Dein Job passt nicht mehr?", "==Wir finden einen besseren.=="], sub: "Kostenlos, ohne Lebenslauf – und dein Chef erfährt nichts." }
 };
 const html = (m, name, w, h) => {
   if (w > h) return querHtml(m, name, w, h);
@@ -27,7 +27,7 @@ const html = (m, name, w, h) => {
 @font-face{font-family:PJS;font-weight:400 800;src:url("file://${IMG}/plus-jakarta-sans-var.woff2") format("woff2")}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:${w}px;height:${h}px;overflow:hidden;font-family:PJS,sans-serif;color:#fff;background:#0B1220}
-.bild{position:absolute;inset:0;background:url("file://${D}/roh/${name}.png") ${story && m.storyVersatz ? `center ${m.storyVersatz}px/100% auto` : `center ${story ? 50 : m.fokus}%/cover`} no-repeat}
+.bild{position:absolute;inset:0;background:url("file://${D}/roh/${name}.png") ${story && m.storyVersatz ? `center ${m.storyVersatz}px/100% auto` : `center ${story ? 50 : quad && m.fokusQuadrat != null ? m.fokusQuadrat : m.fokus}%/cover`} no-repeat}
 .oben{position:absolute;left:0;right:0;top:0;height:${story ? 46 : 58}%;background:${story && m.storyVersatz ? `linear-gradient(180deg,#0B1220 0,#0B1220 ${m.storyVersatz}px,rgba(11,18,32,.8) ${m.storyVersatz + 260}px,rgba(11,18,32,0) 100%)` : `linear-gradient(180deg,rgba(11,18,32,.92) 0%,rgba(11,18,32,.7) 45%,rgba(11,18,32,0) 100%)`}}
 .unten{position:absolute;left:0;right:0;bottom:0;height:${story ? 42 : 40}%;background:linear-gradient(0deg,rgba(15,27,45,.97) 0%,rgba(15,27,45,.85) 45%,rgba(15,27,45,0) 100%)}
 .kopf{position:absolute;left:${story ? 72 : 60}px;right:${story ? 72 : 60}px;top:${story ? 270 : 56}px}
@@ -51,7 +51,7 @@ const querHtml = (m, name, w, h) => {
 @font-face{font-family:PJS;font-weight:400 800;src:url("file://${IMG}/plus-jakarta-sans-var.woff2") format("woff2")}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:${w}px;height:${h}px;overflow:hidden;font-family:PJS,sans-serif;color:#fff;background:#0F1B2D}
-.bild{position:absolute;inset:0;background:url("file://${D}/roh/${name}-quer.png") right center/cover no-repeat}
+.bild{position:absolute;inset:0;background:url("file://${D}/roh/${name}-quer.png") ${m.querPos || "right center"}/cover no-repeat}
 .links{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,18,32,.96) 0%,rgba(11,18,32,.85) 38%,rgba(11,18,32,0) 62%)}
 .text{position:absolute;left:52px;top:44px;bottom:44px;width:600px;display:flex;flex-direction:column}
 .logo{height:30px;width:auto;align-self:flex-start}
