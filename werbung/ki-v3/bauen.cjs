@@ -5,15 +5,15 @@ const fs = require("fs"), path = require("path");
 const { chromium } = require("playwright");
 const D = __dirname, OUT = path.join(D, "fertig"), IMG = path.join(D, "..", "posts", "img");
 fs.mkdirSync(OUT, { recursive: true });
-const FORMATE = { quadrat: [1080, 1080], post: [1080, 1350], story: [1080, 1920], quer: [1200, 628] };
+const FORMATE = { quadrat: [1080, 1080], post: [1080, 1350], insta: [1080, 1440], story: [1080, 1920], quer: [1200, 628] };
 // Ordner pro Format, so wie Meta beim Hochladen fragt
-const ORDNER = { story: "1-story-reels-9x16", post: "2-post-feed-4x5", quer: "3-querformat-1.91x1", quadrat: "4-quadrat-1x1" };
+const ORDNER = { insta: "0-instagram-post-3x4", story: "1-story-reels-9x16", post: "2-anzeige-feed-4x5", quer: "3-querformat-1.91x1", quadrat: "4-quadrat-1x1" };
 for (const o of Object.values(ORDNER)) fs.mkdirSync(path.join(OUT, o), { recursive: true });
 // fokus: vertikale Bildposition beim Zuschneiden (0 = oben, 100 = unten)
 const MOTIVE = {
   samstag:    { fokus: 70, h: ["Samstag?", "==Schon wieder.=="], sub: "Es gibt Betriebe, da gehört dein Wochenende dir." },
   gehalt:     { fokus: 62, h: ["Mehr Arbeit.", "==Gleicher Lohn?=="], sub: "Dein Können ist woanders mehr wert. Wir zeigen dir, wo." },
-  chef:       { fokus: 45, storyVersatz: 230, h: ["Du verdienst", "==einen besseren Chef.=="], sub: "Wir finden Betriebe, in denen man dich respektiert." },
+  chef:       { fokus: 15, storyVersatz: 230, h: ["Du verdienst", "==einen besseren Chef.=="], sub: "Wir finden Betriebe, in denen man dich respektiert." },
   stau:       { fokus: 70, h: ["Jeden Tag", "==1 Stunde Stau?=="], sub: "Wir finden gute Jobs in deiner Nähe." },
   hamsterrad: { fokus: 68, h: ["Rennen. Rennen.", "==Nicht vorankommen.=="], sub: "Zeit, aus dem Hamsterrad rauszukommen." },
   ausbruch:   { fokus: 30, storyVersatz: 300, h: ["Dein Job passt nicht mehr?", "==Wir finden einen besseren.=="], sub: "Kostenlos, ohne Lebenslauf – und dein Chef erfährt nichts." }
