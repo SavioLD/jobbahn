@@ -8,18 +8,18 @@ const IMG = path.join(D, "..", "posts", "img"), TEAM = path.join(D, "..", "insta
 fs.mkdirSync(OUT, { recursive: true });
 const W = 1080, H = 1350, N = 9;
 const em = z => z.replace(/==(.+?)==/g, "<em>$1</em>");
-const h1 = (a, gr) => `<h1${gr ? ` style="font-size:${gr}px"` : ""}>${a.map(z => `<span>${em(z)}</span>`).join("")}</h1>`;
+const h1 = (a, gr, lw) => `<h1 style="${gr ? `font-size:${gr}px;` : ""}${lw ? `letter-spacing:${lw}em;line-height:1.08;` : ""}">${a.map(z => `<span>${em(z)}</span>`).join("")}</h1>`;
 const haken = l => l.map(x => `<div class="p"><i>✓</i><div>${x}</div></div>`).join("");
 
 const POSTS = [
-  { lay: "karte", bild: `${F}/gruppe-2.jpg`, pos: "40% 30%", k: "Wer wir sind", h: ["Wir finden den Job,", "==der zu dir passt.=="], liste: ["Einstellungspartner statt Jobportal", "Persönlicher Ansprechpartner", "Für dich komplett kostenlos"] },
+  { lay: "karte", fs: 74, lw: -0.025, bild: `${F}/gruppe-2.jpg`, pos: "40% 30%", k: "Wer wir sind", h: ["Wir finden den Job,", "==der zu dir passt.=="], liste: ["Einstellungspartner statt Jobportal", "Persönlicher Ansprechpartner", "Für dich komplett kostenlos"] },
   { lay: "zitat", bild: `${TEAM}/team-ansprechpartner.jpg`, pos: "50% 22%", k: "Dein Ansprechpartner", zitat: "Ich begleite dich vom ersten Gespräch bis zum neuen Vertrag.", h: ["Ein Ansprechpartner.", "==Von Anfang an.=="] },
   { lay: "panel", bild: `${F}/headset-2.jpg`, pos: "35% 45%", k: "Das erste Gespräch", h: ["Erst zuhören.", "==Dann suchen.=="], t: "Was kannst du, was willst du, was ist dir wichtig? Darum geht's im ersten Gespräch." },
-  { lay: "split", bild: `${F}/headset-3.jpg`, pos: "45% 40%", k: "Was wir machen", h: ["Wir", "suchen", "==für dich.=="], liste: ["Betriebe in deiner Nähe", "Nur passende Jobs", "Du entscheidest"] },
-  { lay: "zahlen", bild: `${TEAM}/team-laptop.jpg`, pos: "60% 45%", k: "Auf einen Blick", h: ["Einfach.", "==Für dich gemacht.=="], zahlen: [["0 €", "für dich – komplett kostenlos"], ["2 Min.", "Kurzprofil, ohne Lebenslauf"], ["100 %", "vertraulich – dein Chef erfährt nichts"]] },
+  { lay: "split", bild: `${F}/headset-3.jpg`, pos: "45% 40%", k: "Was wir machen", fs: 70, lw: -0.025, h: ["Wir suchen", "==für dich.=="], liste: ["Betriebe in deiner Nähe", "Nur passende Jobs", "Du entscheidest"] },
+  { lay: "zahlen", bild: `${TEAM}/team-laptop.jpg`, pos: "60% 45%", k: "Auf einen Blick", fs: 74, lw: -0.025, zgr: 86, h: ["Einfach.", "==Für dich gemacht.=="], zahlen: [["0 €", "für dich – komplett kostenlos"], ["2 Min.", "Kurzprofil, ohne Lebenslauf"], ["100 %", "vertraulich – dein Chef erfährt nichts"]] },
   { lay: "karte", bild: `${F}/duo.jpg`, pos: "60% 40%", k: "Hinter den Kulissen", h: ["Wir gleichen ab.", "==Du lehnst dich zurück.=="], liste: ["Dein Profil trifft passende Stellen", "Wir prüfen jeden Vorschlag persönlich", "Du bekommst nur, was wirklich passt"] },
-  { lay: "split", bild: `${F}/handy-2.jpg`, pos: "55% 35%", k: "So erreichst du uns", h: ["Wir", "melden", "==uns.=="], liste: ["Per WhatsApp", "Per Telefon", "Schnell und unkompliziert"], rechts: true },
-  { lay: "panel", bild: `${F}/laptop-2.jpg`, pos: "50% 42%", k: "So läuft's ab", h: ["Neuer Job.", "==In 3 Schritten.=="], schritte: ["Kurzprofil anlegen", "Wir melden uns", "Du entscheidest"] },
+  { lay: "panel", bild: `${F}/handy-2.jpg`, pos: "50% 32%", k: "So erreichst du uns", h: ["Wir melden uns.", "==Schnell und persönlich.=="], t: "Nach deinem Kurzprofil schreiben wir dir per WhatsApp – und rufen kurz an." },
+  { lay: "karte", bild: `${F}/laptop-2.jpg`, pos: "50% 40%", k: "So läuft's ab", h: ["Neuer Job.", "==In 3 Schritten.=="], schritte: [["Kurzprofil anlegen", "2 Minuten, ohne Lebenslauf"], ["Wir melden uns", "Per WhatsApp und Telefon"], ["Du entscheidest", "Erst dein Ja – dann geht's los"]] },
   { lay: "karte", bild: `${F}/gruppe-2.jpg`, pos: "85% 75%", gr: "150%", k: "Dein nächster Schritt", h: ["Dein neuer Job", "==beginnt hier.=="], liste: ["In 2 Minuten eingetragen", "Ohne Lebenslauf, ohne Anschreiben", "100 % vertraulich – dein Chef erfährt nichts"], cta: true }
 ];
 
@@ -42,16 +42,16 @@ h1 span{display:block} h1 em{font-style:normal;color:#7FA2F0}
 
 function layout(p) {
   const bg = (x) => `background-image:url('file://${p.bild}');background-position:${p.pos};background-size:${p.gr || "cover"};${x}`;
-  if (p.lay === "karte") return `<div style="position:absolute;left:72px;right:72px;top:70px"><span class="k">${p.k}</span>${h1(p.h)}</div>
+  if (p.lay === "karte") return `<div style="position:absolute;left:72px;right:72px;top:70px"><span class="k">${p.k}</span>${h1(p.h, p.fs, p.lw)}</div>
     <div class="foto" style="${bg("left:72px;right:72px;top:420px;height:620px")}"></div>
-    <div class="karte" style="left:112px;right:112px;top:985px">${haken(p.liste)}</div>`;
+    <div class="karte" style="left:112px;right:112px;top:985px">${p.schritte ? p.schritte.map((x, i) => `<div class="p"><i>${i + 1}</i><div>${x[0]} <span style="font-size:22px;font-weight:500;color:#A3AEBF;margin-left:8px">${x[1]}</span></div></div>`).join("") : haken(p.liste)}</div>`;
   if (p.lay === "panel") return `<div class="foto" style="${bg("left:0;right:0;top:0;height:780px;border-radius:0 0 48px 48px")}"></div>
     <div style="position:absolute;left:72px;top:64px"><span class="k">${p.k}</span></div>
     <div style="position:absolute;left:72px;right:72px;top:830px">${h1(p.h, 80).replace("margin-top", "x")}${p.t ? `<p class="t">${p.t}</p>` : ""}
     ${p.schritte ? `<div style="display:flex;gap:16px;margin-top:30px">${p.schritte.map((s, i) => `<div style="flex:1;background:#16263F;border:1.5px solid rgba(255,255,255,.08);border-radius:22px;padding:20px 22px"><div style="font-size:44px;font-weight:800;color:#7FA2F0;line-height:1">0${i + 1}</div><div style="font-size:26px;font-weight:700;margin-top:10px;line-height:1.2">${s}</div></div>`).join("")}</div>` : ""}</div>`;
   if (p.lay === "split") { const l = p.rechts ? "right:0" : "left:0", t = p.rechts ? "left:72px" : "left:600px";
     return `<div class="foto" style="${bg(`${l};top:0;bottom:0;width:520px;border-radius:${p.rechts ? "48px 0 0 48px" : "0 48px 48px 0"}`)}"></div>
-    <div style="position:absolute;${t};width:420px;top:280px"><span class="k">${p.k}</span>${h1(p.h, 92)}
+    <div style="position:absolute;${t};width:420px;top:300px"><span class="k">${p.k}</span>${h1(p.h, p.fs || 92, p.lw)}
       <div style="margin-top:44px">${haken(p.liste)}</div></div>
     <img src="file://${IMG}/fachkraefte-kompass-logo-weiss.png" style="position:absolute;${t};bottom:50px;height:32px">`; }
   if (p.lay === "zitat") return `<div style="position:absolute;left:72px;right:72px;top:70px"><span class="k">${p.k}</span>${h1(p.h, 76)}</div>
@@ -60,9 +60,9 @@ function layout(p) {
       <div style="font-size:120px;line-height:.6;font-weight:800;color:#7FA2F0;height:56px">“</div>
       <div style="font-size:36px;font-weight:700;line-height:1.3">${p.zitat}</div>
       <div style="margin-top:22px;font-size:22px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7FA2F0">Fachkräfte Kompass Team</div></div>`;
-  if (p.lay === "zahlen") return `<div style="position:absolute;left:72px;right:72px;top:70px"><span class="k">${p.k}</span>${h1(p.h)}</div>
+  if (p.lay === "zahlen") return `<div style="position:absolute;left:72px;right:72px;top:70px"><span class="k">${p.k}</span>${h1(p.h, p.fs, p.lw)}</div>
     <div class="foto" style="${bg("right:72px;top:420px;width:340px;height:640px")}"></div>
-    <div style="position:absolute;left:72px;width:540px;top:420px">${p.zahlen.map(([a, b]) => `<div style="padding:26px 0;border-bottom:1px solid rgba(255,255,255,.1)"><div style="font-size:104px;font-weight:800;letter-spacing:-.04em;line-height:1;color:#7FA2F0">${a}</div><div style="font-size:28px;font-weight:600;margin-top:8px;color:#E8ECF2">${b}</div></div>`).join("")}</div>`;
+    <div style="position:absolute;left:72px;width:540px;top:420px">${p.zahlen.map(([a, b]) => `<div style="padding:26px 0;border-bottom:1px solid rgba(255,255,255,.1)"><div style="font-size:${p.zgr || 104}px;font-weight:800;letter-spacing:-.025em;line-height:1;color:#7FA2F0">${a}</div><div style="font-size:28px;font-weight:600;margin-top:8px;color:#E8ECF2">${b}</div></div>`).join("")}</div>`;
 }
 (async () => {
   const b = await chromium.launch(); const pg = await b.newPage({ viewport: { width: W, height: H } });
