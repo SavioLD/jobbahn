@@ -6,7 +6,7 @@ const { chromium } = require("playwright");
 const D = __dirname, OUT = path.join(D, "fertig");
 const IMG = path.join(D, "..", "posts", "img"), TEAM = path.join(D, "..", "insta-posts", "team-hd"), F = path.join(D, "fotos");
 fs.mkdirSync(OUT, { recursive: true });
-const W = 1080, H = 1350, N = 9;
+const W = 1080, H = 1350, N = 11;
 const em = z => z.replace(/==(.+?)==/g, "<em>$1</em>");
 const h1 = (a, gr, lw) => `<h1 style="${gr ? `font-size:${gr}px;` : ""}${lw ? `letter-spacing:${lw}em;line-height:1.08;` : ""}">${a.map(z => `<span>${em(z)}</span>`).join("")}</h1>`;
 const haken = l => l.map(x => `<div class="p"><i>✓</i><div>${x}</div></div>`).join("");
@@ -14,13 +14,15 @@ const haken = l => l.map(x => `<div class="p"><i>✓</i><div>${x}</div></div>`).
 const POSTS = [
   { lay: "karte", fs: 74, lw: -0.025, bild: `${F}/gruppe-2.jpg`, pos: "40% 30%", k: "Wer wir sind", h: ["Wir finden den Job,", "==der zu dir passt.=="], liste: ["Einstellungspartner statt Jobportal", "Persönlicher Ansprechpartner", "Für dich komplett kostenlos"] },
   { lay: "zitat", bild: `${TEAM}/team-ansprechpartner.jpg`, pos: "50% 22%", k: "Dein Ansprechpartner", zitat: "Ich begleite dich vom ersten Gespräch bis zum neuen Vertrag.", h: ["Ein Ansprechpartner.", "==Von Anfang an.=="] },
-  { lay: "panel", bild: `${F}/headset-2.jpg`, pos: "35% 45%", k: "Das erste Gespräch", h: ["Erst zuhören.", "==Dann suchen.=="], t: "Was kannst du, was willst du, was ist dir wichtig? Darum geht's im ersten Gespräch." },
+  { lay: "panel", bild: `${F}/duo.jpg`, pos: "55% 42%", k: "Das erste Gespräch", h: ["Erst zuhören.", "==Dann suchen.=="], t: "Was kannst du, was willst du, was ist dir wichtig? Darum geht's im ersten Gespräch." },
   { lay: "split", bild: `${F}/headset-3.jpg`, pos: "45% 40%", k: "Was wir machen", fs: 70, lw: -0.025, h: ["Wir suchen", "==für dich.=="], liste: ["Betriebe in deiner Nähe", "Nur passende Jobs", "Du entscheidest"] },
   { lay: "zahlen", bild: `${TEAM}/team-laptop.jpg`, pos: "60% 45%", k: "Auf einen Blick", fs: 74, lw: -0.025, zgr: 86, h: ["Einfach.", "==Für dich gemacht.=="], zahlen: [["0 €", "für dich – komplett kostenlos"], ["2 Min.", "Kurzprofil, ohne Lebenslauf"], ["100 %", "vertraulich – dein Chef erfährt nichts"]] },
-  { lay: "karte", bild: `${F}/duo.jpg`, pos: "60% 40%", k: "Hinter den Kulissen", h: ["Wir gleichen ab.", "==Du lehnst dich zurück.=="], liste: ["Dein Profil trifft passende Stellen", "Wir prüfen jeden Vorschlag persönlich", "Du bekommst nur, was wirklich passt"] },
+  { lay: "karte", bild: `${F}/headset-2.jpg`, pos: "40% 45%", k: "Hinter den Kulissen", h: ["Wir gleichen ab.", "==Du lehnst dich zurück.=="], liste: ["Dein Profil trifft passende Stellen", "Wir prüfen jeden Vorschlag persönlich", "Du bekommst nur, was wirklich passt"] },
   { lay: "panel", bild: `${F}/handy-2.jpg`, pos: "50% 32%", k: "So erreichst du uns", h: ["Wir melden uns.", "==Schnell und persönlich.=="], t: "Nach deinem Kurzprofil schreiben wir dir per WhatsApp – und rufen kurz an." },
   { lay: "karte", bild: `${F}/laptop-2.jpg`, pos: "50% 40%", k: "So läuft's ab", h: ["Neuer Job.", "==In 3 Schritten.=="], schritte: [["Kurzprofil anlegen", "2 Minuten, ohne Lebenslauf"], ["Wir melden uns", "Per WhatsApp und Telefon"], ["Du entscheidest", "Erst dein Ja – dann geht's los"]] },
-  { lay: "karte", bild: `${F}/gruppe-2.jpg`, pos: "85% 75%", gr: "150%", k: "Dein nächster Schritt", h: ["Dein neuer Job", "==beginnt hier.=="], liste: ["In 2 Minuten eingetragen", "Ohne Lebenslauf, ohne Anschreiben", "100 % vertraulich – dein Chef erfährt nichts"], cta: true }
+  { lay: "karte", bild: `${F}/gruppe-2.jpg`, pos: "85% 75%", gr: "150%", k: "Dein nächster Schritt", h: ["Dein neuer Job", "==beginnt hier.=="], liste: ["In 2 Minuten eingetragen", "Ohne Lebenslauf, ohne Anschreiben", "100 % vertraulich – dein Chef erfährt nichts"], cta: true },
+  { lay: "zitat", bild: `${F}/laptop-2.jpg`, pos: "50% 30%", k: "Unser Anspruch", zitat: "Wir wissen, wie sich ein Jobwechsel anfühlt – und machen ihn dir so leicht wie möglich.", h: ["Ehrlich. Persönlich.", "==Auf Augenhöhe.=="] },
+  { lay: "panel", bild: `${F}/gruppe-2.jpg`, pos: "22% 30%", gr: "160%", k: "Gut zu wissen", h: ["Erst kündigen,", "==wenn der Neue steht.=="], t: "Wir suchen, während du noch im alten Job bist – ohne Risiko, ohne Stress." }
 ];
 
 const CSS = `@font-face{font-family:PJS;font-weight:400 800;src:url("file://${IMG}/plus-jakarta-sans-var.woff2") format("woff2")}
@@ -71,7 +73,7 @@ function layout(p) {
   for (let i = 0; i < POSTS.length; i++) {
     const p = POSTS[i], nr = String(i + 1).padStart(2, "0");
     fs.writeFileSync(tmp, `<!doctype html><html><head><meta charset="utf-8"><style>${CSS}</style></head><body>${layout(p)}
-      ${p.lay === "panel" || p.lay === "split" ? "" : `<span class="nr">${nr} / 0${N}</span>`}
+      ${p.lay === "panel" || p.lay === "split" ? "" : `<span class="nr">${nr} / ${N}</span>`}
       ${p.lay === "split" ? "" : `<div class="fuss"><img src="file://${IMG}/fachkraefte-kompass-logo-weiss.png"><span class="${p.cta ? "cta" : ""}">${p.cta ? "Kurzprofil anlegen – Link in der Bio" : "Link in der Bio"}</span></div>`}</body></html>`);
     await pg.goto("file://" + tmp); await pg.evaluate(() => document.fonts.ready); await pg.waitForTimeout(150);
     await pg.screenshot({ path: path.join(OUT, `fk-team-${nr}.jpg`), type: "jpeg", quality: 93 });
