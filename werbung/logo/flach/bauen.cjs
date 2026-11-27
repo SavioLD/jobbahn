@@ -23,14 +23,11 @@ const JOBS = {
   "fk-logo-flach-dunkel.png": [1500, 260, `<div style="width:1500px;height:260px;background:${N};display:flex;align-items:center;justify-content:center;gap:34px">${kompass(150)}${wortSvg(92, W, H)}</div>`],
   "fk-logo-flach-hell.png": [1500, 260, `<div style="width:1500px;height:260px;background:${W};display:flex;align-items:center;justify-content:center;gap:34px">${kompass(150, N, "#2B59C3", N).replace(`fill="${N}"/></svg>`, `fill="${W}"/></svg>`)}${wortSvg(92, N, "#2B59C3")}</div>`],
   // Facebook-Titelbild 1640×624; wichtiger Inhalt mittig (Handy schneidet Seiten ab), unten links überdeckt das Profilbild am PC
-  "fk-facebook-titelbild.jpg": [1640, 624, `<div style="position:relative;width:1640px;height:624px;background:${N};overflow:hidden">
-    <div style="position:absolute;right:0;top:0;bottom:0;width:700px;background:url('file://${F}/gruppe-2.jpg') 45% 35%/cover"></div>
-    <div style="position:absolute;right:500px;top:0;bottom:0;width:200px;background:linear-gradient(90deg,${N},rgba(15,27,45,0))"></div>
-    <div style="position:absolute;left:330px;top:150px;width:600px;color:#fff">
-      <div style="display:inline-block;background:${H};color:${N};font-weight:800;font-size:20px;letter-spacing:.2em;padding:10px 18px;border-radius:8px">DEIN EINSTELLUNGSPARTNER</div>
-      <div style="font-weight:800;font-size:60px;line-height:1.05;letter-spacing:-.025em;margin-top:22px">Wir finden den Job,<br><span style="color:${H}">der zu dir passt.</span></div>
-      <div style="font-weight:600;font-size:24px;color:#C9D3E3;margin-top:22px">Kostenlos · ohne Lebenslauf · 100 % vertraulich</div>
-      <div style="font-weight:700;font-size:24px;color:${H};margin-top:16px">der-fachkraefte-kompass.com</div></div></div>`]
+  "fk-facebook-titelbild.jpg": [1640, 624, `<div style="position:relative;width:1640px;height:624px;background:${N};overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff">
+    <div style="display:inline-block;background:${H};color:${N};font-weight:800;font-size:20px;letter-spacing:.2em;padding:10px 18px;border-radius:8px">DEIN EINSTELLUNGSPARTNER</div>
+    <div style="font-weight:800;font-size:72px;line-height:1.06;letter-spacing:-.025em;margin-top:24px">Wir finden den Job,<br><span style="color:${H}">der zu dir passt.</span></div>
+    <div style="font-weight:600;font-size:28px;color:#C9D3E3;margin-top:24px">Kostenlos &nbsp;·&nbsp; ohne Lebenslauf &nbsp;·&nbsp; 100 % vertraulich</div>
+    <div style="font-weight:700;font-size:26px;color:${H};margin-top:14px">der-fachkraefte-kompass.com</div></div>`]
 };
 (async () => {
   const b = await chromium.launch(); const p = await b.newPage();
