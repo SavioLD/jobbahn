@@ -9,75 +9,60 @@ const W = 1080, H = 1440;
 
 // Reihenfolge = Raster von oben links nach unten rechts (neuester Post zuletzt posten = oben links)
 const POSTS = [
-  { n: "1-pov-freitag", typ: "ki", bild: `${KI}/samstag.png`, fokus: 45, kicker: "POV", h: ["Freitag, 18 Uhr.", "Dein Chef ruft an.", "==Du weißt schon.=="], unter: "Es gibt Betriebe, in denen dein Wochenende dir gehört." },
-  { n: "2-wir-rufen-an", typ: "team", bild: `${TEAM}/team-headset.jpg`, fokus: 15, blaseUnten: 250, kicker: "UNSER TEAM", blase: "Wir rufen dich an.<br>Nicht dein Chef. 📞", unter: "Echte Menschen statt Bewerbungsportal. Wir hören zu – und suchen dann für dich." },
-  { n: "3-lupe", typ: "ki", bild: `${KI}/gehalt.png`, fokus: 55, kicker: "REAL TALK", h: ["Brauchst du auch", "==eine Lupe==", "für deinen Lohn?"], unter: "Dein Können ist woanders oft mehr wert." },
-  { n: "4-das-team", typ: "team", bild: `${TEAM}/team-gruppe.jpg`, fokus: 50, blaseUnten: 250, blaseGroesse: 64, bildPos: "28% center", kicker: "HI 👋", blase: "Das sind die,<br>die deinen nächsten<br>Job finden.", unter: "Fachkräfte Kompass aus Rottweil – für ganz Deutschland." },
-  { n: "5-chef", typ: "ki", bild: `${KI}/chef.png`, fokus: 40, kicker: "STOPP", h: ["Du musst dir", "das nicht", "==geben.=="], unter: "Wir finden Betriebe, in denen man dich respektiert." },
-  { n: "6-diskret", typ: "team", bild: `${TEAM}/team-handy.jpg`, fokus: 35, kicker: "100% DISKRET", blase: "Dein Chef?<br>Erfährt nichts. 🤫", unter: "Bevor ein Betrieb dein Profil sieht, sprechen wir mit dir. Immer." },
-  { n: "7-hamsterrad", typ: "ki", bild: `${KI}/hamsterrad.png`, fokus: 62, kicker: "KENNST DU?", h: ["Montag.", "Montag.", "==Montag.=="], unter: "Zeit, aus dem Hamsterrad rauszukommen." },
-  { n: "8-zwei-minuten", typ: "liste", bild: `${TEAM}/team-laptop.jpg`, fokus: 40, kicker: "SO EINFACH", h: ["Neuer Job.", "==3 Schritte.=="], punkte: ["Kurzprofil anlegen – 2 Minuten, ohne Lebenslauf", "Wir schreiben dir per WhatsApp und rufen kurz an", "Du bekommst nur Jobs, die wirklich passen"] },
-  { n: "9-tipp-kuendigen", typ: "ki", bild: `${KI}/ausbruch.png`, fokus: 72, kicker: "TIPP", groesse: 96, h: ["Kündige erst,", "wenn der Neue", "==unterschrieben ist.=="], unter: "Wir suchen, während du noch im alten Job bist. Ganz entspannt." }
+  { n: "1-pov-freitag", typ: "ki", bild: `${KI}/samstag.png`, fokus: 45, kicker: "Freitag, 18:00", h: ["Dein Chef", "ruft an.", "==Schon wieder.=="], unter: "Es gibt Betriebe, in denen dein Wochenende dir gehört." },
+  { n: "2-wir-rufen-an", typ: "team", bild: `${D}/team-hd/team-headset.jpg`, fokus: 20, kicker: "Unser Team", zitat: ["Wir rufen dich an.", "==Nicht dein Chef.=="], unter: "Echte Menschen statt Bewerbungsportal." },
+  { n: "3-lupe", typ: "ki", bild: `${KI}/gehalt.png`, fokus: 50, kicker: "Real Talk", h: ["Mehr Arbeit.", "==Gleicher Lohn?=="], unter: "Dein Können ist woanders oft mehr wert." },
+  { n: "4-das-team", typ: "team", bild: `${D}/team-hd/team-gruppe.jpg`, fokus: 50, bildPos: "30% center", kicker: "Fachkräfte Kompass", zitat: ["Wir finden", "==deinen nächsten Job.=="], unter: "Ein Team aus Rottweil. Für ganz Deutschland." },
+  { n: "5-chef", typ: "ki", bild: `${KI}/chef.png`, fokus: 30, kicker: "Respekt", h: ["Du musst dir", "das nicht", "==geben.=="], unter: "Wir finden Betriebe, in denen man dich respektiert." },
+  { n: "6-diskret", typ: "team", bild: `${D}/team-hd/team-handy.jpg`, fokus: 30, kicker: "100 % diskret", zitat: ["Dein Chef?", "==Erfährt nichts.=="], unter: "Bevor ein Betrieb dein Profil sieht, sprechen wir mit dir." },
+  { n: "7-hamsterrad", typ: "ki", bild: `${KI}/hamsterrad.png`, fokus: 55, kicker: "Kennst du das?", h: ["Montag.", "Montag.", "==Montag.=="], unter: "Zeit, aus dem Hamsterrad rauszukommen." },
+  { n: "8-zwei-minuten", typ: "liste", bild: `${D}/team-hd/team-laptop.jpg`, fokus: 62, kicker: "So einfach", h: ["Neuer Job.", "==Drei Schritte.=="], punkte: ["Kurzprofil anlegen – 2 Minuten, ohne Lebenslauf", "Wir melden uns per WhatsApp und rufen kurz an", "Du bekommst nur Jobs, die wirklich passen"] },
+  { n: "9-tipp-kuendigen", typ: "ki", bild: `${KI}/ausbruch.png`, fokus: 20, kicker: "Tipp", groesse: 100, h: ["Erst kündigen,", "wenn der Neue", "==unterschrieben ist.=="], unter: "Wir suchen, während du noch im alten Job bist." }
 ];
 
 const basis = `@font-face{font-family:PJS;font-weight:400 800;src:url("file://${IMG}/plus-jakarta-sans-var.woff2") format("woff2")}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:${W}px;height:${H}px;overflow:hidden;font-family:PJS,sans-serif;color:#fff;background:#0B1220}
+html,body{width:${W}px;height:${H}px;overflow:hidden;font-family:PJS,sans-serif;color:#fff;background:#0B1220;-webkit-font-smoothing:antialiased}
 .bild{position:absolute;inset:0;background-size:cover;background-repeat:no-repeat}
-.logo{position:absolute;left:64px;top:60px;height:36px}
-.kicker{position:absolute;right:56px;top:50px;background:#7FA2F0;color:#0F1B2D;font-weight:800;font-size:30px;letter-spacing:3px;padding:14px 24px;border-radius:12px;transform:rotate(3deg);box-shadow:7px 7px 0 #2B59C3}
-.stempel{position:absolute;width:210px;height:210px}
-.stempel svg{width:100%;height:100%;animation:none}
-h1{font-weight:800;letter-spacing:-4px;line-height:.98;text-shadow:0 6px 30px rgba(0,0,0,.55)}
+.korn{position:absolute;inset:0;opacity:.07;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.marke{position:absolute;left:80px;bottom:72px;height:30px;opacity:.95}
+.seite{position:absolute;right:80px;bottom:74px;font-size:22px;font-weight:600;letter-spacing:.18em;color:rgba(255,255,255,.6)}
+.kicker{display:flex;align-items:center;gap:18px;font-size:24px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:#7FA2F0}
+.kicker:before{content:"";width:56px;height:3px;background:#7FA2F0}
+h1{font-weight:800;letter-spacing:-.045em;line-height:.94;margin-top:30px}
 h1 span{display:block}
-h1 em{font-style:normal;color:#0F1B2D;background:#7FA2F0;padding:2px 18px 10px;border-radius:16px;display:inline-block;margin-top:14px;transform:rotate(-2deg);text-shadow:none;box-shadow:10px 10px 0 #2B59C3}
-.unter{font-weight:700;font-size:36px;line-height:1.28;color:#E8ECF2;text-shadow:0 2px 14px rgba(0,0,0,.7)}
-.fuss{position:absolute;left:64px;right:64px;bottom:58px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:28px}
-.fuss .link{background:#fff;color:#0F1B2D;padding:16px 26px;border-radius:999px;box-shadow:0 8px 0 #2B59C3}
-.fuss .klein{color:#C9D6F5;font-size:24px;font-weight:700}`;
-const stempel = (farbe, text) => `<svg viewBox="0 0 200 200"><defs><path id="k" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
-<circle cx="100" cy="100" r="98" fill="${farbe}"/><text font-family="PJS" font-weight="800" font-size="17" letter-spacing="2.2" fill="#0F1B2D"><textPath href="#k" textLength="480" lengthAdjust="spacingAndGlyphs">${text}</textPath></text>
-<text x="100" y="118" text-anchor="middle" font-family="PJS" font-weight="800" font-size="54" fill="#0F1B2D">0 €</text></svg>`;
-const fuss = `<div class="fuss"><span class="link">🧭 Link in Bio</span><span class="klein">Kurzprofil in 2 Min.</span></div>`;
+h1 em{font-style:normal;color:#7FA2F0}
+.unter{font-weight:500;font-size:34px;line-height:1.38;color:rgba(255,255,255,.82);margin-top:34px;max-width:840px}`;
 const em = z => z.replace(/==(.+?)==/g, "<em>$1</em>");
+const nr = p => `<span class="seite">${p.n.split("-")[0].padStart(2, "0")} / 09</span>`;
 
 function html(p) {
   const bg = `<div class="bild" style="background-image:url('file://${p.bild}');background-position:${p.bildPos || `center ${p.fokus}%`}"></div>`;
-  const logo = `<img class="logo" src="file://${IMG}/fachkraefte-kompass-logo-weiss.png">`;
-  if (p.typ === "ki") return `<style>${basis}
-  .verlauf{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,18,32,.75) 0%,rgba(11,18,32,0) 22%,rgba(11,18,32,0) 38%,rgba(11,18,32,.88) 68%,rgba(11,18,32,.97) 100%)}
-  .text{position:absolute;left:64px;right:64px;bottom:170px}
-  h1{font-size:${p.groesse || 118}px}
-  .unter{margin-top:34px;max-width:900px}
-  .stempel{right:60px;top:150px;transform:rotate(-12deg)}
-  </style>${bg}<div class="verlauf"></div>${logo}<span class="kicker">${p.kicker}</span>
-  <div class="stempel">${stempel("#FFFFFF", "KOSTENLOS • VERTRAULICH • OHNE CV • ")}</div>
-  <div class="text"><h1>${p.h.map(z => `<span>${em(z)}</span>`).join("")}</h1><p class="unter">${p.unter}</p></div>${fuss}`;
-  if (p.typ === "team") return `<style>${basis}
-  .bild{filter:saturate(.9) contrast(1.05)}
-  .tint{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,27,45,.55) 0%,rgba(15,27,45,0) 25%,rgba(15,27,45,0) 45%,rgba(15,27,45,.92) 78%,#0F1B2D 100%)}
-  .blase{position:absolute;left:64px;right:110px;bottom:${p.blaseUnten || 330}px;background:#fff;color:#0F1B2D;border-radius:36px;padding:44px 48px;font-weight:800;font-size:${p.blaseGroesse || 76}px;line-height:1.02;letter-spacing:-2.5px;box-shadow:14px 14px 0 #2B59C3;transform:rotate(-1.5deg)}
-  .blase:after{content:"";position:absolute;left:90px;top:-38px;border:40px solid transparent;border-bottom:44px solid #fff;border-top:0}
-  .unter{position:absolute;left:64px;right:64px;bottom:150px;font-size:31px}
-  </style>${bg}<div class="tint"></div>${logo}<span class="kicker">${p.kicker}</span>
-  <div class="blase">${p.blase}</div><p class="unter">${p.unter}</p>${fuss}`;
-  // liste
+  const marke = `<img class="marke" src="file://${IMG}/fachkraefte-kompass-logo-weiss.png">`;
+  if (p.typ === "ki" || p.typ === "team") {
+    const text = p.typ === "ki" ? p.h : p.zitat;
+    return `<style>${basis}
+    .verlauf{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,18,32,.35) 0%,rgba(11,18,32,0) 20%,rgba(11,18,32,0) 40%,rgba(11,18,32,.82) 66%,rgba(11,18,32,.96) 100%)}
+    .text{position:absolute;left:80px;right:80px;bottom:170px}
+    h1{font-size:${p.groesse || 112}px}
+    ${p.typ === "team" ? "h1{font-size:" + (p.groesse || 96) + "px} .bild{filter:contrast(1.04) saturate(.92)}" : ""}
+    </style>${bg}<div class="verlauf"></div><div class="korn"></div>
+    <div class="text"><div class="kicker">${p.kicker}</div><h1>${text.map(z => `<span>${em(z)}</span>`).join("")}</h1>${p.unter ? `<p class="unter">${p.unter}</p>` : ""}</div>
+    ${marke}${nr(p)}`;
+  }
+  // liste: ruhige Typo-Seite mit Foto oben
   return `<style>${basis}
-  body{background:#2B59C3}
-  .foto{position:absolute;right:0;top:0;width:470px;height:740px;background:url('file://${p.bild}') center ${p.fokus}%/cover;border-bottom-left-radius:60px;box-shadow:-16px 16px 0 #0F1B2D}
-  .bg2{position:absolute;inset:0;background:radial-gradient(90% 60% at 0% 100%,#0F1B2D 0,transparent 70%)}
-  h1{position:absolute;left:64px;top:200px;font-size:96px;width:560px;letter-spacing:-3px}
-  h1 em{white-space:nowrap}
-  h1 em{background:#fff;color:#2B59C3;box-shadow:10px 10px 0 #0F1B2D}
-  .kicker{background:#0F1B2D;color:#fff;box-shadow:7px 7px 0 #7FA2F0;left:64px;right:auto;top:120px;transform:rotate(-3deg)}
-  .logo{top:auto;bottom:66px}
-  ol{position:absolute;left:64px;right:64px;top:820px;list-style:none;display:flex;flex-direction:column;gap:26px;counter-reset:s}
-  li{display:flex;gap:28px;align-items:center;background:#0F1B2D;border-radius:26px;padding:26px 30px;font-weight:700;font-size:36px;line-height:1.22;box-shadow:8px 8px 0 rgba(15,27,45,.35)}
-  li:before{counter-increment:s;content:counter(s);flex:0 0 76px;height:76px;border-radius:50%;background:#7FA2F0;color:#0F1B2D;display:grid;place-items:center;font-weight:800;font-size:42px}
-  .fuss{justify-content:flex-end}
-  </style><div class="bg2"></div><div class="foto"></div><span class="kicker">${p.kicker}</span>
-  <h1>${p.h.map(z => `<span>${em(z)}</span>`).join("")}</h1>
-  <ol>${p.punkte.map(x => `<li>${x}</li>`).join("")}</ol>${logo}<div class="fuss"><span class="link">🧭 Link in Bio</span></div>`;
+  body{background:#0F1B2D}
+  .foto{position:absolute;left:0;right:0;top:0;height:640px;background:url('file://${p.bild}') center ${p.fokus}%/cover}
+  .foto:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,27,45,0) 40%,#0F1B2D 100%)}
+  .text{position:absolute;left:80px;right:80px;top:560px}
+  h1{font-size:96px}
+  ol{list-style:none;margin-top:52px;counter-reset:s;border-top:1px solid rgba(255,255,255,.14)}
+  li{display:flex;gap:34px;align-items:baseline;padding:30px 0;border-bottom:1px solid rgba(255,255,255,.14);font-size:34px;font-weight:600;line-height:1.3;color:rgba(255,255,255,.88)}
+  li:before{counter-increment:s;content:"0" counter(s);font-weight:800;font-size:30px;color:#7FA2F0;letter-spacing:.06em;flex:0 0 56px}
+  </style><div class="foto"></div><div class="korn"></div>
+  <div class="text"><div class="kicker">${p.kicker}</div><h1>${p.h.map(z => `<span>${em(z)}</span>`).join("")}</h1>
+  <ol>${p.punkte.map(x => `<li>${x}</li>`).join("")}</ol></div>${marke}${nr(p)}`;
 }
 
 (async () => {
